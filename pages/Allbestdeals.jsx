@@ -49,7 +49,7 @@ function Allbestdeals() {
     );
   }, [product]);
 
-  const handleClick = async (id, data) => {
+   const handleClick = async (id, data) => {
     try {
       const formData = {
         data: {

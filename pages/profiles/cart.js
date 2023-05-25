@@ -191,7 +191,7 @@ function Cart() {
       size="large"
       indicator={antIcon}
     >
-      <div className="bg-[#ecf0f1] xsm:!w-[100vw] xsm:p-[1vh] sm:p-0 sm:w-[80vw] sm:h-[90vh]">
+      <div className="bg-[#ecf0f1] overflow-y-scroll xsm:!w-[100vw] xsm:p-[1vh] sm:p-0 sm:w-[80vw] sm:h-[100vh]">
         <div className="flex gap-[4vw]">
           <div className=" m-auto flex flex-col  !gap-6   h-fit xsm:mt-[6vh] lg:mt-[20vh] ">
             <div className="flex justify-between  p-[1vh]">

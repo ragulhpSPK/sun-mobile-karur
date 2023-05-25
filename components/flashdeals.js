@@ -118,17 +118,15 @@ const TopRated = () => {
                         height={100}
                         src={res.image[0]}
                         alt="Shoes"
-                        className="rounded-xl xsm:h-[10vh] xl:h-[12vh] !w-fit m-auto"
+                        className="rounded-xl xsm:h-[10vh] xl:h-[15vh] !w-fit m-auto"
                       />
                     </figure>
                     <div className="card-body ">
-                      <h2 className="font-bold">
-                        Gorton’s Beer Battered Fish Fillets
-                      </h2>
+                      <h2 className="font-bold text-center">{res.title}</h2>
                       <Rate
                         allowHalf
                         defaultValue={2.5}
-                        className="!text-sm p-[3vh]"
+                        className="!text-sm p-[3vh] text-center"
                       />
                       <div className="flex gap-x-10 justify-between pb-[3vh] items-center m-auto">
                         {res.bestOffer !== null || 0 ? (

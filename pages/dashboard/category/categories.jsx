@@ -27,6 +27,16 @@ const { Panel } = Collapse;
 import { InboxOutlined } from "@ant-design/icons";
 import { get } from "lodash";
 import SearchIcon from "@mui/icons-material/Search";
+import { storage } from "../../../components/firebase/firebase";
+import {
+  getDownloadURL,
+  listAll,
+  ref,
+  uploadBytes,
+  list,
+} from "firebase/storage";
+import { v4 } from "uuid";
+import { Update } from "@mui/icons-material";
 
 const { Dragger } = Upload;
 const { Search } = Input;
@@ -37,29 +47,28 @@ const Categories = (properties) => {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState([]);
   const [updateId, setUpdateId] = React.useState("");
-  const [imagename, setImageName] = useState("");
-  const [categories, setCategories] = useState([]);
 
-  const handleFinish = async (values) => {
+  const [categories, setCategories] = useState([]);
+  const [imageList, setImageList] = useState("");
+
+  const handleFinish = async (value) => {
     if (updateId === "") {
       setLoading(true);
-
       try {
         const formData = {
-          name: values.name,
-          image: imagename,
+          name: value.name,
+          image: imageList,
         };
+
         await createCatagory(formData);
         notification.success({ message: "Category Added successfully" });
         form.resetFields();
-        setImageName("");
+        setImageList("");
         setOpen(false);
         setLoading(false);
-
         fetchData();
       } catch (err) {
         setLoading(false);
-
         setOpen(false);
         notification.success({ message: "Somthing went wrong" });
       }
@@ -68,8 +77,8 @@ const Categories = (properties) => {
         setLoading(true);
         const formData = {
           data: {
-            name: values.name,
-            image: imagename,
+            name: value.name,
+            image: imageList,
           },
           id: updateId,
         };
@@ -78,25 +87,54 @@ const Categories = (properties) => {
         form.resetFields();
         setOpen(false);
         setUpdateId("");
-        setImageName("");
-
+        setImageList("");
         setLoading(false);
-
         fetchData();
       } catch (err) {
         setLoading(false);
-
         setOpen(false);
         notification.error({ message: "Somthing went wrong" });
       }
     }
   };
 
+  const uploadImage = (imagename) => {
+    if (imagename == null) return;
+
+    const imageRef = ref(
+      storage,
+      `images/${v4()}-${imagename && imagename.name}`
+    );
+
+    uploadBytes(imageRef, imagename).then((snaphsot) => {
+      getDownloadURL(snaphsot.ref).then((url) => {
+        setImageList(url);
+      });
+      alert("image uploaded");
+    });
+  };
+
+  // useEffect(() => {
+  //   listAll(imageListRef).then((res) => {
+  //     res.items.forEach((item) => {
+  //       getDownloadURL(item).then((url) => {
+  //         setImageList((prev) => [...prev, url]);
+  //       });
+  //     });
+  //   });
+  // }, []);
+
+  console.log(imageList, typeof updateId, "image");
+
   const handleEdit = (value) => {
+    console.log(value);
     setUpdateId(value._id);
-    setImageName(value.image);
+    setImageList(value.image);
     setOpen(true);
-    form.setFieldsValue(value);
+    const formData = {
+      name: value.name,
+    };
+    form.setFieldsValue(formData);
   };
 
   const handleDelete = async (value) => {
@@ -182,21 +220,21 @@ const Categories = (properties) => {
     },
   ];
 
-  const props = {
-    name: "file",
-    multiple: false,
-    onChange(info) {
-      const reader = new FileReader();
-      reader.readAsDataURL(info.file.originFileObj);
-      reader.onload = () => {
-        setImageName(reader.result);
-      };
-    },
-    showUploadList: false,
-    onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
-    },
-  };
+  // const props = {
+  //   name: "file",
+  //   multiple: false,
+  //   onChange(info) {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(info.file.originFileObj);
+  //     reader.onload = () => {
+  //       setImageList(reader.result);
+  //     };
+  //   },
+  //   showUploadList: false,
+  //   onDrop(e) {
+  //     console.log("Dropped files", e.dataTransfer.files);
+  //   },
+  // };
 
   return (
     <div className="flex flex-col gap-[4vh]">
@@ -257,7 +295,14 @@ const Categories = (properties) => {
             </div>
           </div>
           <Modal open={open} destroyOnClose footer={false}>
-            <Form onFinish={handleFinish} form={form} autoComplete="off">
+            <Form
+              onFinish={(values) => {
+                handleFinish(values);
+                setImageList(values.fileList[0]);
+              }}
+              form={form}
+              autoComplete="off"
+            >
               <div className="flex flex-col gap-y-2 items-center">
                 <Form.Item
                   className="!w-[100%]"
@@ -272,44 +317,38 @@ const Categories = (properties) => {
                   <Input placeholder="Category Name" className="w-[25vw]" />
                 </Form.Item>
 
-                <Form.Item className="w-[100%]" name="name">
-                  <>
-                    {imagename ? (
-                      <div className="flex flex-row-reverse justify-start gap-x-10">
-                        <Tooltip
-                          onClick={() => setImageName("")}
-                          title="change image"
-                          className="!cursor-pointer !text-red-500"
-                        >
-                          <RedoOutlined />
-                        </Tooltip>
-                        <Image
-                          alt="logo"
-                          src={imagename}
-                          className=" w-[100%]"
-                        />
-                      </div>
-                    ) : (
-                      <Dragger {...props} style={{ width: "25vw" }}>
-                        <p className="ant-upload-drag-icon">
-                          <InboxOutlined />
-                        </p>
-                        <p className="ant-upload-text">
-                          Click or drag category image to this area to upload
-                        </p>
-                        <p className="ant-upload-hint">
-                          Support for a single upload.
-                        </p>
-                      </Dragger>
-                    )}
-                  </>
+                <Form.Item className="w-[100%]" name="image">
+                  <Upload
+                    listType="picture"
+                    onRemove={(e) => {
+                      setImageList("");
+                    }}
+                    fileList={
+                      imageList !== ""
+                        ? [
+                            {
+                              url: imageList,
+                            },
+                          ]
+                        : []
+                    }
+                    maxCount={1}
+                    onChange={(e) => uploadImage(e.file.originFileObj)}
+                  >
+                    <div>
+                      <PlusOutlined />
+                      <div style={{ marginTop: 8 }}>Upload</div>
+                    </div>
+                  </Upload>
                 </Form.Item>
                 <div className="flex flex-row items-end gap-x-2 self-end">
                   <Button
                     type="primary"
                     onClick={() => {
                       setOpen(!open);
-                      setImageName("");
+                      setImageList("");
+                      setUpdateId("");
+                      form.resetFields();
                     }}
                   >
                     Cancel
