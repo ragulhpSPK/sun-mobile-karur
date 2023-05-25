@@ -72,7 +72,7 @@ function Bestdeals() {
   };
 
   return (
-    <div className="flex flex-col  !w-[90vw] xl:!w-[80vw]  m-auto justify-center">
+    <div className="flex flex-col  !w-[90vw] xl:!w-[80vw] mt-[3vh] m-auto justify-center">
       <div className=" flex items-center justify-center">
         <div className="flex flex-row w-[90vw] justify-between  ">
           <div className="xl:text-2xl  font-bold text-[--second-color]">
@@ -105,9 +105,9 @@ function Bestdeals() {
                 slidesPerView: 3,
                 spaceBetween: 20,
               },
-              1220: {
+              1520: {
                 slidesPerView: 4,
-                spaceBetween: 30,
+                spaceBetween: 40,
               },
             }}
           >
@@ -115,27 +115,11 @@ function Bestdeals() {
               return (
                 <SwiperSlide key={index}>
                   <div
-                    className="xl:card  bg-base-100  shadow-sm  xl:shadow-xl xl:m-auto"
+                    className="card  bg-base-100  shadow-sm xl:shadow-xl m-auto"
                     key={index}
                   >
-                    <figure className="xl:px-10 pt-10  flex items-center justify-center  cursor-pointer">
-                      <Image
-                        width={100}
-                        height={100}
-                        src={res.image[0]}
-                        alt="Shoes"
-                        className="rounded-xl xl:h-[15vh] !w-fit m-auto"
-                        onClick={() =>
-                          router.push({
-                            pathname: `/product/${res._id}`,
-                            query: { id: res._id },
-                          })
-                        }
-                      />
-                    </figure>
-                    <div className="card-body ">
-                      <h2
-                        className="font-bold text-center h-[6vh]"
+                    <figure className="xl:px-10 pt-10  cursor-pointer">
+                      <div
                         onClick={() =>
                           router.push({
                             pathname: `/product/${res._id}`,
@@ -143,15 +127,37 @@ function Bestdeals() {
                           })
                         }
                       >
-                        {res.title}
-                      </h2>
+                        <Image
+                          width={100}
+                          height={100}
+                          src={res.image[0]}
+                          alt="Shoes"
+                          className="rounded-xl xsm:h-[10vh] xl:h-[16vh] !w-fit m-auto"
+                        />
+                      </div>
+                    </figure>
+                    <div className="card-body ">
+                      <div className="h-[6vh]">
+                        <h2
+                          className="font-bold text-center p-[1vh]"
+                          onClick={() =>
+                            router.push({
+                              pathname: `/product/${res._id}`,
+                              query: { id: res._id },
+                            })
+                          }
+                        >
+                          {res.title}
+                        </h2>
+                      </div>
+
                       <Rate
                         allowHalf
                         defaultValue={2.5}
                         className="!text-sm p-[3vh] text-center"
                       />
                       <div className="flex gap-x-10 justify-between pb-[3vh] items-center m-auto">
-                        {res.offer !== null || 0 ? (
+                        {res.bestOffer !== null || 0 ? (
                           <p className="xl:text-lg xsm:text-[14px] text-green-400 flex flex-row-reverse gap-2 pb-[2vh] xsm:text-md xsm:font-semibold font-medium">
                             <s className="text-red-400">&#8377;{res.price}</s>
                             &#8377;
@@ -168,7 +174,7 @@ function Bestdeals() {
                       }) ? (
                         <Link href="/profiles/cart">
                           <div
-                            className="absolute bottom-5 xsm:w-[80%] xl:w-[15vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                            className="absolute bottom-5 left-[25%] xsm:w-[80%] xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                           >
                             <ShoppingCartOutlined />
@@ -177,7 +183,7 @@ function Bestdeals() {
                         </Link>
                       ) : (
                         <div
-                          className="absolute bottom-5 xsm:w-[80%] xl:w-[15vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                          className="absolute bottom-5 left-[25%] xsm:w-[80%] xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                           onClick={() => {
                             handleClick(res._id, res);

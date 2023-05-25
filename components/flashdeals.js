@@ -80,12 +80,12 @@ const TopRated = () => {
         </div>
       </div>
       <div>
-        <div className="xsm:!w-[90vw] xl:!w-[80vw]  flex  justify-center flex-wrap gap-10 ">
+        <div className="w-[80vw] xl:w-[80vw]  flex  justify-center flex-wrap gap-10 ">
           <Swiper
             freeMode={true}
             autoplay={true}
             modules={[FreeMode, Pagination, Autoplay]}
-            className="  !bg-white !flex !items-center !justify-center !p-2 "
+            className="  !bg-white !flex !items-center !justify-center !p-2"
             breakpoints={{
               640: {
                 slidesPerView: 1,
@@ -168,7 +168,7 @@ const TopRated = () => {
                       }) ? (
                         <Link href="/profiles/cart">
                           <div
-                            className="absolute bottom-5 xsm:w-[80%] xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                            className="absolute bottom-5 left-[25%] xsm:w-[100%]  xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                           >
                             <ShoppingCartOutlined />
@@ -177,7 +177,7 @@ const TopRated = () => {
                         </Link>
                       ) : (
                         <div
-                          className="absolute bottom-5 xsm:w-[80%] xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                          className="absolute bottom-5 left-[25%] xsm:w-[80%] xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                           onClick={() => {
                             handleClick(res._id, res);

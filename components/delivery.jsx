@@ -35,7 +35,7 @@ const Offers = () => {
     },
   ];
   return (
-    <div className="xsm:w-[90vw] xl:w-[80vw] m-auto">
+    <div className="xsm:w-[90vw] xl:w-[80vw] m-auto mt-[2vh]">
       <div className="xsm:flex xsm:flex-col md:grid md:grid-cols-2 xl:flex  xl:flex-row gap-3 justify-between">
         {offerDats.map((res, index) => {
           return (
@@ -47,7 +47,7 @@ const Offers = () => {
                 src={`/assets/tags/${index + 1}.png`}
                 width={50}
                 height={50}
-                className="rounded-xl xsm:!w-[20%] sm:!w-[10%] xl:w-[30%]"
+                className="rounded-xl xsm:!w-[20%] sm:!w-[10%] xl:!w-[20%]"
                 alt="logo"
               />
               <div className="flex flex-col">
