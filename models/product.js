@@ -43,9 +43,6 @@ const productSchema = new mongoose.Schema(
     bestStatus: {
       type: Boolean,
     },
-    bestOffer: {
-      type: Number,
-    },
   },
   { timestamps: true }
 );

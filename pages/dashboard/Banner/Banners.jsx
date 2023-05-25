@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   CloseCircleOutlined,
   EllipsisOutlined,
-  SettingOutlined,
+  PlusOutlined,
   InboxOutlined,
   RedoOutlined,
 } from "@ant-design/icons";
@@ -36,6 +36,15 @@ import {
 import { get, update } from "lodash";
 import Sidenavbar from "../shared/Sidenavbar";
 import AdminNavbar from "../shared/AdminNavbar";
+import { storage } from "../../../components/firebase/firebase";
+import {
+  getDownloadURL,
+  listAll,
+  ref,
+  uploadBytes,
+  list,
+} from "firebase/storage";
+import { v4 } from "uuid";
 
 function Banner() {
   const { Dragger } = Upload;
@@ -43,13 +52,13 @@ function Banner() {
   const [allProducts, setAllProducts] = useState([]);
   const [banner, setBanner] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [imagename, setImageName] = useState();
   const [productId, setProductId] = useState("");
   const [updateid, setUpdateId] = useState("");
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState([]);
   const [form] = Form.useForm();
   const { Option } = Select;
+  const [imageList, setImageList] = useState("");
 
   const fetchData = async () => {
     setLoading(true);
@@ -64,13 +73,30 @@ function Banner() {
     }
   };
 
+  const uploadImage = (imageList) => {
+    console.log(imageList.name);
+    if (imageList == null) return;
+
+    const imageRef = ref(
+      storage,
+      `images/${v4()}-${imageList && imageList.name}`
+    );
+
+    uploadBytes(imageRef, imageList).then((snaphsot) => {
+      getDownloadURL(snaphsot.ref).then((url) => {
+        setImageList(url);
+      });
+      alert("image uploaded");
+    });
+  };
+
   const handleFinish = async (value) => {
     if (updateid === "") {
       setLoading(true);
       try {
         const formData = {
           data: {
-            image: imagename,
+            image: imageList,
             name: value.name,
             productid: productId,
             productname: allProducts.filter((data) => {
@@ -83,7 +109,7 @@ function Banner() {
         setOpen(false);
         fetchData();
         setLoading(false);
-        setImageName("");
+        setimageList("");
         form.resetFields();
         notification.success({ message: "Banner created successfully" });
       } catch (err) {
@@ -95,7 +121,7 @@ function Banner() {
 
         const formData = {
           data: {
-            image: imagename,
+            image: imageList,
             name: value.name,
             productid: productId,
             productname: allProducts.filter((data) => {
@@ -108,7 +134,7 @@ function Banner() {
 
         await updateBanner(formData);
         setLoading(false);
-        setImageName("");
+        setimageList("");
         fetchData();
         setUpdateId("");
         form.resetFields();
@@ -124,27 +150,27 @@ function Banner() {
     fetchData();
   }, []);
 
-  const props = {
-    name: "file",
-    multiple: true,
-    onChange(info) {
-      const reader = new FileReader();
-      reader.readAsDataURL(info.file.originFileObj);
-      reader.onload = () => {
-        setImageName(reader.result);
-      };
-    },
-    showUploadList: true,
+  // const props = {
+  //   name: "file",
+  //   multiple: true,
+  //   onChange(info) {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(info.file.originFileObj);
+  //     reader.onload = () => {
+  //       setimageList(reader.result);
+  //     };
+  //   },
+  //   showUploadList: true,
 
-    onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
-    },
-  };
+  //   onDrop(e) {
+  //     console.log("Dropped files", e.dataTransfer.files);
+  //   },
+  // };
 
   const handleEdit = (data) => {
     setOpen(!open);
     form.setFieldsValue(data);
-    setImageName(data.image);
+    setimageList(data.image);
     setProductId(
       allProducts.map((data) => {
         return data._id;
@@ -299,46 +325,30 @@ function Banner() {
             </Form.Item>
 
             <Form.Item>
-              <Tooltip>
-                {imagename ? (
-                  <div className="flex flex-row-reverse justify-start gap-x-10">
-                    <Tooltip
-                      onClick={() => setImageName("")}
-                      title="change image"
-                      className="!cursor-pointer !text-red-500"
-                    >
-                      <RedoOutlined />
-                    </Tooltip>
-                    <Image
-                      src={imagename}
-                      className="!w-[8vw] !h-[8vh]"
-                      alt="not found"
-                    />
+              <Form.Item className="w-[100%]" name="image">
+                <Upload
+                  listType="picture"
+                  onRemove={(e) => {
+                    setImageList("");
+                  }}
+                  fileList={
+                    imageList !== ""
+                      ? [
+                          {
+                            url: imageList,
+                          },
+                        ]
+                      : []
+                  }
+                  maxCount={1}
+                  onChange={(e) => uploadImage(e.file.originFileObj)}
+                >
+                  <div>
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
-                ) : (
-                  <Dragger
-                    {...props}
-                    multiple={true}
-                    style={{
-                      width: "450px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginLeft: "10px",
-                    }}
-                  >
-                    <p className="ant-upload-drag-icon">
-                      <InboxOutlined />
-                    </p>
-                    <p className="ant-upload-text">
-                      Click or drag category image to this area to upload
-                    </p>
-                    <p className="ant-upload-hint">
-                      Support for a single upload.
-                    </p>
-                  </Dragger>
-                )}
-              </Tooltip>
+                </Upload>
+              </Form.Item>
             </Form.Item>
 
             <div className="flex gap-5 justify-end ">

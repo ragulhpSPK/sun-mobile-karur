@@ -18,8 +18,18 @@ import {
   FileAddOutlined,
   RedoOutlined,
   InboxOutlined,
+  PlusOutlined,
 } from "@ant-design/icons";
 import AddCardOutlinedIcon from "@mui/icons-material/AddCardOutlined";
+import { storage } from "../../../components/firebase/firebase";
+import {
+  getDownloadURL,
+  listAll,
+  ref,
+  uploadBytes,
+  list,
+} from "firebase/storage";
+import { v4 } from "uuid";
 import {
   createSubCatagory,
   getAllCatagory,
@@ -38,11 +48,9 @@ const Subcategories = (properties) => {
   const [form] = Form.useForm();
   const { Option } = Select;
   const [data, setData] = useState([]);
-  const [imagename, setImageName] = useState("");
   const [subCategories, setsubCategories] = useState([]);
-
+  const [imageList, setImageList] = useState("");
   const [selectedcategorieName, selectedSetcategorieName] = useState("");
-
   const [update, setUpdate] = useState([]);
   const { Dragger } = Upload;
 
@@ -53,7 +61,7 @@ const Subcategories = (properties) => {
         const formData = {
           categoryId: value.categoryId,
           subcategoryname: value.subcategoryname,
-          image: imagename,
+          image: imageList,
           categoryname: category.filter((category) => {
             return category._id === selectedcategorieName;
           })[0].name,
@@ -64,7 +72,7 @@ const Subcategories = (properties) => {
         setOpen(false);
         form.resetFields();
         setLoading(false);
-        setImageName("");
+        setImageList("");
       } catch (err) {
         notification.error({ message: "something went wrong" });
         setLoading(false);
@@ -76,7 +84,7 @@ const Subcategories = (properties) => {
           data: {
             categoryId: value.categoryId,
             subcategoryname: value.subcategoryname,
-            image: imagename,
+            image: imageList,
             categoryname: category.filter((category) => {
               return category._id === selectedcategorieName;
             })[0].name,
@@ -89,7 +97,7 @@ const Subcategories = (properties) => {
         fetchData();
         setOpen(false);
         setLoading(false);
-        setImageName("");
+        setImageList("");
 
         notification.success({ message: "Subcategory updated successfully" });
       } catch (err) {
@@ -102,7 +110,7 @@ const Subcategories = (properties) => {
   const handleEdit = (value) => {
     setOpen(true);
     setUpdate(value._id);
-    setImageName(value.image);
+    setImageList(value.image);
 
     form.setFieldsValue(value);
   };
@@ -197,20 +205,37 @@ const Subcategories = (properties) => {
     },
   ];
 
-  const props = {
-    name: "file",
-    multiple: "true",
-    onChange(info) {
-      const reader = new FileReader();
-      reader.readAsDataURL(info.file.originFileObj);
-      reader.onload = () => {
-        setImageName(reader.result);
-      };
-    },
-    showUploadList: false,
-    onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
-    },
+  // const props = {
+  //   name: "file",
+  //   multiple: "true",
+  //   onChange(info) {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(info.file.originFileObj);
+  //     reader.onload = () => {
+  //       setImageList(reader.result);
+  //     };
+  //   },
+  //   showUploadList: false,
+  //   onDrop(e) {
+  //     console.log("Dropped files", e.dataTransfer.files);
+  //   },
+  // };
+
+  const uploadImage = (imageList) => {
+    console.log(imageList.name);
+    if (imageList == null) return;
+
+    const imageRef = ref(
+      storage,
+      `images/${v4()}-${imageList && imageList.name}`
+    );
+
+    uploadBytes(imageRef, imageList).then((snaphsot) => {
+      getDownloadURL(snaphsot.ref).then((url) => {
+        setImageList(url);
+      });
+      alert("image uploaded");
+    });
   };
 
   return (
@@ -308,40 +333,30 @@ const Subcategories = (properties) => {
                     </Form.Item>
 
                     <Form.Item>
-                      <>
-                        {imagename ? (
-                          <div className="flex flex-row-reverse">
-                            <Tooltip
-                              onClick={() => setImageName("")}
-                              title="change image"
-                            >
-                              <RedoOutlined />
-                            </Tooltip>
-                            <Image
-                              src={imagename}
-                              className=" w-[100%]"
-                              alt="not found"
-                            />
+                      <Form.Item className="w-[100%]" name="image">
+                        <Upload
+                          listType="picture"
+                          onRemove={(e) => {
+                            setImageList("");
+                          }}
+                          fileList={
+                            imageList !== ""
+                              ? [
+                                  {
+                                    url: imageList,
+                                  },
+                                ]
+                              : []
+                          }
+                          maxCount={1}
+                          onChange={(e) => uploadImage(e.file.originFileObj)}
+                        >
+                          <div>
+                            <PlusOutlined />
+                            <div style={{ marginTop: 8 }}>Upload</div>
                           </div>
-                        ) : (
-                          <Dragger
-                            {...props}
-                            className="!bg-[red] !ml-40"
-                            style={{ marginLeft: "525px", width: "25vw" }}
-                          >
-                            <p className="ant-upload-drag-icon">
-                              <InboxOutlined />
-                            </p>
-                            <p className="ant-upload-text">
-                              Click or drag category image to this area to
-                              upload
-                            </p>
-                            <p className="ant-upload-hint">
-                              Support for a single upload.
-                            </p>
-                          </Dragger>
-                        )}
-                      </>
+                        </Upload>
+                      </Form.Item>
                     </Form.Item>
 
                     <div className="flex gap-5 justify-end self-end">

@@ -78,7 +78,7 @@ function Products({ content }) {
   const [subCatFilter, setSubCatFilter] = useState([]);
   const [deleted, setDeleted] = useState(false);
   // const ref = useRef;
-  const [images, setImages] = useState([]);
+
   const [offerId, setOfferId] = useState([]);
   const [offerPercent, setOfferPercet] = useState("");
   const [offerValue, setOfferValue] = useState("");
@@ -100,14 +100,14 @@ function Products({ content }) {
   const editProducts = (value) => {
     setUpdateId(value._id);
     setOpen(!open);
-    setImages(images);
+    setImageList(imageList);
     setValue(value.highlight);
     form.setFieldsValue(value);
     setHighlights(value.highlight);
-    setImageName(images);
+    setImageName(imageList);
     setChecked(checked);
     setStatus(value.status);
-    setImages(
+    setImageList(
       products.filter((data) => {
         return data._id === value._id;
       })[0].image
@@ -124,7 +124,7 @@ function Products({ content }) {
     setImageName([]);
     setValue();
     form.resetFields();
-    setImages([]);
+    setImageList([]);
     setHighlights("");
   };
 
@@ -166,18 +166,21 @@ function Products({ content }) {
   });
 
   const handleUpload = (file) => {
-    console.log(file, "fhjnmk");
+    console.log(file.name, "fhjnmk");
 
-    const imageRef = ref(storage, `images/${v4()}-${file.name}`);
-    uploadBytes(imageRef, imagename).then((snaphsot) => {
+    const imageRef = ref(storage, `imageList/${v4()}-${file && file.name}`);
+
+    uploadBytes(imageRef, file).then((snaphsot) => {
       getDownloadURL(snaphsot.ref).then((url) => {
-        setImageList(url);
+        console.log(url);
+        setImageList((prevList) => [...prevList, url]);
       });
       alert("image uploaded");
     });
   };
 
   const handleFinish = async (value) => {
+    console.log(value);
     if (updateId == "") {
       setLoading(true);
 
@@ -193,7 +196,8 @@ function Products({ content }) {
           price: value.price,
           categoryId: value.categoryId,
           SubCategoryId: value.SubCategoryId,
-          image: images,
+          image: imageList,
+          offer: value.offer,
           highlight: ref.current.toString().replace(/<[^>]+>/g, ""),
           status: tablechecked,
         };
@@ -204,7 +208,7 @@ function Products({ content }) {
         fetchData();
         setLoading(false);
         setOpen(false);
-        setImages("");
+        setImageList("");
         setHighlights("");
       } catch (err) {
         setOpen(false);
@@ -216,7 +220,8 @@ function Products({ content }) {
         const formData = {
           data: {
             ...value,
-            image: images,
+            image: imageList,
+
             categoryname: category.filter((data) => {
               return data._id === catFil;
             })[0].name,
@@ -269,26 +274,26 @@ function Products({ content }) {
     ref.current = value;
   };
 
-  const handleFileInputChange = (event) => {
-    const files = event.target.files;
-    const allImages = [];
-    if (files.length <= 5) {
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const reader = new FileReader();
+  // const handleFileInputChange = (event) => {
+  //   const files = event.target.files;
+  //   const allimageList = [];
+  //   if (files.length <= 5) {
+  //     for (let i = 0; i < files.length; i++) {
+  //       const file = files[i];
+  //       const reader = new FileReader();
 
-        reader.onloadend = () => {
-          const dataURL = reader.result;
-          allImages.push(dataURL);
-          setImages(allImages);
-        };
+  //       reader.onloadend = () => {
+  //         const dataURL = reader.result;
+  //         allimageList.push(dataURL);
+  //         setImageList(allimageList);
+  //       };
 
-        reader.readAsDataURL(file);
-      }
-    } else {
-      notification.error({ message: "you can't upload more than 5 images" });
-    }
-  };
+  //       reader.readAsDataURL(file);
+  //     }
+  //   } else {
+  //     notification.error({ message: "you can't upload more than 5 imageList" });
+  //   }
+  // };
 
   const toggleSwitch = async (response, id) => {
     setLoading(true);
@@ -308,84 +313,36 @@ function Products({ content }) {
   };
 
   const toggleFlashDeals = async (res, id) => {
-    setOffer(res);
-    setOfferId(id._id);
-    console.log(id._id);
-    console.log(offer);
+    setLoading(true);
+    try {
+      const formData = {
+        id: id._id,
+        flashStatus: res,
+      };
+      await addOrRemoveFlash(formData);
+      notification.success({ message: "flash deals successfully added" });
+      fetchData();
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
 
-    if (offer == false) {
-      try {
-        const formData = {
-          id: id._id,
-          flashStatus: offer,
-          offer: offerPercent,
-        };
-        await addOrRemoveFlash(formData);
-        fetchData();
-      } catch (error) {
-        notification.error({ message: "something went wrong" });
-      }
-    }
-  };
-
-  const toggleFlashValues = async (id) => {
-    if (offer == true) {
-      try {
-        const formData = {
-          id: id._id,
-          flashStatus: offer,
-          offer: offerPercent,
-        };
-        await addOrRemoveFlash(formData);
-        setOffer(false);
-        fetchData();
-
-        notification.success({ message: "flash products added successfully" });
-      } catch (error) {
-        notification.error({ message: "something went wrong" });
-      }
+      console.log(err);
     }
   };
 
   const toggleBestDeals = async (res, id) => {
-    setBest(res);
-    setBestId(id._id);
-    console.log(id._id);
-    console.log(best, "best");
-
-    if (best == false) {
-      try {
-        const formData = {
-          id: id._id,
-          bestStatus: best,
-          bestOffer: bestPercent,
-        };
-        await addOrRemoveBest(formData);
-        fetchData();
-      } catch (error) {
-        console.log(error);
-        notification.error({ message: "something went wrong" });
-      }
-    }
-  };
-
-  const toggleBestValues = async (id) => {
-    if (best == true) {
-      try {
-        const formData = {
-          id: id._id,
-          bestStatus: best,
-          bestOffer: bestPercent,
-        };
-        await addOrRemoveBest(formData);
-        setBest(false);
-        fetchData();
-
-        notification.success({ message: "flash products added successfully" });
-      } catch (error) {
-        console.log(error);
-        notification.error({ message: "something went wrong" });
-      }
+    console.log(res, id);
+    try {
+      const formData = {
+        id: id._id,
+        bestStatus: res,
+      };
+      await addOrRemoveBest(formData);
+      notification.success({ message: "best deals successfully added" });
+      fetchData();
+    } catch (error) {
+      console.log(error);
+      notification.error({ message: "something went wrong" });
     }
   };
 
@@ -418,6 +375,14 @@ function Products({ content }) {
       title: <h1 className="text-sm">Price</h1>,
       dataIndex: "price",
       key: "price",
+      render: (name) => {
+        return <p>{name}</p>;
+      },
+    },
+    {
+      title: <h1 className="text-sm">Price</h1>,
+      dataIndex: "offer",
+      key: "offer",
       render: (name) => {
         return <p>{name}</p>;
       },
@@ -477,29 +442,6 @@ function Products({ content }) {
               checked={value}
               className="mt-[5px]"
             />
-            <div
-              className={`${
-                offer === true && offerId === id._id ? "visible" : "invisible"
-              } flex items-center justify-center gap-1`}
-            >
-              <Input
-                placeholder="Offers"
-                key={id._id}
-                onChange={(e) => {
-                  setOfferPercet(e.target.value);
-                }}
-                className="!h-[3vh] !w-[3vw]"
-              />
-
-              <Button
-                className="bg-[--third-color] !h-[3vh] !w-[3vw]"
-                onClick={(e) => {
-                  toggleFlashValues(id);
-                }}
-              >
-                Add
-              </Button>
-            </div>
           </div>
         );
       },
@@ -518,29 +460,6 @@ function Products({ content }) {
               checked={value}
               className="mt-[5px]"
             />
-            <div
-              className={`${
-                best === true && bestId === id._id ? "visible" : "invisible"
-              } flex items-center justify-center gap-1`}
-            >
-              <Input
-                placeholder="Offers"
-                key={id._id}
-                onChange={(e) => {
-                  setbestPercent(e.target.value);
-                }}
-                className="!h-[3vh] !w-[3vw]"
-              />
-
-              <Button
-                className="bg-[--third-color] !h-[3vh] !w-[3vw]"
-                onClick={(e) => {
-                  toggleBestValues(id);
-                }}
-              >
-                Add
-              </Button>
-            </div>
           </div>
         );
       },
@@ -588,10 +507,10 @@ function Products({ content }) {
   };
 
   const deleteFile = (image) => {
-    const filterImages = images.filter((data) => {
+    const filterimageList = imageList.filter((data) => {
       return data !== image;
     });
-    setImages(filterImages);
+    setImageList(filterimageList);
   };
 
   const props = {
@@ -671,6 +590,20 @@ function Products({ content }) {
                   <Input
                     size="large"
                     placeholder="Enter product Price"
+                    className="w-[35vw]"
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="offer"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input
+                    size="large"
+                    placeholder="Enter product Offer"
                     className="w-[35vw]"
                   />
                 </Form.Item>
@@ -758,8 +691,8 @@ function Products({ content }) {
                     defaultValue={highlight}
                   />
                 </Form.Item>
-
-                {/* <Upload.Dragger
+                {/* 
+                <Upload
                   {...props}
                   // listType="picture"
                   // onRemove={(e) => {
@@ -775,13 +708,13 @@ function Products({ content }) {
                   //     : []
                   // }
                   maxCount={1}
-                  onChange={(e) => console.log(e)}
+                  onChange={(e) => handleUpload(e.file.originFileObj)}
                 >
                   <div>
                     <PlusOutlined />
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
-                </Upload.Dragger> */}
+                </Upload> */}
 
                 <Upload
                   multiple

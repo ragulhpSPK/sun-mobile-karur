@@ -91,16 +91,18 @@ function Topproducts({ setLoading }) {
                   <Rate
                     allowHalf
                     defaultValue={2.5}
-                    className="!text-sm p-[2vh]"
+                    className="!text-sm p-[2vh] m-auto"
                   />
-                  <div className="flex gap-x-10 justify-between items-center">
-                    <div className="self-start flex gap-x-2 pb-[3vh] text-green-400 m-auto">
-                      {/* <div className="text-green-500 font-bold">&#8377;299</div>
-                      <div className="stroke-inherit line-through text-slate-400">
-                        &#8377;500
-                      </div> */}
-                      {res.price}
-                    </div>
+                  <div className="flex gap-x-10 justify-between pb-[1vh] m-auto items-center">
+                    {res.offer !== null || 0 ? (
+                      <p className="xl:text-lg xsm:text-[14px] text-green-400 flex flex-row-reverse gap-2 pb-[2vh] xsm:text-md xsm:font-semibold font-medium">
+                        <s className="text-red-400">&#8377;{res.price}</s>
+                        &#8377;
+                        {Math.round(res.price - (res.price / 100) * res.offer)}
+                      </p>
+                    ) : (
+                      <p className="text-lg   font-medium">{res.price}</p>
+                    )}
                   </div>
 
                   {cart.find((data) => {

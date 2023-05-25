@@ -135,12 +135,12 @@ function Bestdeals() {
                         className="!text-sm p-[3vh] text-center"
                       />
                       <div className="flex gap-x-10 justify-between pb-[3vh] items-center m-auto">
-                        {res.bestOffer !== null || 0 ? (
+                        {res.offer !== null || 0 ? (
                           <p className="xl:text-lg xsm:text-[14px] text-green-400 flex flex-row-reverse gap-2 pb-[2vh] xsm:text-md xsm:font-semibold font-medium">
                             <s className="text-red-400">&#8377;{res.price}</s>
                             &#8377;
                             {Math.round(
-                              res.price - (res.price / 100) * res.bestOffer
+                              res.price - (res.price / 100) * res.offer
                             )}
                           </p>
                         ) : (

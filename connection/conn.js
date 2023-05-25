@@ -8,7 +8,7 @@ const MONGODB_URL = process.env.MONGODB_URL;
 //     console.log(err, "iygtkiuyt");
 //   }
 // }
-console.log(MONGODB_URL);
+
 const connection = {};
 
 async function dbconnect() {

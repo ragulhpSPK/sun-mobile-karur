@@ -99,6 +99,7 @@ const Categories = (properties) => {
   };
 
   const uploadImage = (imagename) => {
+    console.log(imagename.name);
     if (imagename == null) return;
 
     const imageRef = ref(
