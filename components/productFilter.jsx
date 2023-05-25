@@ -43,19 +43,18 @@ function ProductFilter() {
   }, [search, allProducts]);
 
   return (
-    <div className="w-[80vw] m-auto mt-20">
+    <div className="xsm:w-[90vw] xl:w-[80vw] m-auto xsm:mt-[12vh] sm:mt-[20vh]">
       {produts.length > 0 ? (
         <div
           className={`${
             search.length === 0 ? "hidden" : "block"
-          } grid grid-cols-5 gap-3 w-[80vw] m-auto`}
+          } sm:grid xxl:grid-cols-5 xsm:grid-cols-1 sm:grid-cols-2  md:grid-cols-3 xl:grid-cols-4 gap-3 w-[80vw] sm:m-auto`}
         >
           {produts &&
             produts.map((data, index) => {
               return (
                 <div
-                  className="card w-[13vw] h-[35vh] bg-base-100 shadow-xl pt-10 "
-                  id={styles.shadow3}
+                  className="sm:card  flex flex-row sm:flex-col border-b border-t  xsm:w-[90vw] mt-[2vh] sm:w-[35vw] md:w-[24vw]  xl:w-[18vw] xxl:w-[15vw]  sm:bg-base-100 xsm:p-[2vh] sm:shadow-xl sm:pt-10 "
                   onClick={() => {
                     router.push({
                       pathname: `product/${data._id}`,
@@ -64,19 +63,20 @@ function ProductFilter() {
                   }}
                   key={index}
                 >
-                  <figure className="h-[18vh]">
+                  <figure className="">
                     <Image
                       width={100}
                       height={100}
                       src={get(data, "image[0]", "")}
                       alt="Shoes"
-                      className="!w-[8vw] h-[100%] m-auto "
+                      className="xl:h-[10vh] xsm:h-[8vh] !w-fit m-auto "
                     />
                   </figure>
 
-                  <div className="card-body flex flex-col items-center h-[6vh] justify-center">
-                    <h2 className="card-title text-sm">{data.title}</h2>
-                    <p className="text-sm">{data.price}</p>
+                  <div className="p-2 flex flex-col items-center justify-center">
+                    <h2 className=" xsm:text-[12px] xl:text-sm">
+                      {data.title}
+                    </h2>
                   </div>
                 </div>
               );

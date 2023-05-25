@@ -263,17 +263,9 @@ function Banner() {
                           </h1>
                         </div>
                         <div className="flex gap-[15px] h-[5vh]">
-                          <p className="text-[12px] font-bold ">
+                          <p className="text-[15px] font-bold ">
                             {data.productname}
                           </p>
-                        </div>
-                        <div className=" self-center ">
-                          <Button
-                            type="link"
-                            className="bg-[--third-color] hover:bg-[#780c78] w-[6vw] !h-[4vh] !hover:text-[#000] hover:scale-95 duration-1000"
-                          >
-                            View More
-                          </Button>
                         </div>
                       </div>
                     </Card>

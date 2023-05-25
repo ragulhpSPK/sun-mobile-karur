@@ -72,9 +72,9 @@ function Bestdeals() {
   };
 
   return (
-    <div className="flex flex-col xl:flex-row !w-[90vw] xl:!w-[80vw]  m-auto justify-center">
-      <div className="xl:w-[10vw] flex items-center justify-center">
-        <div className="flex flex-row w-[90vw] justify-between xl:flex-col ">
+    <div className="flex flex-col  !w-[90vw] xl:!w-[80vw]  m-auto justify-center">
+      <div className=" flex items-center justify-center">
+        <div className="flex flex-row w-[90vw] justify-between  ">
           <div className="xl:text-2xl  font-bold text-[--second-color]">
             Best Deals Today
           </div>
@@ -86,7 +86,7 @@ function Bestdeals() {
         </div>
       </div>
       <div>
-        <div className="w-[80vw] xl:w-[70vw]  flex  justify-center flex-wrap gap-10 ">
+        <div className="w-[80vw] xl:w-[80vw]  flex  justify-center flex-wrap gap-10 ">
           <Swiper
             freeMode={true}
             autoplay={true}
@@ -106,7 +106,7 @@ function Bestdeals() {
                 spaceBetween: 20,
               },
               1220: {
-                slidesPerView: 3,
+                slidesPerView: 4,
                 spaceBetween: 30,
               },
             }}
@@ -125,10 +125,26 @@ function Bestdeals() {
                         src={res.image[0]}
                         alt="Shoes"
                         className="rounded-xl xl:h-[15vh] !w-fit m-auto"
+                        onClick={() =>
+                          router.push({
+                            pathname: `/product/${res._id}`,
+                            query: { id: res._id },
+                          })
+                        }
                       />
                     </figure>
                     <div className="card-body ">
-                      <h2 className="font-bold text-center">{res.title}</h2>
+                      <h2
+                        className="font-bold text-center h-[6vh]"
+                        onClick={() =>
+                          router.push({
+                            pathname: `/product/${res._id}`,
+                            query: { id: res._id },
+                          })
+                        }
+                      >
+                        {res.title}
+                      </h2>
                       <Rate
                         allowHalf
                         defaultValue={2.5}

@@ -79,7 +79,7 @@ function Navbar() {
   }, [search, cart.products.length]);
 
   return (
-    <div className="flex flex-col justify-center fixed top-0 w-screen z-50 bg-white">
+    <div className="flex flex-col justify-center  fixed top-0 w-screen z-50 bg-white">
       {/* step 1 */}
       <div className="flex justify-between p-2 xsm:hidden lg:flex items-center !font-bold  hover:font-bold ">
         <div className="flex gap-x-2 text-sm capitalize hover:cursor-pointer hover:text-[--second-color] items-center">
@@ -130,6 +130,8 @@ function Navbar() {
               <input
                 placeholder="I'm looking for...."
                 className="outline-none border-none xsm:!w-[40vw] lg:w-[30vw] placeholder:text-slate-200"
+                onChange={(e) => dispatch(addSearch(e.target.value))}
+                onKeyUp={handleKeyDown}
               />
               <div className="flex items-center w-[2vw]">
                 <Divider type="vertical" />

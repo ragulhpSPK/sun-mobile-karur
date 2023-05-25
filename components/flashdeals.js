@@ -66,8 +66,8 @@ const TopRated = () => {
   };
 
   return (
-    <div className="flex flex-col  !w-[90vw] xl:!w-[80vw]  m-auto justify-center">
-      <div className="xl:w-[8vw] flex items-center justify-center">
+    <div className="flex flex-col mt-[5vh] !w-[90vw] xl:!w-[80vw]  m-auto justify-center">
+      <div className=" flex items-center xl:!w-[80vw] justify-center">
         <div className="flex flex-row w-[90vw] justify-between  ">
           <div className="xl:text-2xl  font-bold text-[--second-color]">
             Flash Deals
@@ -80,7 +80,7 @@ const TopRated = () => {
         </div>
       </div>
       <div>
-        <div className="xsm:!w-[90vw] xl:!w-[75vw]  flex  justify-center flex-wrap gap-10 ">
+        <div className="xsm:!w-[90vw] xl:!w-[80vw]  flex  justify-center flex-wrap gap-10 ">
           <Swiper
             freeMode={true}
             autoplay={true}
@@ -113,7 +113,14 @@ const TopRated = () => {
                     key={index}
                   >
                     <figure className="xl:px-10 pt-10  cursor-pointer">
-                      <div>
+                      <div
+                        onClick={() =>
+                          router.push({
+                            pathname: `/product/${res._id}`,
+                            query: { id: res._id },
+                          })
+                        }
+                      >
                         <Image
                           width={100}
                           height={100}
@@ -125,7 +132,15 @@ const TopRated = () => {
                     </figure>
                     <div className="card-body ">
                       <div className="h-[6vh]">
-                        <h2 className="font-bold text-center p-[1vh]">
+                        <h2
+                          className="font-bold text-center p-[1vh]"
+                          onClick={() =>
+                            router.push({
+                              pathname: `/product/${res._id}`,
+                              query: { id: res._id },
+                            })
+                          }
+                        >
                           {res.title}
                         </h2>
                       </div>

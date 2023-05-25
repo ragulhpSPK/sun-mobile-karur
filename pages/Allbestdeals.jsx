@@ -5,6 +5,7 @@ import {
   getAllproducts,
   createCart,
   getAllBanner,
+  getAllCart,
 } from "@/helper/utilities/apiHelper";
 import { useEffect, useState } from "react";
 import { get } from "lodash";
@@ -28,10 +29,15 @@ function Allbestdeals() {
 
   const fetchData = async () => {
     try {
-      const result = [await getAllproducts(), await getAllCart()];
+      const result = [
+        await getAllproducts(),
+        await getAllCart(),
+        await getAllBanner(),
+      ];
       console.log(result);
       setProducts(get(result, "[0].data.data"));
       setCart(get(result, "[1].data.message"));
+      setBanner(get(result, "[2].data.data", []));
     } catch (err) {
       console.log(err);
     }
@@ -49,7 +55,7 @@ function Allbestdeals() {
     );
   }, [product]);
 
-   const handleClick = async (id, data) => {
+  const handleClick = async (id, data) => {
     try {
       const formData = {
         data: {
@@ -73,6 +79,8 @@ function Allbestdeals() {
     <LoadingOutlined style={{ fontSize: 40 }} className="animate-spin" />
   );
 
+  console.log(banner, "dfj");
+
   return (
     <Spin
       spinning={loading}
@@ -80,7 +88,7 @@ function Allbestdeals() {
       size="large"
       indicator={antIcon}
     >
-      <div className="xsm:w-[90vw] xl:w-[80vw] m-auto">
+      <div className="xsm:w-[90vw] xl:w-[80vw] m-auto mt-[20vh]">
         {banner
           .filter((data) => {
             console.log(data);
@@ -95,7 +103,7 @@ function Allbestdeals() {
                     alt="bestDeas"
                     width={100}
                     height={100}
-                    className="xsm:w-[90vw] xsm:h-[18vh] sm:h-[24vh] md:h-[26vh] xl:w-[80vw] xl:!h-[30vh]"
+                    className="xsm:w-[90vw] xsm:h-[18vh] sm:h-[24vh] md:h-[26vh] xl:w-[80vw] xl:!h-[35vh]"
                   />
                 </div>
               </>
@@ -103,11 +111,11 @@ function Allbestdeals() {
           })}
 
         <div className="flex items-center justify-center pt-10 relative">
-          <div className="grid xsm:grid-cols-1 xl:grid-cols-3 xxl:grid-cols-5 sm:grid-cols-2 md:grid-cols-3 xsm:gap-10 xl:gap-24 ">
+          <div className="grid xsm:grid-cols-1 xl:grid-cols-4 xxl:grid-cols-5 sm:grid-cols-2 md:grid-cols-3 xsm:gap-10 xl:gap-24 ">
             {bestProducts.map((data, index) => {
               return (
                 <div
-                  className="card xsm:w-[80vw] xl:w-[20vw] bg-base-100 shadow-xl "
+                  className="card xsm:w-[80vw] sm:w-[40vw] md:w-[28vw] xl:w-[20vw] xxl:w-[16vw] bg-base-100 shadow-xl "
                   key={index}
                 >
                   <figure className="px-10 pt-10  cursor-pointer">
@@ -140,7 +148,7 @@ function Allbestdeals() {
                       )}
                     </div>
                     <div
-                      className="absolute bottom-5 w-[15vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                      className="absolute bottom-5 w-[15vw] flex items-center justify-center  gap-x-2  text-white p-2 rounded
                   "
                     >
                       {cart.find((res) => {
@@ -148,7 +156,7 @@ function Allbestdeals() {
                       }) ? (
                         <Link href="/profiles/cart">
                           <div
-                            className="absolute bottom-5 w-[15vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                            className="absolute  xsm:left-0 xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                           >
                             <ShoppingCartOutlined />
@@ -157,7 +165,7 @@ function Allbestdeals() {
                         </Link>
                       ) : (
                         <div
-                          className="absolute bottom-5 w-[15vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                          className="absolute xsm:left-0 xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                           onClick={() => {
                             handleClick(data._id, data);

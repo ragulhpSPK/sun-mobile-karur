@@ -84,10 +84,26 @@ function Topproducts({ setLoading }) {
                     src={res.image[0]}
                     alt="Shoes"
                     className="rounded-xl h-[15vh] !w-fit m-auto"
+                    onClick={() =>
+                      router.push({
+                        pathname: `/product/${res._id}`,
+                        query: { id: res._id },
+                      })
+                    }
                   />
                 </figure>
                 <div className="card-body ">
-                  <h2 className="font-bold">{res.title}</h2>
+                  <h2
+                    className="font-bold"
+                    onClick={() =>
+                      router.push({
+                        pathname: `/product/${res._id}`,
+                        query: { id: res._id },
+                      })
+                    }
+                  >
+                    {res.title}
+                  </h2>
                   <Rate
                     allowHalf
                     defaultValue={2.5}

@@ -50,7 +50,7 @@ export default function Swipper({ setLoading }) {
   });
 
   return (
-    <div className="flex xsm:flex-col xl:flex-row  gap-x-1 xsm:pt-[10vh] lg:pt-[18vh]  m-auto xsm:!w-[90vw] xl:!w-[80vw]">
+    <div className="flex xsm:flex-col xl:flex-row  gap-x-1 xsm:pt-[10vh] lg:mt-[10vh]  m-auto xsm:!w-[90vw] xl:!w-[80vw]">
       {/* left */}
       <Carousel
         fade
