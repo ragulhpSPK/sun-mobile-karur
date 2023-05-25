@@ -46,8 +46,6 @@ const Subcategories = (properties) => {
   const [update, setUpdate] = useState([]);
   const { Dragger } = Upload;
 
-
-
   const handleFinish = async (value) => {
     if (update === "") {
       setLoading(true);
@@ -102,8 +100,6 @@ const Subcategories = (properties) => {
   };
 
   const handleEdit = (value) => {
-  
-    
     setOpen(true);
     setUpdate(value._id);
     setImageName(value.image);
@@ -203,7 +199,7 @@ const Subcategories = (properties) => {
 
   const props = {
     name: "file",
-    multiple: "false",
+    multiple: "true",
     onChange(info) {
       const reader = new FileReader();
       reader.readAsDataURL(info.file.originFileObj);
@@ -259,7 +255,7 @@ const Subcategories = (properties) => {
                   columns={columns}
                   size="middle"
                   loading={loading}
-                 pagination={{
+                  pagination={{
                     pageSize: 6,
                   }}
                 />
@@ -280,11 +276,11 @@ const Subcategories = (properties) => {
                       <Input
                         size="large"
                         placeholder="Enter SubCategory Name"
-                       className="!w-[25vw]"
+                        className="!w-[25vw]"
                       />
                     </Form.Item>
                     <Form.Item
-                   className="!w-[25vw]"
+                      className="!w-[25vw]"
                       name="categoryId"
                       rules={[
                         {
@@ -300,13 +296,14 @@ const Subcategories = (properties) => {
                         }}
                         className="!w-[25vw]"
                       >
-                        {category && category.map((res) => {
-                          return (
-                            <Option value={res._id} key={res._id}>
-                              {res.name}
-                            </Option>
-                          );
-                        })}
+                        {category &&
+                          category.map((res) => {
+                            return (
+                              <Option value={res._id} key={res._id}>
+                                {res.name}
+                              </Option>
+                            );
+                          })}
                       </Select>
                     </Form.Item>
 
@@ -327,7 +324,11 @@ const Subcategories = (properties) => {
                             />
                           </div>
                         ) : (
-                          <Dragger {...props} className="!bg-[red] !ml-40" style={{marginLeft:"525px",width:"25vw"}}>
+                          <Dragger
+                            {...props}
+                            className="!bg-[red] !ml-40"
+                            style={{ marginLeft: "525px", width: "25vw" }}
+                          >
                             <p className="ant-upload-drag-icon">
                               <InboxOutlined />
                             </p>

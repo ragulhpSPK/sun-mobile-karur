@@ -53,6 +53,7 @@ export default function Swipper({ setLoading }) {
     <div className="flex xsm:flex-col xl:flex-row  gap-x-1 xsm:pt-[10vh] lg:pt-[18vh]  m-auto xsm:!w-[90vw] xl:!w-[80vw]">
       {/* left */}
       <Carousel
+        fade
         autoplay
         dotPosition="right"
         className="xl:!w-[60vw] xl:!h-[40vh] xsm:!w-[90vw] sm:h-[22vh] xsm:h-[16vh]"

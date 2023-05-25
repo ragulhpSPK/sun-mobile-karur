@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { InboxOutlined, PlusOutlined, RedoOutlined } from "@ant-design/icons";
+import {
+  InboxOutlined,
+  PlusOutlined,
+  RedoOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 import FileAddOutlined from "@mui/icons-material/NoteAdd";
 import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
@@ -43,6 +48,15 @@ import dynamic from "next/dynamic";
 import AdminNavbar from "../shared/AdminNavbar";
 import "suneditor/dist/css/suneditor.min.css";
 import { ContactSupportOutlined } from "@mui/icons-material";
+import { storage } from "../../../components/firebase/firebase";
+import { v4 } from "uuid";
+import {
+  getDownloadURL,
+  listAll,
+  ref,
+  uploadBytes,
+  list,
+} from "firebase/storage";
 
 function Products({ content }) {
   const [edit, setEdit] = useState(false);
@@ -63,7 +77,7 @@ function Products({ content }) {
   const [highlight, setHighlights] = useState([]);
   const [subCatFilter, setSubCatFilter] = useState([]);
   const [deleted, setDeleted] = useState(false);
-  const ref = useRef;
+  // const ref = useRef;
   const [images, setImages] = useState([]);
   const [offerId, setOfferId] = useState([]);
   const [offerPercent, setOfferPercet] = useState("");
@@ -74,7 +88,7 @@ function Products({ content }) {
   const [best, setBest] = useState(false);
   const [bestPercent, setbestPercent] = useState([]);
   const [bestId, setBestId] = useState("");
-
+  const [imageList, setImageList] = useState("");
   const [loading, setLoading] = useState(false);
 
   const SunEditor = dynamic(() => import("suneditor-react"), {
@@ -150,6 +164,18 @@ function Products({ content }) {
       res.subcategoryname.toLowerCase().includes(data)
     );
   });
+
+  const handleUpload = (file) => {
+    console.log(file, "fhjnmk");
+
+    const imageRef = ref(storage, `images/${v4()}-${file.name}`);
+    uploadBytes(imageRef, imagename).then((snaphsot) => {
+      getDownloadURL(snaphsot.ref).then((url) => {
+        setImageList(url);
+      });
+      alert("image uploaded");
+    });
+  };
 
   const handleFinish = async (value) => {
     if (updateId == "") {
@@ -568,6 +594,15 @@ function Products({ content }) {
     setImages(filterImages);
   };
 
+  const props = {
+    name: "file",
+    multiple: true,
+
+    onDrop(e) {
+      console.log("Dropped files", e.dataTransfer.files);
+    },
+  };
+
   return (
     <div className="flex flex-col">
       <div>
@@ -723,39 +758,37 @@ function Products({ content }) {
                     defaultValue={highlight}
                   />
                 </Form.Item>
-                <Form.Item>
-                  <input
-                    type="file"
-                    multiple
-                    onChange={handleFileInputChange}
-                    draggable
-                  />
-                  <div className="grid grid-cols-5 h-[7vh]  !ml-3 relative !w-[30vw]">
-                    {images &&
-                      images.map((image, index) => (
-                        <>
-                          <div>
-                            <div className="bg-slate-200 !w-[5vw]  h-[8vh] flex items-center justify-center">
-                              <Image
-                                key={index}
-                                src={image}
-                                width={100}
-                                height={100}
-                                alt={`image-${index}`}
-                                className="self-center  pt-5 !h-[5vh]"
-                              />
-                            </div>
 
-                            <DeleteIcon
-                              onClick={() => deleteFile(image)}
-                              style={{ color: "var(--third-color)" }}
-                              className="absolute top-0 grid grid-cols-4 "
-                            />
-                          </div>
-                        </>
-                      ))}
+                {/* <Upload.Dragger
+                  {...props}
+                  // listType="picture"
+                  // onRemove={(e) => {
+                  //   setImageList("");
+                  // }}
+                  // fileList={
+                  //   imageList !== ""
+                  //     ? [
+                  //         {
+                  //           url: imageList,
+                  //         },
+                  //       ]
+                  //     : []
+                  // }
+                  maxCount={1}
+                  onChange={(e) => console.log(e)}
+                >
+                  <div>
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
-                </Form.Item>
+                </Upload.Dragger> */}
+
+                <Upload
+                  multiple
+                  customRequest={({ file }) => handleUpload(file)}
+                >
+                  <Button icon={<UploadOutlined />}>Select Files</Button>
+                </Upload>
 
                 <div className="flex gap-5 justify-end ">
                   <Button
