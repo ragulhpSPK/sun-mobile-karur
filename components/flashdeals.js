@@ -66,9 +66,9 @@ const TopRated = () => {
   };
 
   return (
-    <div className="flex flex-col xl:flex-row !w-[90vw] xl:!w-[80vw]  m-auto justify-center">
+    <div className="flex flex-col  !w-[90vw] xl:!w-[80vw]  m-auto justify-center">
       <div className="xl:w-[8vw] flex items-center justify-center">
-        <div className="flex flex-row w-[90vw] justify-between xl:flex-col ">
+        <div className="flex flex-row w-[90vw] justify-between  ">
           <div className="xl:text-2xl  font-bold text-[--second-color]">
             Flash Deals
           </div>

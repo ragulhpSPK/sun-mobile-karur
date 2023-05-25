@@ -6,6 +6,7 @@ const nextConfig = {
     SECRET_KEY: process.env.SECRET_KEY,
     PLAIN_TEXT: process.env.PLAIN_TEXT,
   },
+  images: { domains: ["firebasestorage.googleapis.com"] },
 };
 
 module.exports = nextConfig;
