@@ -75,7 +75,7 @@ function Categories({ setLoading }) {
                   });
                 }}
               >
-                <div className="card xl:w-[12vw] h-[30vh] bg-base-100 xsm:shadow-sm xl:shadow-xl flex items-center justify-center  cursor-pointer">
+                <div className="card xl:w-[12vw] h-[26vh] bg-base-100 xsm:shadow-sm xl:shadow-xl flex items-center justify-center  cursor-pointer">
                   <figure className="px-10 pt-10  flex flex-col items-center">
                     <Image
                       src={data.image}

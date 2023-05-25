@@ -74,7 +74,7 @@ export default function Swipper({ setLoading }) {
       </Carousel>
 
       {/* right */}
-      <div className="xl:!w-[30vw] xsm:w-[90vw]  xl:h-[40vh] xsm:h-[12vh] sm:h-[22vh] justify-between flex xl:flex-col">
+      <div className="xl:!w-[30vw] xsm:w-[90vw]  xl:h-[40vh] xsm:h-[12vh] sm:h-[22vh] justify-between flex xl:flex-col ">
         <div>
           {top.map((data, i) => {
             return (
@@ -84,7 +84,7 @@ export default function Swipper({ setLoading }) {
                   width={100}
                   height={100}
                   alt="logo"
-                  className="xl:!w-[30vw] xsm:w-[45vw] xsm:h-[10vh] sm:h-[16vh] xl:h-[20vh] "
+                  className="xl:!w-[30vw] xsm:w-[44.9vw] xsm:h-[10vh] sm:h-[16vh] xl:h-[19.8vh] "
                 />
               </div>
             );
@@ -99,7 +99,7 @@ export default function Swipper({ setLoading }) {
                   width={100}
                   height={100}
                   alt="logo"
-                  className="xl:w-[30vw] xsm:w-[45vw] xsm:h-[10vh] sm:h-[16vh] xl:h-[20vh] "
+                  className="xl:w-[30vw] xsm:w-[44.9vw] xsm:h-[10vh] sm:h-[16vh] xl:h-[19.8vh] "
                 />
               </div>
             );

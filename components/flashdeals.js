@@ -72,7 +72,7 @@ const TopRated = () => {
           <div className="xl:text-2xl  font-bold text-[--second-color]">
             Flash Deals
           </div>
-          <Link href="/Allbestdeals">
+          <Link href="/flashDeals">
             <div className="xl:text-2xl font-bold text-[--second-color]">
               see more
             </div>

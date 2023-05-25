@@ -265,7 +265,7 @@ function AllCat() {
       <div
         className={`${
           loading === true ? "invisible" : "visible"
-        } xsm:hidden xxl:block`}
+        } xsm:hidden xxl:block mt-[12vh]`}
       >
         <div className="flex">
           <div className="w-[16vw]  h-[85vh] overflow-scroll pl-20 leading-10 ">
@@ -319,8 +319,8 @@ function AllCat() {
               );
             })}
           </div>
-          <div className="flex flex-col w-[80vw] m-auto ">
-            <div className="ml-10   flex justify-center items-center bg-white  ">
+          <div className="flex flex-col w-[80vw]  ">
+            <div className="ml-10 pt-[5vh]  flex justify-center items-center  bg-white  ">
               <div className="flex gap-[5vw] pb-5">
                 <div className="pt-[15px]">
                   <Select
@@ -382,7 +382,7 @@ function AllCat() {
                 pagination={{
                   pageSize: 8,
                   align: "end",
-                  position: "top",
+                  position: "bottom",
                   size: "small",
                 }}
                 className=" !w-[80vw]"
@@ -402,47 +402,7 @@ function AllCat() {
                             border: "none",
                           }}
                           className="shadow-md"
-                          actions={[
-                            <div
-                              key={"key"}
-                              className="bg-[--third-color] rounded-sm  text-[20px] !h-[40px] !w-[100px] text-white flex items-center justify-center !border-none"
-                              onClick={() => {
-                                router.push({
-                                  pathname: "/cart",
-                                  query: { _id: data._id },
-                                });
-                              }}
-                            >
-                              Buy Now
-                            </div>,
-                            <div
-                              key={"key"}
-                              className="bg-[--third-color] p-[7px] text-white flex items-center text-[12px] justify-center rounded-sm float-right"
-                            >
-                              {cart.find((res) => {
-                                return res.productId === data._id;
-                              }) ? (
-                                <button
-                                  className="text-white !h-[30px] !w-[100px] rounded-md !text-[12px] leading-tight tracking-tight"
-                                  onClick={() =>
-                                    router.push({ pathname: "/cart" })
-                                  }
-                                >
-                                  Go to Cart
-                                </button>
-                              ) : (
-                                <ShoppingCartOutlined
-                                  style={{
-                                    fontSize: "28px",
-                                  }}
-                                  onClick={() => {
-                                    handleClick(data._id, data);
-                                    setProductId(data._id);
-                                  }}
-                                />
-                              )}
-                            </div>,
-                          ]}
+                          actions={[]}
                         >
                           <div
                             onClick={() =>
@@ -463,56 +423,38 @@ function AllCat() {
                             <h1 className="text-[16px] pt-[2vh]">
                               {data.title}
                             </h1>
-
-                            {data.flashStatus == true ? (
-                              <div>
-                                <span className="flex gap-2">
-                                  <s className="text-sm">&#8377;{data.price}</s>
-
-                                  <p className="font-bold text-sm text-red-500">
-                                    -{data.offer}% Off
-                                  </p>
-                                </span>
-
-                                {data.offer !== null || 0 ? (
-                                  <p className="text-xl text-slate-800 pt-1">
-                                    &#8377;
-                                    {Math.round(
-                                      data.price -
-                                        (data.price / 100) * data.offer
-                                    )}
-                                  </p>
-                                ) : (
-                                  <p className="text-xl text-slate-800 pt-1">
-                                    &#8377;{data.price}
-                                  </p>
-                                )}
-                              </div>
-                            ) : data.bestStatus === true ? (
-                              <div>
-                                <s>&#8377;{data.price}</s>{" "}
-                                <p className="font-bold text-sm text-red-500">
-                                  -{data.bestOffer}% Off
-                                </p>
-                                {data.bestOffer !== null || 0 ? (
-                                  <p className="text-xl text-slate-800 pt-1">
-                                    &#8377;
-                                    {Math.round(
-                                      data.price -
-                                        (data.price / 100) * data.bestOffer
-                                    )}
-                                  </p>
-                                ) : (
-                                  <p className="text-xl text-slate-800 pt-1">
-                                    &#8377;{data.price}
-                                  </p>
-                                )}
-                              </div>
-                            ) : (
-                              <p className="text-xl text-slate-800 pt-1">
-                                &#8377;{data.price}
-                              </p>
-                            )}
+                            <h1 className="text-[16px] pt-[2vh]">
+                              {data.price}
+                            </h1>
+                          </div>
+                          <div className="flex items-center justify-center">
+                            <div className="flex items-center justify-center m-auto pt-[6vh] absolute left-[35px]">
+                              {cart.find((res) => {
+                                return res.productId === data._id;
+                              }) ? (
+                                <Link href="/profiles/cart">
+                                  <div
+                                    className="absolute  xsm:left-0 xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                  "
+                                  >
+                                    <ShoppingCartOutlined />
+                                    <div>Go to Cart</div>
+                                  </div>
+                                </Link>
+                              ) : (
+                                <div
+                                  className="absolute xsm:left-0 xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                  "
+                                  onClick={() => {
+                                    handleClick(data._id, data);
+                                    dispatch(addproduct({ ...data }));
+                                  }}
+                                >
+                                  <ShoppingCartOutlined />
+                                  <div>Add To Cart</div>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </Card>
                       </div>
@@ -728,45 +670,7 @@ function AllCat() {
                       marginTop: "30px",
                     }}
                     className="!shadow-lg "
-                    actions={[
-                      <div
-                        key={"key"}
-                        className="bg-[--third-color] rounded-sm  text-[14px] !h-[40px] !w-[100px] text-white flex items-center justify-center !border-none"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/cart",
-                            query: { _id: data._id },
-                          });
-                        }}
-                      >
-                        Buy Now
-                      </div>,
-                      <div
-                        key={"key"}
-                        className="bg-[--third-color] p-[7px] text-white flex items-center text-[12px] justify-center rounded-sm float-right"
-                      >
-                        {cart.find((res) => {
-                          return res.productId === data._id;
-                        }) ? (
-                          <button
-                            className="text-white !h-[30px] !w-[100px] rounded-md !text-[12px] leading-tight tracking-tight"
-                            onClick={() => router.push({ pathname: "/cart" })}
-                          >
-                            Go to Cart
-                          </button>
-                        ) : (
-                          <ShoppingCartOutlined
-                            style={{
-                              fontSize: "28px",
-                            }}
-                            onClick={() => {
-                              handleClick(data._id, data);
-                              setProductId(data._id);
-                            }}
-                          />
-                        )}
-                      </div>,
-                    ]}
+                    actions={[]}
                   >
                     <div
                       onClick={() =>
@@ -789,53 +693,48 @@ function AllCat() {
                         {data.title}
                       </h1>
 
-                      {data.flashStatus == true ? (
-                        <div>
-                          <span className="flex gap-2">
-                            <s className="text-sm">&#8377;{data.price}</s>
-
-                            <p className="font-bold text-sm text-red-500">
-                              -{data.offer}% Off
-                            </p>
-                          </span>
-
-                          {data.offer !== null || 0 ? (
-                            <p className="text-xl text-slate-800 pt-1">
-                              &#8377;
-                              {Math.round(
-                                data.price - (data.price / 100) * data.offer
-                              )}
-                            </p>
-                          ) : (
-                            <p className="text-xl text-slate-800 pt-1">
-                              &#8377;{data.price}
-                            </p>
-                          )}
-                        </div>
-                      ) : data.bestStatus === true ? (
-                        <div>
-                          <s>&#8377;{data.price}</s>{" "}
-                          <p className="font-bold text-sm text-red-500">
-                            -{data.bestOffer}% Off
+                      <div className="flex gap-x-10 justify-between items-center m-auto">
+                        {data.offer !== null || 0 ? (
+                          <p className="xl:text-lg xsm:text-[14px] text-green-400 flex flex-row-reverse gap-2 pb-[2vh] xsm:text-md xsm:font-semibold font-medium">
+                            <s className="text-red-400">&#8377;{data.price}</s>
+                            &#8377;
+                            {Math.round(
+                              data.price - (data.price / 100) * data.offer
+                            )}
                           </p>
-                          {data.bestOffer !== null || 0 ? (
-                            <p className="text-xl text-slate-800 pt-1">
-                              &#8377;
-                              {Math.round(
-                                data.price - (data.price / 100) * data.bestOffer
-                              )}
-                            </p>
+                        ) : (
+                          <p className="text-lg   font-medium">{data.price}</p>
+                        )}
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <div className="flex items-center justify-center m-auto pt-[6vh] absolute left-[35px]">
+                          {cart.find((res) => {
+                            return res.productId === data._id;
+                          }) ? (
+                            <Link href="/profiles/cart">
+                              <div
+                                className="absolute  xsm:left-0 xsm:w-[180px] sm:w-[30vw] md:w-[160px] lg:w-[190px] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                  "
+                              >
+                                <ShoppingCartOutlined />
+                                <div>Go to Cart</div>
+                              </div>
+                            </Link>
                           ) : (
-                            <p className="text-xl text-slate-800 pt-1">
-                              &#8377;{data.price}
-                            </p>
+                            <div
+                              className="absolute xsm:left-0 xsm:w-[180px] sm:w-[30vw] md:w-[160px] lg:w-[190px]  flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                  "
+                              onClick={() => {
+                                handleClick(data._id, data);
+                                dispatch(addproduct({ ...data }));
+                              }}
+                            >
+                              <ShoppingCartOutlined />
+                              <div>Add To Cart</div>
+                            </div>
                           )}
                         </div>
-                      ) : (
-                        <p className="text-xl text-slate-800 pt-1">
-                          &#8377;{data.price}
-                        </p>
-                      )}
+                      </div>
                     </div>
                   </Card>
                 </List.Item>

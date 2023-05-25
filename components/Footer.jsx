@@ -40,7 +40,7 @@ const CustomerFooters = () => {
     },
   ];
   return (
-    <div className="flex flex-col lg:flex-row lg:justify-center lg:items-center xsm:w-[90vw] lg:w-[80vw] xsm:pl-[12vw] lg:pl-0 lg:m-auto mt-[15vh]">
+    <div className="flex flex-col lg:flex-row lg:justify-center lg:items-center xsm:w-[90vw] lg:w-[80vw] xsm:pl-[12vw] lg:pl-0 lg:m-auto !mt-[15vh]">
       {/* Locations */}
       <div className="lg:w-[30vw] flex-col  pt-2 gap-y-4  p-2">
         <div className="text-lg font-bold ">Sun Mobiles</div>
