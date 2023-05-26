@@ -5,7 +5,6 @@ import { isEmpty } from "lodash";
 import Jwt from "jsonwebtoken";
 import { encrypt } from "../../../helper/utilities/crypt";
 import { middleware } from "@/helper/utilities/middleware";
-import { authHandler } from "@/helper/utilities/apiHelper";
 
 export default async function MessageController(req, res) {
   dbconnect();

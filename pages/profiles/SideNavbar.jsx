@@ -13,6 +13,7 @@ import { Divider } from "antd";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
+import { changeUserValues } from "../../redux/userSlice";
 
 function SideNavebar() {
   const [current, setProfileCurrent] = useState(1);

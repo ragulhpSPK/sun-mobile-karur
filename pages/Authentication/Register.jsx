@@ -26,57 +26,74 @@ function Register({ setLogin }) {
   const [otp, setOtp] = useState([]);
   const [phoneNumber, setPhoneNumber] = useState();
   const [expandForm, setExpandForm] = useState(false);
-  const [numbers, setNumbers] = useState();
+  const [statusNumber, setstatusNumber] = useState();
   const router = useRouter();
   const [formModal, setFormModal] = useState(false);
 
   const dispatch = useDispatch();
   const generateRecaptchaVerifier = () => {
-    window.recaptchaVerifier = new RecaptchaVerifier(
-      "recaptacha-container",
-      {
-        size: "invisible",
-        callback: (response) => {
-          // reCAPTCHA solved, allow signInWithPhoneNumber.
+    try {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        "recaptacha-container",
+        {
+          size: "invisible",
+          callback: (response) => {
+            // reCAPTCHA solved, allow signInWithPhoneNumber.
+          },
         },
-      },
-      authentication
-    );
+        authentication
+      );
+    } catch (err) {
+      console.log(err, "oiodieuoe");
+    }
   };
 
   const requestOTP = async (e) => {
     setLogin(false);
     setExpandForm(true);
 
-    // e.preventDefault();
-    // if (phoneNumber.length >= 12) {
-    //   setExpandForm(true);
-    //   generateRecaptchaVerifier();
-    //   let appVerfier = window.recaptchaVerifier;
-    //   signInWithPhoneNumber(authentication, phoneNumber, appVerfier)
-    //     .then((confirmationResult) => {
-    //       window.confirmationResult = confirmationResult;
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // }
+    e.preventDefault();
+    if (phoneNumber.length >= 12) {
+      setExpandForm(true);
+      generateRecaptchaVerifier();
+      let appVerfier = window.recaptchaVerifier;
+      signInWithPhoneNumber(authentication, phoneNumber, appVerfier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          console.log("trigered");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const verifyOtp = async () => {
-    if (otp.length === 6) {
-      const result = await getOneUer(phoneNumber);
+    try {
+      console.log("trigger");
+      if (otp.length === 6) {
+        let confirmationResult = window.confirmationResult;
+        const res = await confirmationResult.confirm(otp);
+        const result = await getOneUer(get(res, "user.phoneNumber", ""));
 
-      if (isEmpty(result.data.message)) {
-        setFormModal(true);
-      } else {
-        const result = await authHandler({ number: phoneNumber });
-        Cookies.set("x-o-t-p", result.data.data);
-        dispatch(changeUserValues({ user: result.data.data }));
-        notification.success({ message: "Continue to shop" });
+        if (isEmpty(result.data.message)) {
+          console.log("trigger");
+          setFormModal(true);
+        } else {
+          const result = await authHandler({
+            number: get(res, "user.phoneNumber", ""),
+          });
+          console.log("trigger");
+          Cookies.set("x-o-t-p", result.data.data);
+          dispatch(changeUserValues({ user: result.data.data }));
+          notification.success({ message: "Continue to shop" });
+        }
+        setExpandForm(false);
       }
-      setExpandForm(false);
+    } catch (err) {
+      console.log(err);
     }
+
     // try {
     //   if (otp.length === 6) {
     //     let confirmationResult = window.confirmationResult;
@@ -149,11 +166,13 @@ function Register({ setLogin }) {
                 >
                   <Input
                     size="large"
-                    placeholder="+91 9839288383"
+                    placeholder="Enter your phone number"
                     className="xsm:w-[56vw] sm:w-[50vw] md:w-[50vw] lg:!w-[16vw]"
                     value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    type="number"
+                    onChange={(e) => setPhoneNumber(`+91${e.target.value}`)}
                   />
+                  {console.log(phoneNumber, "phoneNumber")}
                 </Form.Item>
                 <p className=" lg:!w-[25vw] xsm:text-[14px] md:text-[20px] sm:text-[12px]  xsm:w-[80vw] lg:text-base font-medium">
                   Secure access to our e-commerce platform by
@@ -182,7 +201,6 @@ function Register({ setLogin }) {
         open={expandForm}
         footer={false}
         header={false}
-        onCancel={() => setExpandForm(!expandForm)}
         className="absolute top-[22vh] xsm:!w-[80vw] sm:!w-[55vw] sm:right-[22vw] md:!w-[40vw] md:!right-[30vw] lg:!w-[26vw] xsm:right-[10vw] lg:!right-[40vw] "
       >
         <div
@@ -281,6 +299,7 @@ function Register({ setLogin }) {
           </Form>
         </div>
       </Modal>
+      <div id="recaptacha-container"></div>
     </div>
   );
 }
