@@ -6,33 +6,38 @@ import {
   getAllproducts,
   createCart,
   getAllCart,
+  getOneUerforNav,
 } from "@/helper/utilities/apiHelper";
-import { get } from "lodash";
+import { get, isEmpty } from "lodash";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { notification, Rate } from "antd";
+import { Modal, notification, Rate } from "antd";
 import { addproduct } from "@/redux/cartSlice";
 import { useDispatch } from "react-redux";
 import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
 import Link from "next/link";
 import { ShoppingCartOutlined } from "@ant-design/icons";
+import Cookies from "js-cookie";
+import Login from "@/pages/Authentication/Register";
 
-function Topproducts({ setLoading }) {
+function Topproducts() {
   const [products, setProducts] = useState([]);
   // const [topProducts,setTopProducts] = useState([])
   const [cart, setCart] = useState([]);
+  const [login, setLogin] = useState(false);
+  const [getUser, setGetUser] = useState([]);
   const dispatch = useDispatch();
   const router = useRouter();
 
   const fetchData = async () => {
     try {
-      setLoading(true);
       const result = [await getAllproducts(), await getAllCart()];
-
+      const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
+      setGetUser(get(getUser, "data.message[0]", []));
+      console.log(getUser, "dwnd");
       setProducts(get(result, "[0].data.data"));
       setCart(get(result, "[1].data.message"));
-      setLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -74,7 +79,7 @@ function Topproducts({ setLoading }) {
           {topProducts.map((res, index) => {
             return (
               <div
-                className="card xsm:w-[80vw] sm:w-[35vw] lg:w-[28vw] xl:w-[20vw] bg-base-100 shadow-xl "
+                className="card xsm:w-[80vw] sm:w-[35vw] lg:w-[26vw] xl:w-[20vw] bg-base-100 shadow-xl "
                 key={index}
               >
                 <figure className="px-10 pt-10  cursor-pointer">
@@ -109,7 +114,7 @@ function Topproducts({ setLoading }) {
                     defaultValue={2.5}
                     className="!text-sm p-[2vh] m-auto"
                   />
-                  <div className="flex gap-x-10 xsm:text-[12px] justify-between pb-[1vh] m-auto items-center">
+                  <div className="flex gap-x-10 xsm:text-[12px] justify-between pb-[3vh] m-auto items-center">
                     {res.offer !== null || 0 ? (
                       <p className="xl:text-lg xsm:text-[14px] text-green-400 flex flex-row-reverse gap-2 pb-[2vh] xsm:text-md xsm:font-semibold font-medium">
                         <s className="text-red-400">&#8377;{res.price}</s>
@@ -126,7 +131,7 @@ function Topproducts({ setLoading }) {
                   }) ? (
                     <Link href="/profiles/cart">
                       <div
-                        className="absolute bottom-5 xsm:left-[10%] xsm:!w-[80%] xl:w-[15vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                        className="absolute bottom-5 xsm:left-[10%] xsm:!w-[80%] xl:w-[15vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
                   "
                       >
                         <ShoppingCartOutlined />
@@ -138,7 +143,10 @@ function Topproducts({ setLoading }) {
                       className="absolute bottom-5 xsm:left-[10%] xsm:!w-[80%] xl:w-[15vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                       onClick={() => {
-                        handleClick(res._id, res);
+                        isEmpty(getUser)
+                          ? setLogin(true)
+                          : handleClick(res._id, res);
+
                         dispatch(addproduct({ ...res }));
                       }}
                     >
@@ -152,6 +160,16 @@ function Topproducts({ setLoading }) {
           })}
         </div>
       </div>
+      <Modal
+        open={login}
+        width={1000}
+        footer={false}
+        onCancel={() => {
+          setLogin(false);
+        }}
+      >
+        <Login setLogin={setLogin} />;
+      </Modal>
     </div>
   );
 }

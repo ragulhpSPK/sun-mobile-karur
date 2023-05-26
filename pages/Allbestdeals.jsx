@@ -6,26 +6,32 @@ import {
   createCart,
   getAllBanner,
   getAllCart,
+  getOneUerforNav,
 } from "@/helper/utilities/apiHelper";
 import { useEffect, useState } from "react";
 import { get } from "lodash";
 import { useRouter } from "next/router";
-import { Rate, Spin, notification } from "antd";
+import { Modal, Rate, Spin, notification } from "antd";
 import { addproduct } from "@/redux/cartSlice";
 import { useDispatch } from "react-redux";
 import { LoadingOutlined } from "@ant-design/icons";
 import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
 import Link from "next/link";
+import Cookies from "js-cookie";
+import Login from "@/pages/Authentication/Register";
 import { ShoppingCartOutlined } from "@ant-design/icons";
+import { isEmpty } from "lodash";
 
 function Allbestdeals() {
   const [product, setProducts] = useState([]);
   const [banner, setBanner] = useState([]);
   const [bestProducts, setbestProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+
   const dispatch = useDispatch();
   const [cart, setCart] = useState([]);
+  const [getUser, setGetUser] = useState([]);
+  const [login, setLogin] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -34,6 +40,9 @@ function Allbestdeals() {
         await getAllCart(),
         await getAllBanner(),
       ];
+      const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
+      setGetUser(get(getUser, "data.message[0]", []));
+      console.log(getUser, "dwnd");
       console.log(result);
       setProducts(get(result, "[0].data.data"));
       setCart(get(result, "[1].data.message"));
@@ -149,7 +158,7 @@ function Allbestdeals() {
                     )}
                   </div>
                   <div
-                    className="absolute bottom-5 xsm:!left:[5%] md:left-[20%] lg:left-[12%] w-[15vw] flex items-center justify-center  gap-x-2  text-white p-2 rounded
+                    className="absolute bottom-9 xsm:!left:[10%] md:right-[58%] xl:right-[50%] xxl:right-[40%]  w-[15vw] flex items-center justify-center  gap-x-2  text-white p-2 rounded
                   "
                   >
                     {cart.find((res) => {
@@ -157,7 +166,7 @@ function Allbestdeals() {
                     }) ? (
                       <Link href="/profiles/cart">
                         <div
-                          className="absolute  xsm:left-0 xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                          className="absolute   xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
                   "
                         >
                           <ShoppingCartOutlined />
@@ -166,10 +175,13 @@ function Allbestdeals() {
                       </Link>
                     ) : (
                       <div
-                        className="absolute xsm:left-0 xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                        className="absolute top-2 xsm:left-[7vw]  sm:left-[1vw] md:left-[58%] lg:left-[50%] xl:left-[50%] xxl:left-[48%]   xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                         onClick={() => {
-                          handleClick(data._id, data);
+                          isEmpty(getUser)
+                            ? setLogin(true)
+                            : handleClick(data._id, data);
+
                           dispatch(addproduct({ ...data }));
                         }}
                       >
@@ -183,6 +195,16 @@ function Allbestdeals() {
             );
           })}
         </div>
+        <Modal
+          open={login}
+          width={1000}
+          footer={false}
+          onCancel={() => {
+            setLogin(false);
+          }}
+        >
+          <Login setLogin={setLogin} />;
+        </Modal>
       </div>
     </Spin>
   );

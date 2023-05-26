@@ -98,6 +98,7 @@ function Register({ setLogin }) {
   useEffect(() => {
     verifyOtp();
   }, [otp]);
+
   const handleSubmit = async (values) => {
     try {
       const result = await authHandler(values);

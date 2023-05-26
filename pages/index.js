@@ -7,10 +7,11 @@ import Topproducts from "@/components/topproducts";
 import ProductFilter from "@/components/productFilter";
 import TopRated from "@/components/flashdeals";
 import { useSelector } from "react-redux";
-import { Spin } from "antd";
+import { Skeleton, Spin } from "antd";
 import { useState } from "react";
 import { LoadingOutlined, ReloadOutlined } from "@ant-design/icons";
 import SyncIcon from "@mui/icons-material/Sync";
+import { showLoader, hideLoader } from "@/redux/loadingSlice";
 
 export default function Home() {
   const isLoading = useSelector((state) => state.loader.isLoading);
@@ -32,27 +33,27 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        {/* <Spin
-          spinning={loading}
+        <Spin
+          spinning={isLoading}
           tip="Loading Data..."
           size="large"
           indicator={antIcon}
-        > */}
-        <div className={`${loading ? "invisible" : "visible"}`}>
-          {result.length > 0 ? (
-            <ProductFilter />
-          ) : (
-            <>
-              <Swiper setLoading={setLoading} />
-              <Delivery />
-              <Categories setLoading={setLoading} />
-              <Bestdeals />
-              <TopRated />
-              <Topproducts setLoading={setLoading} />
-            </>
-          )}
-        </div>
-        {/* </Spin> */}
+        >
+          <div>
+            {result.length > 0 ? (
+              <ProductFilter />
+            ) : (
+              <>
+                <Swiper setLoading={setLoading} />
+                <Delivery />
+                <Categories setLoading={setLoading} />
+                <Bestdeals />
+                <TopRated />
+                <Topproducts setLoading={setLoading} />
+              </>
+            )}
+          </div>
+        </Spin>
       </main>
     </>
   );

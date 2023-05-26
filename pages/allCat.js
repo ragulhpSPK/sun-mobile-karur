@@ -5,22 +5,8 @@ import { Category } from "@/helper/categories";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { useState } from "react";
 import { useEffect } from "react";
-import {
-  DownOutlined,
-  LoadingOutlined,
-  ShoppingCartOutlined,
-} from "@ant-design/icons";
-import {
-  Card,
-  Dropdown,
-  Image,
-  List,
-  Select,
-  Space,
-  Typography,
-  notification,
-  Drawer,
-} from "antd";
+import { LoadingOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { Card, Image, List, Select, notification, Drawer, Modal } from "antd";
 import { SubCategory } from "@/helper/Subcategory";
 import "rc-menu/assets/index.css";
 import {
@@ -29,17 +15,21 @@ import {
   getAllproducts,
   createCart,
   getAllCart,
+  getOneUerforNav,
 } from "../helper/utilities/apiHelper";
 import { get, isEmpty } from "lodash";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Spin } from "antd";
 import SyncIcon from "@mui/icons-material/Sync";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addproduct } from "@/redux/cartSlice";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-
+import Cookies from "js-cookie";
+import Login from "@/pages/Authentication/Register";
+import { showLoader, hideLoader } from "@/redux/loadingSlice";
 function AllCat() {
+  const isLoading = useSelector((state) => state.loader.isLoading);
   const [active, setActive] = useState("");
   const [id, setId] = useState();
   const [more, setMore] = useState(false);
@@ -59,17 +49,23 @@ function AllCat() {
   const [catDrawer, setCatDrawer] = useState(false);
   const [filDrawer, setFilDrawer] = useState(false);
   const [priceFilter, setPriceFilter] = useState();
+  const [getUser, setGetUser] = useState([]);
+  const [login, setLogin] = useState(false);
+
   const dispatch = useDispatch();
 
   const fetchData = async () => {
     try {
-      setLoading(true);
+      showLoader();
       const result = [
         await getAllCatagory(),
         await getAllSubCatagory(),
         await getAllproducts(),
         await getAllCart(),
       ];
+      const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
+      setGetUser(get(getUser, "data.message[0]", []));
+      console.log(getUser, "dwnd");
       setCategory(get(result, "[0].data.data", []));
       setSubCategory(get(result, "[1].data.data", []));
       setProducts(get(result, "[2].data.data", []));
@@ -77,7 +73,7 @@ function AllCat() {
     } catch (err) {
       console.log(err);
     } finally {
-      setLoading(false);
+      hideLoader();
     }
   };
 
@@ -257,7 +253,7 @@ function AllCat() {
 
   return (
     <Spin
-      spinning={loading}
+      spinning={isLoading}
       size="large"
       tip="Loading data..."
       indicator={antIcon}
@@ -320,54 +316,57 @@ function AllCat() {
             })}
           </div>
           <div className="flex flex-col w-[80vw]  ">
-            <div className="ml-10 pt-[5vh]  flex justify-center items-center  bg-white  ">
-              <div className="flex gap-[5vw] pb-5">
-                <div className="pt-[15px]">
-                  <Select
-                    className="!w-[28vw]  shadow-inner rouned-lg"
-                    size="large"
-                    showSearch
-                    filterOption={(input, option) =>
-                      (option?.value ?? "")
-                        .toLowerCase()
-                        .includes(input.toLowerCase())
-                    }
-                    value={dummy}
-                    placeholder="Filter by Sub Category"
-                    onChange={(e) => {
-                      handleSubCategoryFilterChange(e);
-                    }}
-                  >
-                    {subCategory
-                      ?.filter((res) => {
-                        return res.categoryId === router.query.cat_id;
-                      })
-                      .map((pre, index) => {
-                        return (
-                          <Select.Option key={index} value={pre._id}>
-                            {pre.subcategoryname}
-                          </Select.Option>
-                        );
-                      })}
-                  </Select>
-                </div>
+            <div className="w-[68vw]">
+              <div className="ml-10 pt-[2vh]  flex justify-center items-center   !rounded-lg">
+                <div className="flex gap-[5vw] pb-5">
+                  <div className="pt-[15px]">
+                    <Select
+                      className="!w-[20vw]  shadow-inner rouned-lg"
+                      size="large"
+                      showSearch
+                      filterOption={(input, option) =>
+                        (option?.value ?? "")
+                          .toLowerCase()
+                          .includes(input.toLowerCase())
+                      }
+                      value={dummy}
+                      placeholder="Filter by Sub Category"
+                      onChange={(e) => {
+                        handleSubCategoryFilterChange(e);
+                      }}
+                    >
+                      {subCategory
+                        ?.filter((res) => {
+                          return res.categoryId === router.query.cat_id;
+                        })
+                        .map((pre, index) => {
+                          return (
+                            <Select.Option key={index} value={pre._id}>
+                              {pre.subcategoryname}
+                            </Select.Option>
+                          );
+                        })}
+                    </Select>
+                  </div>
 
-                <div className="pt-[15px]">
-                  <Select
-                    className="!w-[20vw]  shadow-inner  rounded-md"
-                    size="large"
-                    placeholder="Filter by price"
-                    value={priceFilter}
-                    onChange={(e) => {
-                      handlePriceChange(e);
-                    }}
-                  >
-                    <Select.Option value={`low`}>Low to High</Select.Option>
-                    <Select.Option value={`high`}>High to Low</Select.Option>
-                  </Select>
+                  <div className="pt-[15px]">
+                    <Select
+                      className="!w-[20vw]  shadow-inner  rounded-md"
+                      size="large"
+                      placeholder="Filter by price"
+                      value={priceFilter}
+                      onChange={(e) => {
+                        handlePriceChange(e);
+                      }}
+                    >
+                      <Select.Option value={`low`}>Low to High</Select.Option>
+                      <Select.Option value={`high`}>High to Low</Select.Option>
+                    </Select>
+                  </div>
                 </div>
               </div>
             </div>
+
             <div className=" overflow-y-scroll">
               <List
                 grid={{
@@ -375,33 +374,33 @@ function AllCat() {
                   xs: 1,
                   sm: 2,
                   md: 3,
-                  lg: 4,
-                  xl: 4,
+                  lg: 3,
+                  xl: 3,
                   xxl: 4,
                 }}
                 pagination={{
                   pageSize: 8,
                   align: "end",
-                  position: "bottom",
+                  position: "top",
                   size: "small",
                 }}
                 className=" !w-[80vw]"
                 dataSource={priceval.length > 0 ? priceval : filerProduct}
                 renderItem={(data, index) => {
                   return (
-                    <List.Item key={index} className="!mt-[5vh]">
+                    <List.Item key={index} className="!mt-[1vh]">
                       <div>
                         <Card
                           hoverable
                           style={{
                             width: 295,
-                            height: 310,
+                            height: 350,
                             display: "flex",
                             flexDirection: "column",
                             justifyContent: "center",
                             border: "none",
                           }}
-                          className="shadow-md"
+                          className="shadow-md "
                           actions={[]}
                         >
                           <div
@@ -423,9 +422,23 @@ function AllCat() {
                             <h1 className="text-[16px] pt-[2vh]">
                               {data.title}
                             </h1>
-                            <h1 className="text-[16px] pt-[2vh]">
-                              {data.price}
-                            </h1>
+                            <div className="flex gap-x-10 justify-between items-center m-auto">
+                              {data.offer !== null || 0 ? (
+                                <p className="xl:text-lg xsm:text-[14px] text-green-400 flex flex-row-reverse gap-2 pb-[2vh] xsm:text-md xsm:font-semibold font-medium">
+                                  <s className="text-red-400">
+                                    &#8377;{data.price}
+                                  </s>
+                                  &#8377;
+                                  {Math.round(
+                                    data.price - (data.price / 100) * data.offer
+                                  )}
+                                </p>
+                              ) : (
+                                <p className="text-lg   font-medium">
+                                  {data.price}
+                                </p>
+                              )}
+                            </div>
                           </div>
                           <div className="flex items-center justify-center">
                             <div className="flex items-center justify-center m-auto pt-[6vh] absolute left-[35px]">
@@ -446,7 +459,10 @@ function AllCat() {
                                   className="absolute xsm:left-0 xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                                   onClick={() => {
-                                    handleClick(data._id, data);
+                                    isEmpty(getUser)
+                                      ? setLogin(true)
+                                      : handleClick(data._id, data);
+
                                     dispatch(addproduct({ ...data }));
                                   }}
                                 >
@@ -467,7 +483,7 @@ function AllCat() {
         </div>
       </div>
 
-      <div className="pt-[5vh] xxl:hidden">
+      <div className="pt-[15vh] xxl:hidden">
         <div className=" flex h-[4vh] w-[90vw] m-auto p-[10px] items-center  text-black justify-between">
           <p
             className="text-[14px] flex items-end justify-center"
@@ -638,7 +654,8 @@ function AllCat() {
               xs: 1,
               sm: 2,
               md: 2,
-              xl: 4,
+              lg: 2,
+              xl: 2,
               xxl: 5,
             }}
             pagination={{
@@ -658,7 +675,7 @@ function AllCat() {
                     hoverable
                     style={{
                       width: 265,
-                      height: 310,
+                      height: 340,
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "center",
@@ -725,7 +742,10 @@ function AllCat() {
                               className="absolute xsm:left-0 xsm:w-[180px] sm:w-[30vw] md:w-[160px] lg:w-[190px]  flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                               onClick={() => {
-                                handleClick(data._id, data);
+                                isEmpty(getUser)
+                                  ? setLogin(true)
+                                  : handleClick(data._id, data);
+
                                 dispatch(addproduct({ ...data }));
                               }}
                             >
@@ -743,6 +763,16 @@ function AllCat() {
           ></List>
         </div>
       </div>
+      <Modal
+        open={login}
+        width={1000}
+        footer={false}
+        onCancel={() => {
+          setLogin(false);
+        }}
+      >
+        <Login setLogin={setLogin} />;
+      </Modal>
     </Spin>
   );
 }

@@ -57,7 +57,7 @@ function Profile() {
   };
 
   return (
-    <div className="xsm:!w-[100vw] sm:!w-[80vw] h-screen bg-[#ecf0f1] flex overflow-x-hidden justify-center pt-[10vh]">
+    <div className="xsm:!w-[100vw] sm:!w-[80vw] h-screen bg-[#ecf0f1] flex overflow-x-hidden justify-center xsm:pt-[12vh] sm:pt-[10vh]">
       <div className="xsm:w-[90vw] sm:w-[50vw]">
         <div className="flex justify-end float-right w-[20vw]">
           <Button
@@ -79,7 +79,7 @@ function Profile() {
               setSize(400);
             }}
             type="primary"
-            className="flex flex-row gap-x-1 items-center justify-center xsm:hidden md:block"
+            className="flex  gap-x-1 items-center justify-center xsm:hidden md:flex !w-[80px]"
           >
             <EditOutlined />
             <div> Edit</div>

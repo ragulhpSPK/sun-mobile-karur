@@ -74,7 +74,6 @@ function Banner() {
   };
 
   const uploadImage = (imageList) => {
-    console.log(imageList.name);
     if (imageList == null) return;
 
     const imageRef = ref(
@@ -109,7 +108,7 @@ function Banner() {
         setOpen(false);
         fetchData();
         setLoading(false);
-        setimageList("");
+        setImageList("");
         form.resetFields();
         notification.success({ message: "Banner created successfully" });
       } catch (err) {
@@ -123,10 +122,8 @@ function Banner() {
           data: {
             image: imageList,
             name: value.name,
-            productid: productId,
-            productname: allProducts.filter((data) => {
-              return data._id == productId;
-            })[0].title,
+            productid: value.productId,
+            productname: value.productname,
             status: value.status,
           },
           id: updateid,
@@ -134,7 +131,7 @@ function Banner() {
 
         await updateBanner(formData);
         setLoading(false);
-        setimageList("");
+        setImageList("");
         fetchData();
         setUpdateId("");
         form.resetFields();
@@ -168,9 +165,10 @@ function Banner() {
   // };
 
   const handleEdit = (data) => {
+    console.log(data);
     setOpen(!open);
     form.setFieldsValue(data);
-    setimageList(data.image);
+    setImageList(data.image);
     setProductId(
       allProducts.map((data) => {
         return data._id;
@@ -351,6 +349,7 @@ function Banner() {
                   form.resetFields();
                   setOpen(!open);
                   setUpdateId("");
+                  setImageList("");
                 }}
               >
                 Cancel

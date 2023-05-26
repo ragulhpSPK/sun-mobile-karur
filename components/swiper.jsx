@@ -16,20 +16,17 @@ import { useRouter } from "next/router";
 import { showLoader, hideLoader } from "@/redux/loadingSlice";
 import { useDispatch } from "react-redux";
 
-export default function Swipper({ setLoading }) {
+export default function Swipper() {
   const dispatch = useDispatch();
   const [banner, setBanner] = useState([]);
   const router = useRouter();
 
   const fetchData = async () => {
     try {
-      dispatch(showLoader());
       const result = await getAllBanner();
       setBanner(get(result, "data.data"));
     } catch (err) {
       console.log(err);
-    } finally {
-      dispatch(hideLoader());
     }
   };
 

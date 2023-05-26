@@ -12,14 +12,18 @@ import {
   createCart,
   getAllproducts,
   getAllCart,
+  getOneUerforNav,
 } from "../../helper/utilities/apiHelper";
-import { Drawer, Spin, notification } from "antd";
-import { get, set } from "lodash";
+import { Drawer, Modal, Spin, notification } from "antd";
+import { get, isEmpty, set } from "lodash";
 import { ReloadOutlined } from "@ant-design/icons";
 import Buy from "../buy";
 import Categories from "@/components/categories";
 import TopRated from "@/components/flashdeals";
 import Bestdeals from "@/components/bestdeals";
+import TopProducts from "../../components/topproducts";
+import Cookies from "js-cookie";
+import Login from "@/pages/Authentication/Register";
 
 export default function App() {
   const [current, setCurrentImage] = useState();
@@ -32,6 +36,9 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [openDraw, setopenDraw] = useState(false);
   const [size, setSize] = useState();
+  const [login, setLogin] = useState(false);
+  const [getUser, setGetUser] = useState([]);
+  const [go, setGo] = useState("");
 
   const result = AddCart.filter((data) => {
     return data.product_id == router.query.id;
@@ -44,6 +51,8 @@ export default function App() {
       setProduct(get(result, "[0].data.data", []));
       setCart(get(result, "[1].data.message", []));
       setLoading(false);
+      const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
+      setGetUser(get(getUser, "data.message[0]", []));
     } catch (err) {
       console.log(err);
     } finally {
@@ -61,7 +70,15 @@ export default function App() {
         return data._id === router.query.id;
       })
     );
+
+    setGo(
+      cart.find((res) => {
+        return res.productId === router.query.id;
+      })
+    );
   }, [product, router.query.id]);
+
+  console.log(go, "gi");
 
   useEffect(() => {
     filterData.map((img, i) => {
@@ -73,7 +90,7 @@ export default function App() {
     try {
       const formData = {
         data: {
-          productId: data._id,
+          productId: data,
           image: filterData[0].image[0],
           name: filterData[0].title,
           total: filterData[0].price,
@@ -99,19 +116,22 @@ export default function App() {
       tip="loading data..."
       size="large"
       indicator={AntIcon}
+      className="overflow-y-scroll"
     >
       <div
         className={`${
           loading ? "invisible" : "visible"
-        } flex lg:h-[80vh] justify-center xsm:w-[100vw] lg:[80vw]`}
+        } flex justify-center lg:[90vw] mt-[8vh]`}
       >
-        <div className="xsm:flex-col flex lg:!flex-row !pt-[12vh]">
-          <div className={`${styles.container} lg:pt-[8vh]`}>
+        <div className="xsm:flex-col  flex lg:!flex-row  xsm:w-[100vw] h-[100vh] lg:w-[90vw] lg:gap-[15vw] xl:gap-[8vw] p-[2vw]   ">
+          <div
+            className={`${styles.container} xsm:w-[100vw] xsm:mt-[8vh] lg:mt-0 lg:w-[40vw] lg:pt-[8vh]`}
+          >
             <div
               className={`${styles.left} xsm:!h-[25vh] xsm:!pr-[2vw] sm:!h-[35vh] md:h-[50vh] lg:h-[40vh] xl:h-[50vh] xsm:!w-[80vw] lg:!w-[50vw] `}
             >
               <div
-                className={`${styles.left_2} flex items-center justify-center xsm:h-[16vh] lg:!pl-[14vw] sm:h-[26vh] xl:h-[42vh] md:h-[40vh] lg:h-[36vh] `}
+                className={`${styles.left_2} flex items-center justify-center xsm:h-[16vh] lg:!pl-[10vw] sm:h-[26vh] xl:h-[42vh] md:h-[40vh] lg:h-[36vh] `}
               >
                 <Image
                   width={300}
@@ -156,7 +176,7 @@ export default function App() {
               </div>
             </div>
           </div>
-          <div className="xsm:pt-[3vh] lg:!pt-[8vh] xl:pt-[8vh] xxl:!pt-[1vh] flex items-center justify-center">
+          <div className="xsm:pt-[3vh] lg:!pt-[8vh] xl:pt-[8vh] bg-slate-100 mt-[8vh] lg:min-h-[70vh] h-fit xxl:!pt-[1vh] py-[2vh] xsm:w-[90vw] lg:w-[40vw] flex ">
             {result &&
               filterData.map((data, index) => {
                 return (
@@ -164,54 +184,22 @@ export default function App() {
                     <h1 className="xl:text-xl  font-semibold xsm:text-md">
                       {data.title}
                     </h1>
-
-                    {data.flashStatus == true ? (
-                      <div>
-                        <span>
-                          <s>&#8377;{data.price}</s>-
-                          <p className="font-bold text-sm text-red-500">
-                            -{data.offer}% Off
-                          </p>
-                        </span>
-
-                        {data.offer !== null || 0 ? (
-                          <p className="text-xl text-slate-800 pt-1">
-                            &#8377;
-                            {Math.round(
-                              data.price - (data.price / 100) * data.offer
-                            )}
-                          </p>
-                        ) : (
-                          <p className="text-xl text-slate-800 pt-1">
-                            &#8377;{data.price}
-                          </p>
-                        )}
-                      </div>
-                    ) : data.bestStatus === true ? (
-                      <div>
-                        <s>&#8377;{data.price}</s>{" "}
-                        <p className="font-bold text-sm text-red-500">
-                          -{data.bestOffer}% Off
+                    <p className="text-red-400 pt-1 font-bold">
+                      -{data.offer}%
+                    </p>
+                    <div className="flex gap-x-10 justify-between pt-1 items-center m-auto">
+                      {data.offer !== null || 0 ? (
+                        <p className="xl:text-lg xsm:text-[14px] text-green-400 flex flex-row-reverse gap-2 pb-[2vh] xsm:text-md xsm:font-semibold font-medium">
+                          <s className="text-red-400">&#8377;{data.price}</s>
+                          &#8377;
+                          {Math.round(
+                            data.price - (data.price / 100) * data.offer
+                          )}
                         </p>
-                        {data.bestOffer !== null || 0 ? (
-                          <p className="text-xl text-slate-800 pt-1">
-                            &#8377;
-                            {Math.round(
-                              data.price - (data.price / 100) * data.bestOffer
-                            )}
-                          </p>
-                        ) : (
-                          <p className="text-xl text-slate-800 pt-1">
-                            &#8377;{data.price}
-                          </p>
-                        )}
-                      </div>
-                    ) : (
-                      <p className="text-xl text-slate-800 pt-1">
-                        &#8377;{data.price}
-                      </p>
-                    )}
-
+                      ) : (
+                        <p className="text-lg   font-medium">{data.price}</p>
+                      )}
+                    </div>
                     <h2 className="xl:text-2xl pt-5 font-bold xsm:text-xl">
                       Product Specifications
                     </h2>
@@ -219,31 +207,30 @@ export default function App() {
                     {data.highlight.split(",").map((res, index) => {
                       return (
                         <li
-                          className="xl:text-xl xsm:text-[12px] pt-2 xsm:self-start xsm:pl-[2vw] sm:self-center sm:w-[50vw]"
+                          className="xl:text-[16px] xsm:text-[12px] pt-2 xsm:self-start xsm:pl-[2vw] sm:self-center sm:w-[35vw]"
                           key={index}
                         >
                           {res}.
                         </li>
                       );
                     })}
+
                     <div className="pt-10 flex lg:gap-5 xsm:pl-0  justify-around xsm:w-[80vw] sm:pr-[8vw] sm:w-[40vw] xl:!pl-0">
-                      {cart.find((res) => {
-                        return res.productId === data._id;
-                      }) ? (
+                      {go !== undefined ? (
                         <Link href="/profiles/cart">
-                          <button className="bg-slate-300 text-[#000] shadow-2xl hover:bg-[--second-color] hover:scale-105 hover:font-medium hover:text-white duration-1000 text-sm rounded-md !h-[30px] px-2">
+                          <button className="bg-slate-300 text-[#000] shadow-2xl hover:bg-[--second-color] hover:scale-105 hover:font-medium hover:text-white duration-1000 text-sm rounded-md w-[150px] !h-[40px] px-2">
                             Go to Cart
                           </button>
                         </Link>
                       ) : (
                         <button
-                          className="bg-[var(--second-color)] text-[#fff] hover:bg-[--first-color] hover:scale-105 hover:font-medium hover:text-black duration-1000 xl:text-xl rounded-md !h-[30px] px-2"
+                          className="bg-[var(--second-color)] text-[#fff] hover:bg-[--first-color] hover:scale-105 hover:font-medium hover:text-black duration-1000 xl:text-xl rounded-md w-[150px] !h-[40px] px-2"
                           onClick={() => {
-                            handleClick(data);
-                            dispatch(addproduct({ products: true }));
-                            {
-                              console.log(data);
-                            }
+                            isEmpty(getUser)
+                              ? setLogin(true)
+                              : handleClick(data._id, data);
+
+                            dispatch(addproduct({ ...data }));
                           }}
                         >
                           Add to Cart
@@ -251,7 +238,7 @@ export default function App() {
                       )}
 
                       <button
-                        className="bg-[var(--second-color)] lg:hidden hover:bg-[--first-color] hover:scale-105  hover:text-black duration-1000 hover:font-medium text-[#fff] xl:text-xl rounded-md !h-[30px] px-2"
+                        className="bg-[var(--second-color)] lg:hidden hover:bg-[--first-color] hover:scale-105  hover:text-black duration-1000 hover:font-medium text-[#fff] xl:text-xl rounded-md w-[100px] !h-[40px] px-2"
                         onClick={() => {
                           setopenDraw(true);
                           setSize(260);
@@ -260,7 +247,7 @@ export default function App() {
                         Buy Now
                       </button>
                       <button
-                        className="bg-[var(--second-color)] xsm:hidden lg:block hover:bg-[--first-color] hover:scale-105  hover:text-black duration-1000 hover:font-medium text-[#fff] xl:text-xl rounded-md !h-[30px] px-2"
+                        className="bg-[var(--second-color)] xsm:hidden lg:block hover:bg-[--first-color] hover:scale-105  hover:text-black duration-1000 hover:font-medium text-[#fff] xl:text-xl rounded-md !h-[40px] px-2"
                         onClick={() => {
                           setopenDraw(true);
                           setSize(400);
@@ -284,10 +271,21 @@ export default function App() {
           </div>
         </div>
       </div>
-      <div className="pt-[10vh]">
-        <Categories />
+      <Modal
+        open={login}
+        width={1000}
+        footer={false}
+        onCancel={() => {
+          setLogin(false);
+        }}
+      >
+        <Login setLogin={setLogin} />;
+      </Modal>
+      <div>
+        <TopProducts />
         <TopRated />
         <Bestdeals />
+        <Categories />
       </div>
     </Spin>
   );

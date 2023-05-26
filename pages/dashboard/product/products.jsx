@@ -100,7 +100,7 @@ function Products({ content }) {
   const editProducts = (value) => {
     setUpdateId(value._id);
     setOpen(!open);
-    setImageList(imageList);
+    setImageList(value.image);
     setValue(value.highlight);
     form.setFieldsValue(value);
     setHighlights(value.highlight);
@@ -180,7 +180,6 @@ function Products({ content }) {
   };
 
   const handleFinish = async (value) => {
-    console.log(value);
     if (updateId == "") {
       setLoading(true);
 
@@ -220,7 +219,7 @@ function Products({ content }) {
         const formData = {
           data: {
             ...value,
-            image: imageList,
+            image: imageList[0],
 
             categoryname: category.filter((data) => {
               return data._id === catFil;
@@ -513,15 +512,32 @@ function Products({ content }) {
     setImageList(filterimageList);
   };
 
+  console.log(imageList[0]);
+
   const props = {
-    name: "file",
-    multiple: true,
-
-    onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
-    },
+    defaultFileList: [
+      {
+        uid: "1",
+        url: imageList[0],
+      },
+      {
+        uid: "2",
+        url: imageList[1],
+      },
+      {
+        uid: "3",
+        url: imageList[2],
+      },
+      {
+        uid: "4",
+        url: imageList[3],
+      },
+      {
+        uid: "5",
+        url: imageList[4],
+      },
+    ],
   };
-
   return (
     <div className="flex flex-col">
       <div>
@@ -715,13 +731,22 @@ function Products({ content }) {
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
                 </Upload> */}
-
-                <Upload
-                  multiple
-                  customRequest={({ file }) => handleUpload(file)}
-                >
-                  <Button icon={<UploadOutlined />}>Select Files</Button>
-                </Upload>
+                <div className="flex flex-col">
+                  <Upload
+                    multiple
+                    customRequest={({ file }) => handleUpload(file)}
+                    className="flex flex-col w-[100%] items-center justify-center"
+                    listType="picture"
+                    {...(props ? props : "")}
+                  >
+                    <Button
+                      icon={<UploadOutlined />}
+                      className="!bg-[--third-color]"
+                    >
+                      Select Files
+                    </Button>
+                  </Upload>
+                </div>
 
                 <div className="flex gap-5 justify-end ">
                   <Button

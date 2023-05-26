@@ -13,7 +13,7 @@ import { getAllCatagory } from "../helper/utilities/apiHelper";
 import { useEffect } from "react";
 import { get } from "lodash";
 
-function Categories({ setLoading }) {
+function Categories() {
   const router = useRouter();
   const [category, setCategory] = useState([]);
 
@@ -73,7 +73,7 @@ function Categories({ setLoading }) {
                   });
                 }}
               >
-                <div className="card xl:w-[12vw] h-[26vh] bg-base-100 xsm:shadow-sm xl:shadow-xl flex items-center justify-center  cursor-pointer">
+                <div className="card xl:w-[12vw] h-[250px] bg-base-100 xsm:shadow-sm xl:shadow-xl flex items-center justify-center  cursor-pointer">
                   <figure className="px-10 pt-10  flex flex-col items-center">
                     <Image
                       src={data.image}

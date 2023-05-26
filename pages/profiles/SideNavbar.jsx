@@ -1,4 +1,4 @@
-import React from "react";
+import React, { use } from "react";
 import Profile from "./myaccount";
 import Cart from "./cart";
 import Order from "./Orders";
@@ -12,12 +12,12 @@ import Link from "next/link";
 import { Divider } from "antd";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 
 function SideNavebar() {
   const [current, setProfileCurrent] = useState(1);
-
   const router = useRouter();
-
+  const dispatch = useDispatch();
   const sidenavData = [
     {
       id: 1,
@@ -52,7 +52,7 @@ function SideNavebar() {
 
   return (
     <div>
-      <div className="flex justify-between w-[100vw] flex-row-reverse xsm:hidden sm:flex">
+      <div className="flex justify-between w-[100vw] pt-[7vh]  flex-row-reverse xsm:hidden sm:flex">
         <div className="xl:w-[20vw] h-[85vh] flex flex-col gap-y-3  pt-[10vh]  p-10 overflow-y-hidden">
           {sidenavData.map((res, index) => {
             return (
@@ -100,17 +100,17 @@ function SideNavebar() {
           </div>
         </div>
       </div>
-      <div className="sm:hidden pl-[5vw]">
+      <div className="mt-[10vh] sm:hidden pl-[5vw]">
         {sidenavData.map((res, index) => {
           return (
             <div
               key={index}
               onClick={() => {
-                res.id === 2
-                  ? router.push({ pathname: "/profiles/cart" })
+                res.id === 1
+                  ? router.push({ pathname: "/profiles/myaccount" })
                   : res.id === 3
                   ? router.push({ pathname: "/profiles/Orders" })
-                  : router.push({ pathname: "/profiles/myaccount" });
+                  : router.push({ pathname: "/profiles/cart" });
               }}
             >
               <div key={index} className={`${"bg-white"} h-[10vh] rounded`}>

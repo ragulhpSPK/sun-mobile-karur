@@ -1,6 +1,7 @@
 .container {
-  max-width: 100vw;
+  max-width: 40vw;
   display: grid;
+  margin-left: -8vw !important;
 }
 
 .left {
@@ -11,18 +12,20 @@
 .left_1 {
   display: flex;
   margin-left: 10vw !important;
+  width: 40vw !important;
 }
 
 #img_wrap {
   cursor: pointer;
   display: flex;
   object-fit: contain;
+
 }
 
 #img_wrap img {
   width: 15vw !important;
   object-fit: contain;
-  height: 7vh !important;
+  height: 9vh !important;
 }
 
 .left_2 .img {
@@ -41,8 +44,9 @@
     cursor: pointer;
     display: flex;
     object-fit: contain;
-    height: 5vh !important;
+    height: 6vh !important;
     width: 10vw !important;
+    margin-left: 3vw !important;
   }
 
   #img_wrap img {

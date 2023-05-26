@@ -6,16 +6,7 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import Link from "next/link";
 import { Category } from "@/helper/categories";
 import { useRouter } from "next/router";
-import {
-  Avatar,
-  Badge,
-  Button,
-  Drawer,
-  Input,
-  Modal,
-  Form,
-  Divider,
-} from "antd";
+import { Avatar, Badge, Button, Input, Modal, Form, Divider } from "antd";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";

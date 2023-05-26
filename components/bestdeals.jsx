@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, FreeMode, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Rate } from "antd";
+import { Modal, Rate, Skeleton, notification } from "antd";
 import { flashdeals } from "@/helper/flashdeals";
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
@@ -13,17 +13,23 @@ import {
   getAllproducts,
   getAllCart,
   createCart,
+  getOneUerforNav,
 } from "@/helper/utilities/apiHelper";
 import { useEffect } from "react";
-import { get } from "lodash";
+import { get, isEmpty } from "lodash";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ShoppingCartOutlined } from "@ant-design/icons";
+import Cookies from "js-cookie";
+import Login from "@/pages/Authentication/Register";
+import { addproduct } from "@/redux/cartSlice";
 
 function Bestdeals() {
+  const isLoading = useSelector((state) => state.loader.isLoading);
   const [product, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [getUser, setGetUser] = useState([]);
   const [bestProducts, setbestProducts] = useState([]);
+  const [login, setLogin] = useState(false);
   const [cart, setCart] = useState([]);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -31,7 +37,9 @@ function Bestdeals() {
   const fetchData = async () => {
     try {
       const result = [await getAllproducts(), await getAllCart()];
-      console.log(result);
+      const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
+      setGetUser(get(getUser, "data.message[0]", []));
+      console.log(getUser, "dwnd");
       setProducts(get(result, "[0].data.data"));
       setCart(get(result, "[1].data.message"));
     } catch (err) {
@@ -72,7 +80,7 @@ function Bestdeals() {
   };
 
   return (
-    <div className="flex flex-col  !w-[90vw] xl:!w-[80vw] mt-[3vh] m-auto justify-center">
+    <div className="flex flex-col  !w-[90vw] xl:!w-[80vw] mt-0 pt-0  m-auto justify-center">
       <div className=" flex items-center justify-center">
         <div className="flex flex-row w-[90vw] justify-between  ">
           <div className="xl:text-2xl  font-bold text-[--second-color]">
@@ -156,7 +164,7 @@ function Bestdeals() {
                         defaultValue={2.5}
                         className="!text-sm p-[3vh] text-center"
                       />
-                      <div className="flex gap-x-10 justify-between pb-[3vh] xsm:text-[12px] items-center m-auto">
+                      <div className="flex gap-x-10 justify-between  pb-[3vh] xsm:text-[12px] items-center m-auto">
                         {res.bestOffer !== null || 0 ? (
                           <p className="xl:text-lg xsm:text-[14px] text-green-400 flex flex-row-reverse gap-2 pb-[2vh] xsm:text-md xsm:font-semibold font-medium">
                             <s className="text-red-400">&#8377;{res.price}</s>
@@ -169,12 +177,13 @@ function Bestdeals() {
                           <p className="text-lg   font-medium">{res.price}</p>
                         )}
                       </div>
+
                       {cart.find((data) => {
                         return data.productId === res._id;
                       }) ? (
                         <Link href="/profiles/cart">
                           <div
-                            className="absolute bottom-5  xsm:left-[15%] lg:left-[25%] xsm:w-[80%] xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                            className="absolute bottom-5 xsm:left-[15%] lg:left-[12%] xsm:w-[80%] xl:left-[28%] xxl:left-[17%]   xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
                   "
                           >
                             <ShoppingCartOutlined />
@@ -183,10 +192,13 @@ function Bestdeals() {
                         </Link>
                       ) : (
                         <div
-                          className="absolute bottom-5  xsm:left-[15%] lg:left-[25%] xsm:w-[80%] xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                          className="absolute bottom-5 xsm:left-[15%] lg:left-[12%] xsm:w-[80%] xl:left-[28%] xxl:left-[17%]   xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                           onClick={() => {
-                            handleClick(res._id, res);
+                            isEmpty(getUser)
+                              ? setLogin(true)
+                              : handleClick(res._id, res);
+
                             dispatch(addproduct({ ...res }));
                           }}
                         >
@@ -201,6 +213,16 @@ function Bestdeals() {
             })}
           </Swiper>
         </div>
+        <Modal
+          open={login}
+          width={1000}
+          footer={false}
+          onCancel={() => {
+            setLogin(false);
+          }}
+        >
+          <Login setLogin={setLogin} />;
+        </Modal>
       </div>
     </div>
   );

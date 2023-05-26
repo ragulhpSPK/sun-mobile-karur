@@ -1,4 +1,4 @@
-import { Divider, Rate, notification } from "antd";
+import { Divider, Modal, Rate, notification } from "antd";
 import React, { useEffect, useState } from "react";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import Image from "next/image";
@@ -9,16 +9,20 @@ import {
   getAllproducts,
   createCart,
   getAllCart,
+  getOneUerforNav,
 } from "@/helper/utilities/apiHelper";
-import { get } from "lodash";
+import { get, isEmpty } from "lodash";
 import { useDispatch } from "react-redux";
 import { addproduct } from "@/redux/cartSlice";
 import { useRouter } from "next/router";
+import Login from "@/pages/Authentication/Register";
+import Cookies from "js-cookie";
 
 const TopRated = () => {
   const [product, setProducts] = useState([]);
-
+  const [getUser, setGetUser] = useState([]);
   const [cart, setCart] = useState([]);
+  const [login, setLogin] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -26,7 +30,9 @@ const TopRated = () => {
   const fetchData = async () => {
     try {
       const result = [await getAllproducts(), await getAllCart()];
-      console.log(result);
+      const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
+      setGetUser(get(getUser, "data.message[0]", []));
+      console.log(getUser, "dwnd");
       setProducts(get(result, "[0].data.data"));
       setCart(get(result, "[1].data.message"));
     } catch (err) {
@@ -168,7 +174,7 @@ const TopRated = () => {
                       }) ? (
                         <Link href="/profiles/cart">
                           <div
-                            className="absolute bottom-5 xsm:left-[15%] lg:left-[25%] xsm:w-[80%]  xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                            className="absolute bottom-5 xsm:left-[15%] lg:left-[12%] xsm:w-[80%] xl:left-[28%] xxl:left-[17%]   xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
                   "
                           >
                             <ShoppingCartOutlined />
@@ -177,10 +183,11 @@ const TopRated = () => {
                         </Link>
                       ) : (
                         <div
-                          className="absolute bottom-5  xsm:left-[15%] lg:left-[25%] xsm:w-[80%] xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
-                  "
+                          className="absolute bottom-5  xsm:left-[15%] lg:left-[12%] xsm:w-[80%] xl:left-[28%]  xl:!w-[12vw] xxl:left-[17%] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded"
                           onClick={() => {
-                            handleClick(res._id, res);
+                            isEmpty(getUser)
+                              ? setLogin(true)
+                              : handleClick(res._id, res);
                             dispatch(addproduct({ ...res }));
                           }}
                         >
@@ -195,6 +202,16 @@ const TopRated = () => {
             })}
           </Swiper>
         </div>
+        <Modal
+          open={login}
+          width={1000}
+          footer={false}
+          onCancel={() => {
+            setLogin(false);
+          }}
+        >
+          <Login setLogin={setLogin} />;
+        </Modal>
       </div>
     </div>
   );

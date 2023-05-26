@@ -29,6 +29,7 @@ export default async function bannerController(req, res) {
 
     case "PUT":
       {
+        console.log(req.body.data, "rew");
         try {
           const banner = await Banner.findByIdAndUpdate(
             { _id: req.body.id },

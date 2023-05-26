@@ -5,11 +5,12 @@ import {
   getAllproducts,
   getAllCart,
   createCart,
+  getOneUerforNav,
 } from "@/helper/utilities/apiHelper";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { get } from "lodash";
-import { Spin, Pagination, Drawer } from "antd";
+import { Spin, Pagination, Drawer, Modal } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import Buy from "./buy";
 import { Rate } from "antd";
@@ -18,6 +19,9 @@ import { useDispatch } from "react-redux";
 import { addproduct } from "@/redux/cartSlice";
 import Link from "next/link";
 import { ShoppingCartOutlined } from "@ant-design/icons";
+import Cookies from "js-cookie";
+import Login from "@/pages/Authentication/Register";
+import { isEmpty } from "lodash";
 
 function FlashDeals() {
   const dispatch = useDispatch();
@@ -26,11 +30,16 @@ function FlashDeals() {
   const [loading, setLoading] = useState(false);
   const [cart, setCart] = useState([]);
   const router = useRouter();
+  const [getUser, setGetUser] = useState([]);
+  const [login, setLogin] = useState(false);
 
   const fetchData = async () => {
     try {
       const result = [await getAllproducts(), await getAllCart()];
       console.log(result);
+      const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
+      setGetUser(get(getUser, "data.message[0]", []));
+      console.log(getUser, "dwnd");
       setProducts(get(result, "[0].data.data"));
       setCart(get(result, "[1].data.message"));
     } catch (err) {
@@ -95,11 +104,11 @@ function FlashDeals() {
           </div>
         </div>
         <div className="flex items-center justify-center pt-10 relative">
-          <div className="grid xsm:grid-cols-1 xl:grid-cols-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xsm:gap-10 xl:gap-16 ">
+          <div className="grid xsm:grid-cols-1 xl:!grid-cols-4  sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xsm:gap-10 xl:gap-14 ">
             {filteredProducts.map((data, index) => {
               return (
                 <div
-                  className="card xsm:w-[90vw]  sm:w-[40vw] md:w-[34vw] lg:w-[26vw] xl:w-[20vw] xxl:w-[18vw] bg-base-100 shadow-xl "
+                  className="card xsm:w-[90vw]  sm:w-[40vw] md:w-[34vw] lg:w-[26vw] xl:w-[20vw] xxl:w-[18vw]  bg-base-100 shadow-xl "
                   key={index}
                 >
                   <figure className="px-10 pt-10  cursor-pointer">
@@ -134,7 +143,7 @@ function FlashDeals() {
                       )}
                     </div>
                     <div
-                      className="absolute bottom-5 xsm:!left:[5%] md:left-[20%] lg:left-[12%] xl:left-[17%] w-[15vw] flex items-center justify-center  gap-x-2  text-white p-2 rounded
+                      className="absolute bottom-9 xsm:!left:[10%] md:right-[58%] xl:right-[50%] xxl:right-[40%]  w-[15vw] flex items-center justify-center  gap-x-2  text-white p-2 rounded
                   "
                     >
                       {cart.find((res) => {
@@ -142,7 +151,7 @@ function FlashDeals() {
                       }) ? (
                         <Link href="/profiles/cart">
                           <div
-                            className="absolute  xsm:left-0 xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                            className="absolute   xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
                   "
                           >
                             <ShoppingCartOutlined />
@@ -151,10 +160,13 @@ function FlashDeals() {
                         </Link>
                       ) : (
                         <div
-                          className="absolute xsm:left-0 xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                          className="absolute top-2 xsm:left-[7vw]  sm:left-[1vw] md:left-[58%] lg:left-[50%] xl:left-[50%] xxl:left-[48%]   xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                           onClick={() => {
-                            handleClick(data._id, data);
+                            isEmpty(getUser)
+                              ? setLogin(true)
+                              : handleClick(data._id, data);
+
                             dispatch(addproduct({ ...data }));
                           }}
                         >
@@ -169,6 +181,16 @@ function FlashDeals() {
             })}
           </div>
         </div>
+        <Modal
+          open={login}
+          width={1000}
+          footer={false}
+          onCancel={() => {
+            setLogin(false);
+          }}
+        >
+          <Login setLogin={setLogin} />;
+        </Modal>
       </div>
     </Spin>
   );

@@ -17,10 +17,10 @@ function AllProducts() {
 
   const fetchData = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const result = await getAllCatagory();
       setCategory(get(result, "data.data", []));
-      setLoading(false)
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -30,10 +30,9 @@ function AllProducts() {
     fetchData();
   }, []);
 
-   const antIcon = (
+  const antIcon = (
     <ReloadOutlined style={{ fontSize: 40 }} className="animate-spin" />
   );
-
 
   return (
     <Spin
@@ -43,14 +42,16 @@ function AllProducts() {
       indicator={antIcon}
     >
       <div className="min-h-screen">
-        <div  className="w-[90vw] bg-[--third-color] m-auto py-[1vh] mt-[5vh] rounded-sm">
-          <h1 className="lg:text-2xl xsm:text-xl text-white pl-[20px]">All Categories</h1>
+        <div className="w-[90vw] bg-[--third-color] m-auto py-[1vh] mt-[5vh] rounded-sm">
+          <h1 className="lg:text-2xl xsm:text-xl text-white pl-[20px]">
+            All Categories
+          </h1>
         </div>
-        <div className="h-[100%] grid w-screen xsm:pl-10 lg:pl-28 xsm:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xxl:grid-cols-5  pt-10">
+        <div className="h-[100%] grid w-screen xsm:pl-10 lg:pl-28 xsm:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xxl:grid-cols-5  pt-10">
           {category.map((data) => {
             return (
               <div
-                className="card w-[250px] h-[280px]  p-5 mt-12 bg-[#fff]"
+                className="card w-[250px] h-[260px]  p-5 mt-12 bg-[#fff]"
                 key={data.id}
                 id={styles.shadow3}
                 onClick={() => {

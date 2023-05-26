@@ -41,13 +41,13 @@ const Offers = () => {
           return (
             <div
               key={index}
-              className="card xsm:h-[12vh] xl:w-[15vw] xl:h-[14vh] bg-white shadow-lg p-2 rounded-2xl flex flex-row items-center justify-center gap-x-2"
+              className="card xsm:h-[12vh]  xl:w-[15vw] xl:h-[14vh] bg-white shadow-lg p-2 rounded-2xl flex flex-row items-center justify-center gap-x-2"
             >
               <Image
                 src={`/assets/tags/${index + 1}.png`}
                 width={50}
                 height={50}
-                className="rounded-xl xsm:!w-[20%] sm:!w-[10%] xl:!w-[20%]"
+                className="rounded-xl xsm:!w-[50px] sm:!w-[10%] xl:!w-[20%]"
                 alt="logo"
               />
               <div className="flex flex-col">
