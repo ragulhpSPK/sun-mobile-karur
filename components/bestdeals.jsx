@@ -139,7 +139,7 @@ function Bestdeals() {
                     <div className="card-body ">
                       <div className="h-[6vh]">
                         <h2
-                          className="font-bold text-center p-[1vh]"
+                          className="font-bold xsm:text-[12px] text-center p-[1vh]"
                           onClick={() =>
                             router.push({
                               pathname: `/product/${res._id}`,
@@ -156,7 +156,7 @@ function Bestdeals() {
                         defaultValue={2.5}
                         className="!text-sm p-[3vh] text-center"
                       />
-                      <div className="flex gap-x-10 justify-between pb-[3vh] items-center m-auto">
+                      <div className="flex gap-x-10 justify-between pb-[3vh] xsm:text-[12px] items-center m-auto">
                         {res.bestOffer !== null || 0 ? (
                           <p className="xl:text-lg xsm:text-[14px] text-green-400 flex flex-row-reverse gap-2 pb-[2vh] xsm:text-md xsm:font-semibold font-medium">
                             <s className="text-red-400">&#8377;{res.price}</s>
@@ -174,7 +174,7 @@ function Bestdeals() {
                       }) ? (
                         <Link href="/profiles/cart">
                           <div
-                            className="absolute bottom-5 left-[25%] xsm:w-[80%] xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                            className="absolute bottom-5  xsm:left-[15%] lg:left-[25%] xsm:w-[80%] xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                           >
                             <ShoppingCartOutlined />
@@ -183,7 +183,7 @@ function Bestdeals() {
                         </Link>
                       ) : (
                         <div
-                          className="absolute bottom-5 left-[25%] xsm:w-[80%] xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                          className="absolute bottom-5  xsm:left-[15%] lg:left-[25%] xsm:w-[80%] xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                           onClick={() => {
                             handleClick(res._id, res);

@@ -19,13 +19,11 @@ function Categories({ setLoading }) {
 
   const fetchData = async () => {
     try {
-      setLoading(true);
       const result = await getAllCatagory();
       setCategory(get(result, "data.data"));
     } catch (err) {
       console.log(err);
     } finally {
-      setLoading(false);
     }
   };
 

@@ -17,6 +17,9 @@ import { Drawer, Spin, notification } from "antd";
 import { get, set } from "lodash";
 import { ReloadOutlined } from "@ant-design/icons";
 import Buy from "../buy";
+import Categories from "@/components/categories";
+import TopRated from "@/components/flashdeals";
+import Bestdeals from "@/components/bestdeals";
 
 export default function App() {
   const [current, setCurrentImage] = useState();
@@ -280,6 +283,11 @@ export default function App() {
               })}
           </div>
         </div>
+      </div>
+      <div className="pt-[10vh]">
+        <Categories />
+        <TopRated />
+        <Bestdeals />
       </div>
     </Spin>
   );

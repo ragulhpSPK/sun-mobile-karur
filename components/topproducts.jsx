@@ -67,7 +67,7 @@ function Topproducts({ setLoading }) {
   return (
     <div className="mt-[4vh]">
       <div className="w-[80vw] m-auto ">
-        <div className="text-2xl font-bold text-[--second-color]">
+        <div className="xl:text-2xl font-bold text-[--second-color]">
           Popular Products
         </div>
         <div className="w-[80vw] pt-4  justify-start grid xsm:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
@@ -94,7 +94,7 @@ function Topproducts({ setLoading }) {
                 </figure>
                 <div className="card-body ">
                   <h2
-                    className="font-bold"
+                    className="font-bold xsm:text-[12px]"
                     onClick={() =>
                       router.push({
                         pathname: `/product/${res._id}`,
@@ -109,7 +109,7 @@ function Topproducts({ setLoading }) {
                     defaultValue={2.5}
                     className="!text-sm p-[2vh] m-auto"
                   />
-                  <div className="flex gap-x-10 justify-between pb-[1vh] m-auto items-center">
+                  <div className="flex gap-x-10 xsm:text-[12px] justify-between pb-[1vh] m-auto items-center">
                     {res.offer !== null || 0 ? (
                       <p className="xl:text-lg xsm:text-[14px] text-green-400 flex flex-row-reverse gap-2 pb-[2vh] xsm:text-md xsm:font-semibold font-medium">
                         <s className="text-red-400">&#8377;{res.price}</s>
@@ -126,7 +126,7 @@ function Topproducts({ setLoading }) {
                   }) ? (
                     <Link href="/profiles/cart">
                       <div
-                        className="absolute bottom-5 xsm:!w-[80%] xl:w-[15vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                        className="absolute bottom-5 xsm:left-[10%] xsm:!w-[80%] xl:w-[15vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                       >
                         <ShoppingCartOutlined />
@@ -135,7 +135,7 @@ function Topproducts({ setLoading }) {
                     </Link>
                   ) : (
                     <div
-                      className="absolute bottom-5 xsm:!w-[80%] xl:w-[15vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                      className="absolute bottom-5 xsm:left-[10%] xsm:!w-[80%] xl:w-[15vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                       onClick={() => {
                         handleClick(res._id, res);
