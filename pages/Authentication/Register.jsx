@@ -8,16 +8,16 @@ import {
   getOneUer,
 } from "../../helper/utilities/apiHelper";
 import OtpInput from "react-otp-input";
-import styles from "../../styles/Home.module.css";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { authentication } from "../../components/firebase/firebase";
 import { useEffect } from "react";
-import { get, isEmpty } from "lodash";
+import { get, isEmpty, result } from "lodash";
 import Cookies from "js-cookie";
 import { excrypt } from "@/helper/shared";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { changeUserValues } from "@/redux/userSlice";
+import CloseIcon from "@mui/icons-material/Close";
 
 function Register({ setLogin }) {
   const [form] = Form.useForm();
@@ -31,23 +31,23 @@ function Register({ setLogin }) {
   const [formModal, setFormModal] = useState(false);
 
   const dispatch = useDispatch();
-  const generateRecaptchaVerifier = () => {
-    try {
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        "recaptacha-container",
-        {
-          size: "invisible",
+  // const generateRecaptchaVerifier = () => {
+  //   try {
+  //     window.recaptchaVerifier = new RecaptchaVerifier(
+  //       "recaptacha-container",
+  //       {
+  //         size: "invisible",
 
-          callback: (response) => {
-            // reCAPTCHA solved, allow signInWithPhoneNumber.
-          },
-        },
-        authentication
-      );
-    } catch (err) {
-      console.log(err, "oiodieuoe");
-    }
-  };
+  //         callback: (response) => {
+  //           // reCAPTCHA solved, allow signInWithPhoneNumber.
+  //         },
+  //       },
+  //       authentication
+  //     );
+  //   } catch (err) {
+  //     console.log(err, "oiodieuoe");
+  //   }
+  // };
 
   const requestOTP = async (e) => {
     setLogin(false);
@@ -56,7 +56,7 @@ function Register({ setLogin }) {
     e.preventDefault();
     if (phoneNumber.length >= 12) {
       setExpandForm(true);
-      generateRecaptchaVerifier();
+      // generateRecaptchaVerifier();
       let appVerfier = window.recaptchaVerifier;
       signInWithPhoneNumber(authentication, phoneNumber, appVerfier)
         .then((confirmationResult) => {
@@ -73,18 +73,19 @@ function Register({ setLogin }) {
     try {
       console.log("trigger");
       if (otp.length === 6) {
-        let confirmationResult = window.confirmationResult;
-        const res = await confirmationResult.confirm(otp);
-        const result = await getOneUer(get(res, "user.phoneNumber", ""));
+        // let confirmationResult = window.confirmationResult;
+        // const res = await confirmationResult.confirm(otp);
+        // const result = await getOneUer(get(res, "user.phoneNumber", ""));
 
         if (isEmpty(result.data.message)) {
-          console.log("trigger1234");
           setFormModal(true);
+          console.log("trigger1234");
         } else {
-          const result = await authHandler({
-            number: get(res, "user.phoneNumber", ""),
-          });
-          console.log("triggered746");
+          // const result = await authHandler({
+          //   number: get(res, "user.phoneNumber", ""),
+          // });
+          // console.log("triggered746");
+          const result = await authHandler({ number: phoneNumber });
           Cookies.set("x-o-t-p", result.data.data);
           dispatch(changeUserValues({ user: result.data.data }));
           notification.success({ message: "Continue to shop" });
@@ -207,7 +208,7 @@ function Register({ setLogin }) {
         <div
           className={`
            
-          h-[18vh] bg-white rounded-md flex flex-col justify-around items-center`}
+          h-[18vh] bg-white rounded-md flex flex-col justify-around items-center relative `}
         >
           <label
             htmlFor="otp"
@@ -228,6 +229,7 @@ function Register({ setLogin }) {
               <input {...props} className="border-2 h-10 !w-8 ml-2" />
             )}
           ></OtpInput>
+          <CloseIcon className="absolute top-0 right-0 !text-black text-lg" />
         </div>
       </Modal>
       <Modal open={formModal} footer={false}>

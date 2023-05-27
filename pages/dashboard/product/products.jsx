@@ -219,7 +219,9 @@ function Products({ content }) {
         const formData = {
           data: {
             ...value,
-            image: imageList[0],
+            image: imageList.map((data) => {
+              return data;
+            }),
 
             categoryname: category.filter((data) => {
               return data._id === catFil;

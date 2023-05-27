@@ -58,7 +58,6 @@ function Navbar() {
   const fetchData = async () => {
     try {
       const result = await getAllCart();
-
       setProduct(get(result, "data.message"));
     } catch (err) {
       console.log(err);
@@ -94,7 +93,7 @@ function Navbar() {
     <div className="flex flex-col justify-center  fixed top-0 w-screen z-50 bg-white">
       {/* step 1 */}
       <div className="flex justify-between p-2 xsm:hidden lg:flex items-center !font-bold  hover:font-bold ">
-        <div className="flex gap-x-2 text-sm capitalize hover:cursor-pointer hover:text-[--second-color] items-center">
+        <div className="flex gap-x-2 text-sm capitalize hover:cursor-pointer hover:text-[--second-color] items-center pl-[5vw]">
           <div>About Us</div>
           <Divider type="vertical" />
           <div>My Account</div>
@@ -108,20 +107,20 @@ function Navbar() {
             free delivery for all orders
           </div>
         </div>
-        <div className="flex gap-x-1 text-sm  capitalize items-center">
+        <div className="flex gap-x-1 text-sm  capitalize items-center pr-[5vw]">
           <div>
             <span className="hover:!cursor-pointer hover:!text-[--second-color]">
               call us : 9876543210
             </span>
           </div>
-          <Divider type="vertical" />
+          {/* <Divider type="vertical" />
           <FacebookIcon />
           <Divider type="vertical" />
           <InstagramIcon />
           <Divider type="vertical" />
           <TwitterIcon />
           <Divider type="vertical" />
-          <WhatsAppIcon />
+          <WhatsAppIcon /> */}
         </div>
       </div>
       <hr />
@@ -129,7 +128,7 @@ function Navbar() {
       <div className="flex justify-center items-center h-[10vh]">
         <div className="flex justify-between items-center w-[90vw] h-[10vh]  ">
           <div>
-            <h1>Logo</h1>
+            <h1>logo</h1>
             {/* <Image
               src="/assets/logo/logo.png"
               width={90}
@@ -154,25 +153,30 @@ function Navbar() {
           </div>
 
           <div className="flex gap-x-2 text-sm capitalize  items-center">
-            <Link href="/profiles/SideNavbar#2">
-              <Badge
-                count={get(product, "length", "")}
-                size="small"
-                color="#9843A1"
-                className="xsm:!hidden lg:!flex"
-              >
-                <div className="flex items-center gap-x-2">
-                  <Image
-                    src="/assets/icons/cart.png"
-                    width={20}
-                    height={20}
-                    alt="logo"
-                  />
-                  <div>cart</div>
-                </div>
-              </Badge>
-            </Link>
-            <Divider type="vertical" />
+            {isEmpty(activeUser) ? (
+              ""
+            ) : (
+              <Link href="/profiles/SideNavbar#2">
+                <Badge
+                  count={get(product, "length", "")}
+                  size="small"
+                  color="#9843A1"
+                  className="xsm:!hidden lg:!flex"
+                >
+                  <div className="flex items-center gap-x-2">
+                    <Image
+                      src="/assets/icons/cart.png"
+                      width={20}
+                      height={20}
+                      alt="logo"
+                    />
+                    <div>cart</div>
+                  </div>
+                </Badge>
+              </Link>
+            )}
+
+            {isEmpty(activeUser) ? "" : <Divider type="vertical" />}
 
             {isEmpty(activeUser) ? (
               <div className="bg-white shadow shadow-slate-300  rounded xsm:mt-1 md:mt-0 p-2 xl:h-[30px] xsm:!mr-[2vw] xl:w-[5vw] xsm:w-[18vw] xsm:h-[3.5vh] sm:w-[8vw] flex items-center  justify-center">

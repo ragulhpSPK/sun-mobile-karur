@@ -30,7 +30,7 @@ import Login from "@/pages/Authentication/Register";
 import { showLoader, hideLoader } from "@/redux/loadingSlice";
 function AllCat() {
   const isLoading = useSelector((state) => state.loader.isLoading);
-  const [active, setActive] = useState("");
+  const [active, setActive] = useState(false);
   const [id, setId] = useState();
   const [more, setMore] = useState(false);
   const [category, setCategory] = useState([]);
@@ -249,6 +249,7 @@ function AllCat() {
 
   const allProductsHandler = () => {
     router.push({ pathname: "/allCat", query: { _id: 123 } });
+    setActive(true);
   };
 
   return (
@@ -274,11 +275,9 @@ function AllCat() {
               onClick={allProductsHandler}
             >
               <ArrowRightIcon
-              // className={`flex items-center  font-bold pt-[3vh] ${
-              //   router.query._id === "123"
-              //     ? "!text-[--third-color]"
-              //     : "text-black text-bold"
-              // } `}
+                className={`${
+                  active || router.query._id === "123" ? "visible" : "invisible"
+                }`}
               />
 
               <p className={`text-[16px] `}>All Categories</p>
@@ -295,6 +294,7 @@ function AllCat() {
                       <div
                         onClick={() => {
                           handleFilter(data._id);
+                          setActive(false);
                         }}
                       >
                         <div
@@ -423,9 +423,9 @@ function AllCat() {
                               width={80}
                               height={80}
                               preview={false}
-                              className="!h-[100px] !w-fit m-auto"
+                              className="!h-[100px] !w-fit m-auto hover:scale-110 duration-1000"
                             />
-                            <h1 className="text-[16px] pt-[2vh]">
+                            <h1 className="text-[16px] pt-[2vh] font-bold text-center">
                               {data.title}
                             </h1>
                             <div className="flex gap-x-10 justify-between items-center m-auto">
@@ -451,7 +451,7 @@ function AllCat() {
                               {cart.find((res) => {
                                 return res.productId === data._id;
                               }) ? (
-                                <Link href="/profiles/cart">
+                                <Link href="/profiles/SideNavbar#2">
                                   <div
                                     className="absolute  xsm:left-0 xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
@@ -711,7 +711,7 @@ function AllCat() {
                         width={50}
                         height={50}
                         preview={false}
-                        className="xsm:!h-[10vh] md:!h-[10vh] pt-[1vh]  xl:!h-[10vh] w-fit"
+                        className="xsm:!h-[10vh] md:!h-[10vh] pt-[1vh]  xl:!h-[10vh] w-fit hover:scale-110 duration-1000"
                       />
                       <h1 className="xsm:text-[14px] md:text-[14px] md:leading-tight md:tracking-tight xsm:!pt-[5vh] md:!pt-[5vh] lg:pt-[1vh] xl:pt-[2vh]">
                         {data.title}

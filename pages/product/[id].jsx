@@ -39,7 +39,6 @@ export default function App() {
   const [filterData, setFilterData] = useState([]);
   const [cart, setCart] = useState([]);
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
   const [openDraw, setopenDraw] = useState(false);
   const [size, setSize] = useState();
   const [login, setLogin] = useState(false);
@@ -56,7 +55,6 @@ export default function App() {
       const result = [await getAllproducts(), await getAllCart()];
       setProduct(get(result, "[0].data.data", []));
       setCart(get(result, "[1].data.message", []));
-
       const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
       setGetUser(get(getUser, "data.message[0]", []));
     } catch (err) {
@@ -217,7 +215,7 @@ export default function App() {
                       {data.title}
                     </h1>
                     <p className="text-red-400 pt-1 font-bold">
-                      -{data.offer}%
+                      -{data.offer}% off
                     </p>
                     <div className="flex gap-x-10 justify-between pt-1 items-center m-auto">
                       {data.offer !== null || 0 ? (
@@ -247,16 +245,16 @@ export default function App() {
                       );
                     })}
 
-                    <div className="pt-10 flex lg:gap-5 xsm:pl-0  justify-around xsm:w-[80vw] sm:pr-[8vw] sm:w-[40vw] xl:!pl-0">
+                    <div className="pt-10 flex lg:gap-5 xsm:pl-0   !gap-x-[6vw] xsm:w-[80vw]  sm:pr-[8vw] sm:w-[40vw] xl:!pl-0">
                       {go !== undefined ? (
-                        <Link href="/profiles/cart">
+                        <Link href="/profiles/SideNavbar#2">
                           <button className="bg-slate-300 text-[#000] shadow-2xl hover:bg-[--second-color] hover:scale-105 hover:font-medium hover:text-white duration-1000 text-sm rounded-md w-[150px] !h-[40px] px-2">
                             Go to Cart
                           </button>
                         </Link>
                       ) : (
                         <button
-                          className="bg-[var(--second-color)] text-[#fff] hover:bg-[--first-color] hover:scale-105 hover:font-medium hover:text-black duration-1000 xl:text-xl rounded-md w-[150px] !h-[40px] px-2"
+                          className="bg-[var(--second-color)] text-[#fff] hover:bg-[--first-color] hover:scale-105 hover:font-medium hover:text-black duration-1000 xl:text-xl rounded-md w-[140px] !h-[40px] px-2"
                           onClick={() => {
                             isEmpty(getUser)
                               ? setLogin(true)
@@ -281,7 +279,7 @@ export default function App() {
                       <button
                         className="bg-[var(--second-color)] xsm:hidden lg:block hover:bg-[--first-color] hover:scale-105  hover:text-black duration-1000 hover:font-medium text-[#fff] xl:text-xl rounded-md !h-[40px] px-2"
                         onClick={() => {
-                          setopenDraw(true);
+                          isEmpty(getUser) ? setLogin(true) : setopenDraw(true);
                           setSize(400);
                         }}
                       >

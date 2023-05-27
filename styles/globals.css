@@ -265,16 +265,14 @@ button,
   height: 2.5px !important;
 }
 
-@media (max-width: 768px) {
-  .ant-steps-item-container {
-    height: 120px !important;
+.ant-steps-vertical{
+  height: 500px !important;
   
-  }
-  .ant-steps-item-tail::after {
-    width: 2px !important;
-  }
 }
 
+ .ant-steps-item-tail::after {
+    width: 2px !important;
+  }
 /* ant descripton */
 
 .ant-descriptions-item-container{

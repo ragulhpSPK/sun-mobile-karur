@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 import Image from "next/image";
@@ -125,8 +126,8 @@ function FlashDeals() {
                       width={100}
                       height={100}
                       src={data.image[0]}
-                      alt="Shoes"
-                      className="rounded-xl h-[15vh] !w-fit m-auto"
+                      alt="flash products"
+                      className="rounded-xl h-[15vh] !w-fit m-auto hover:scale-110 duration-1000"
                     />
                   </figure>
                   <div className="card-body ">
@@ -151,26 +152,19 @@ function FlashDeals() {
                         <p className="text-lg   font-medium">{data.price}</p>
                       )}
                     </div>
-                    <div
-                      className="absolute bottom-9 xsm:!left:[10%] md:right-[58%] xl:right-[50%] xxl:right-[40%]  w-[15vw] flex items-center justify-center  gap-x-2  text-white p-2 rounded
-                  "
-                    >
+                    <div className="absolute bottom-9 xsm:!left:[10%] md:right-[58%] xl:right-[50%] xxl:right-[40%]  w-[15vw] flex items-center justify-center  gap-x-2  text-white p-2 rounded">
                       {cart.find((res) => {
                         return res.productId === data._id;
                       }) ? (
-                        <Link href="/profiles/cart">
-                          <div
-                            className="absolute   xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
-                  "
-                          >
+                        <Link href="/profiles/SideNavbar#2">
+                          <div className="absolute   xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded">
                             <ShoppingCartOutlined />
                             <div>Go to Cart</div>
                           </div>
                         </Link>
                       ) : (
                         <div
-                          className="absolute top-2 xsm:left-[7vw]  sm:left-[1vw] md:left-[58%] lg:left-[50%] xl:left-[50%] xxl:left-[48%]   xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
-                  "
+                          className="absolute top-2 xsm:left-[7vw]  sm:left-[1vw] md:left-[58%] lg:left-[50%] xl:left-[50%] xxl:left-[48%]   xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded "
                           onClick={() => {
                             isEmpty(getUser)
                               ? setLogin(true)

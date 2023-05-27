@@ -1,5 +1,9 @@
 import React from "react";
-import { getAllproducts, createOrder } from "../helper/utilities/apiHelper";
+import {
+  getAllproducts,
+  createOrder,
+  getOneUerforNav,
+} from "../helper/utilities/apiHelper";
 import { useEffect } from "react";
 import { get } from "lodash";
 import { useState } from "react";
@@ -21,6 +25,7 @@ function Buy({ id }) {
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const [payment, setPayment] = useState("");
+  const [address, setAddress] = useState("");
 
   const handleCheck = () => {
     var today = new Date();
@@ -46,9 +51,10 @@ function Buy({ id }) {
 
   const fetchData = async () => {
     try {
-      const result = await getAllproducts();
+      const result = [await getAllproducts(), await getOneUerforNav()];
 
-      setProducts(get(result, "data.data", []));
+      setProducts(get(result, "[0]data.data", []));
+      setAddress(get(result, "[1]data.message[0]", []));
     } catch (err) {
       console.error(err);
     }
@@ -100,6 +106,8 @@ function Buy({ id }) {
   const onChangeHandler = (e) => {
     setPayment(e.target.defaultValue);
   };
+
+  console.log(address, "dfgynm,");
 
   return (
     <div className="flex flex-col gap-[10vh]">
@@ -154,7 +162,10 @@ function Buy({ id }) {
             { required: true, message: "Please Enter Your Mobile Number" },
           ]}
         >
-          <Input placeholder="Enter Your  Mobile number" />
+          <Input
+            placeholder="Enter Your  Mobile number"
+            value={address.number}
+          />
         </Form.Item>
         <Form.Item
           name="alternateNumber"
@@ -166,7 +177,10 @@ function Buy({ id }) {
           }
           rules={[{ message: "Please Enter Your Alternate Mobile number" }]}
         >
-          <Input placeholder="Enter Your Alternate Mobile number" />
+          <Input
+            placeholder="Enter Your Alternate Mobile number"
+            value={address.alternateNumber}
+          />
         </Form.Item>
         <Form.Item
           name="email"
@@ -177,14 +191,17 @@ function Buy({ id }) {
           }
           rules={[{ message: "Please Enter Your Email Address" }]}
         >
-          <Input placeholder="Enter Your Alternate Mobile number" />
+          <Input
+            placeholder="Enter Your Alternate Mobile number"
+            value={address.email}
+          />
         </Form.Item>
         <Form.Item
           name="address"
           label={<span>Address</span>}
           rules={[{ required: true, message: "Please Enter Your Address" }]}
         >
-          <TextArea placeholder="Enter Your Address" />
+          <TextArea placeholder="Enter Your Address" value={address.address} />
         </Form.Item>
         <Form.Item name="Payment">
           <Checkbox onChange={onChangeHandler} defaultValue="Cash On Delivery">

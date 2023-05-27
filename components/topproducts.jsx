@@ -88,7 +88,7 @@ function Topproducts() {
                     height={100}
                     src={res.image[0]}
                     alt="Shoes"
-                    className="rounded-xl h-[15vh] !w-fit m-auto"
+                    className="rounded-xl h-[15vh] !w-fit m-auto hover:scale-110 duration-1000"
                     onClick={() =>
                       router.push({
                         pathname: `/product/${res._id}`,
@@ -99,7 +99,7 @@ function Topproducts() {
                 </figure>
                 <div className="card-body ">
                   <h2
-                    className="font-bold xsm:text-[12px]"
+                    className="font-bold xsm:text-[12px] lg:text-[16px] text-center"
                     onClick={() =>
                       router.push({
                         pathname: `/product/${res._id}`,
@@ -129,7 +129,7 @@ function Topproducts() {
                   {cart.find((data) => {
                     return data.productId === res._id;
                   }) ? (
-                    <Link href="/profiles/cart">
+                    <Link href="/profiles/SideNavbar#2">
                       <div
                         className="absolute bottom-5 xsm:left-[10%] xsm:!w-[80%] xl:w-[15vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
                   "

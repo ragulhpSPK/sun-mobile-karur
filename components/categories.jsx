@@ -79,7 +79,7 @@ function Categories() {
                       src={data.image}
                       width={100}
                       height={100}
-                      className="rounded-xl h-[10vh] w-fit self-center"
+                      className="rounded-xl h-[10vh] w-fit self-center  hover:scale-110 duration-1000"
                       alt="logo"
                       preview={false}
                     />

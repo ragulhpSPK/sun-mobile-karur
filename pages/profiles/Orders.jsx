@@ -14,7 +14,6 @@ function Orders() {
   const fetchData = async () => {
     try {
       const result = await getAllOrder();
-
       setOrders(get(result, "data.data"));
     } catch (err) {
       console.log(err);

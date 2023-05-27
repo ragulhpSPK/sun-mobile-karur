@@ -65,8 +65,8 @@ export default function Swipper() {
               key={i}
               onClick={() =>
                 router.push({
-                  pathname: `/product/${data._id}`,
-                  query: { id: data._id },
+                  pathname: `/product/${data.productid}`,
+                  query: { id: data.productid },
                 })
               }
             >
@@ -92,8 +92,8 @@ export default function Swipper() {
                 key={i}
                 onClick={() =>
                   router.push({
-                    pathname: `/product/${data._id}`,
-                    query: { id: data._id },
+                    pathname: `/product/${data.productid}`,
+                    query: { id: data.productid },
                   })
                 }
               >
@@ -116,8 +116,8 @@ export default function Swipper() {
                 key={i}
                 onClick={() =>
                   router.push({
-                    pathname: `/product/${data._id}`,
-                    query: { id: data._id },
+                    pathname: `/product/${data.productid}`,
+                    query: { id: data.productid },
                   })
                 }
               >

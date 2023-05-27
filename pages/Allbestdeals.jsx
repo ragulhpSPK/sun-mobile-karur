@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { BestDeals } from "@/helper/bestDeals";
 import Image from "next/image";
@@ -140,7 +141,7 @@ function Allbestdeals() {
                     height={100}
                     src={data.image[0]}
                     alt="Shoes"
-                    className="rounded-xl h-[15vh] !w-fit m-auto"
+                    className="rounded-xl h-[15vh] !w-fit m-auto hover:scale-110 duration-1000"
                   />
                 </figure>
                 <div className="card-body ">
@@ -170,7 +171,7 @@ function Allbestdeals() {
                     {cart.find((res) => {
                       return res.productId === data._id;
                     }) ? (
-                      <Link href="/profiles/cart">
+                      <Link href="/profiles/SideNavbar#2">
                         <div
                           className="absolute   xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
                   "

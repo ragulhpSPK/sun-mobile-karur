@@ -25,6 +25,7 @@ import {
   createOrder,
   getAllOrder,
   getAllproducts,
+  getOneUerforNav,
 } from "../../helper/utilities/apiHelper";
 import { get } from "lodash";
 import Navbar from "@/components/Navbar";
@@ -50,11 +51,15 @@ function Cart() {
   const [payment, setPayment] = useState("");
   const [form] = Form.useForm();
   const { TextArea } = Input;
+  const [address, setAddress] = useState([]);
 
   const [size, setSize] = useState();
   uuidv1();
 
   const handleCheck = () => {
+    form.setFieldsValue({ address: "duhjn" });
+
+    setDrawOpen(false);
     setBuy(false);
 
     var today = new Date();
@@ -81,16 +86,23 @@ function Cart() {
   const fetchData = async () => {
     try {
       dispatch(showLoader());
-      const result = [await getAllCart(), await getAllproducts()];
+      const result = [
+        await getAllCart(),
+        await getAllproducts(),
+        await getOneUerforNav(),
+      ];
 
-      setProduts(get(result, "[0].data.message"));
-      setAllProducts(get(result, "[1].data.data"));
+      setProduts(get(result, "[0].data.message"), []);
+      setAllProducts(get(result, "[1].data.data"), []);
+      setAddress(get(result, "[2].data.message"), []);
     } catch (err) {
       console.log(err);
     } finally {
       dispatch(hideLoader());
     }
   };
+
+  console.log(address[0], "fnjm");
 
   useEffect(() => {
     fetchData();
@@ -219,6 +231,7 @@ function Cart() {
                 </h1>
                 <Button
                   onClick={() => {
+                    form.setFieldValue({ address: "hfgkugh" });
                     setDrawOpen(true);
                     setSize(250);
                   }}
@@ -255,7 +268,7 @@ function Cart() {
                             {data.name}
                           </p>
                           <div
-                            className="absolute top-10 right-0 pr-[10px]"
+                            className="absolute top-10 right-0 pr-[10px] cursor-pointer"
                             onClick={() => {
                               // setDeleteId(data._id);
                               deleteHandler(data._id);
@@ -304,10 +317,15 @@ function Cart() {
                 </Button>
               </div>
             </div>
-            <Drawer open={draw} onClose={() => setDrawOpen(false)} width={size}>
+
+            <Drawer
+              open={draw}
+              destroyOnClose
+              onClose={() => setDrawOpen(false)}
+              width={size}
+            >
               <div className=" shadow mt-[8vh] py-[5vh] pt-[2vh] mr-[3vw] rounded-md">
                 <Form
-                  form={form}
                   size="small"
                   width={400}
                   layout="vertical"

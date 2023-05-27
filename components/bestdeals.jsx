@@ -140,14 +140,14 @@ function Bestdeals() {
                           height={100}
                           src={res.image[0]}
                           alt="Shoes"
-                          className="rounded-xl xsm:h-[10vh] xl:h-[16vh] !w-fit m-auto"
+                          className="rounded-xl xsm:!h-[14vh] xl:!h-[18vh] !w-fit m-auto hover:scale-110 duration-1000"
                         />
                       </div>
                     </figure>
                     <div className="card-body ">
                       <div className="h-[6vh]">
                         <h2
-                          className="font-bold xsm:text-[12px] text-center p-[1vh]"
+                          className="font-bold xsm:text-[12px] text-center p-[1vh] lg:text-[16px]"
                           onClick={() =>
                             router.push({
                               pathname: `/product/${res._id}`,
@@ -181,7 +181,7 @@ function Bestdeals() {
                       {cart.find((data) => {
                         return data.productId === res._id;
                       }) ? (
-                        <Link href="/profiles/cart">
+                        <Link href="/profiles/SideNavbar#2">
                           <div
                             className="absolute bottom-5 xsm:left-[15%] lg:left-[12%] xsm:w-[80%] xl:left-[28%] xxl:left-[17%]   xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
                   "

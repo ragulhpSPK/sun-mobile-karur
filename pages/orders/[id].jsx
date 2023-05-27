@@ -7,7 +7,6 @@ import CheckIcon from "@mui/icons-material/Check";
 import { useState } from "react";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import DoneIcon from "@mui/icons-material/Done";
-
 import CancelIcon from "@mui/icons-material/Cancel";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import { useRouter } from "next/router";
@@ -22,6 +21,7 @@ import { get } from "lodash";
 function Orders() {
   const router = useRouter();
   const [products, setProducts] = useState([]);
+  const [steps, setSteps] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -57,6 +57,13 @@ function Orders() {
     }
   };
 
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      window.innerWidth > 1024 ? setSteps(true) : setSteps(false);
+    });
+    window.innerWidth > 1024 ? setSteps(true) : setSteps(false);
+  }, [steps]);
+
   return (
     <div className="flex flex-col gap-[5vh] justify-around mt-[5vh] steps:!w-[100vw] steps:px-[1vw]  xl:!w-[70vw] xl:p-[5vw] xl:m-auto min-h-[70vh]">
       {products
@@ -67,18 +74,19 @@ function Orders() {
           return (
             <>
               <div
-                className="pt-[3vh] xsm:!w-[90vw] sm:!pt-[10vh] md:pt-0 md:py-[5vh]  xsm:self-center xsm:pl-[2vw] xl:pl-0 steps:!w-[100vw] xl:!w-[70vw] flex items-center justify-center xl:p-[4vw]"
+                className="pt-[3vh] xsm:!w-[90vw] sm:!pt-[10vh] md:pt-0 md:py-[5vh]  xsm:self-center xsm:pl-[2vw] xl:pl-0 steps:!w-[100vw]  xl:!w-[80vw] flex items-center justify-center xl:p-[4vw]"
                 key={i}
               >
                 <div
                   className={`${
                     res.status === "Cancelled" ? "!hidden" : "!block"
-                  } pt-[3vh] xsm:!w-[90vw] sm:!pt-[10vh] md:pt-0 md:py-[5vh]  xsm:self-center xsm:pl-[5vw] xl:pl-0 steps:!w-[100vw] xl:!w-[70vw] flex items-center justify-center xl:p-[4vw]`}
+                  } pt-[3vh] lg:pr-[2vw] xsm:!w-[90vw] sm:!pt-[10vh] md:pt-0 md:py-[5vh]  xsm:self-center xsm:pl-[5vw] xl:pl-0 steps:!w-[100vw] xl:!w-[80vw] flex items-center justify-center xl:p-[4vw]`}
                   id={styles.shadow3}
                 >
                   <Steps
                     className={` xxl:pl-[3vw] `}
                     size="small"
+                    direction={`${steps ? "horizontal" : "vertical"}`}
                     lineWidth={1}
                     items={[
                       {
@@ -138,7 +146,7 @@ function Orders() {
 
               <div className="flex flex-col ">
                 <div
-                  className="flex flex-col xsm:!w-[90vw]  gap-[15px] bg-white p-[5vh] xsm:self-center  steps:!w-[100vw] xl:!w-[70vw]"
+                  className="flex flex-col xsm:!w-[90vw]  gap-[15px] bg-white p-[5vh] xsm:self-center  steps:!w-[100vw] xl:!w-[75vw]"
                   id={styles.shadow3}
                 >
                   <div className="flex xsm:flex-col  md:flex-row xsm:items-center  xsm:!justify-between">
@@ -146,8 +154,8 @@ function Orders() {
                       Purchased Item
                     </h1>
                     {res.status === "Delivered" ? (
-                      <p className="text-3xl text-slate-600 mt-10 flex items-center justify-center">
-                        <DoneIcon className="bg-[green] rounded-3xl h-[30px] w-[30px] text-white" />
+                      <p className="lg:text-2xl text-slate-600 mt-10 pr-[4vw] flex items-center justify-center">
+                        <DoneIcon className="bg-[green] rounded-3xl xsm:!h-[20px] xsm:!w-[20px] lg:!h-[30px] lg:!w-[30px] text-white" />
 
                         <span>Order Reached You SuccessFully!</span>
                       </p>
