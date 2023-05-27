@@ -129,13 +129,14 @@ function Navbar() {
       <div className="flex justify-center items-center h-[10vh]">
         <div className="flex justify-between items-center w-[90vw] h-[10vh]  ">
           <div>
-            <Image
+            <h1>Logo</h1>
+            {/* <Image
               src="/assets/logo/logo.png"
               width={90}
               height={90}
               alt="logo"
               className="pb-2 xsm:w-[12vw] sm:!w-[8vw] md:w-[8vw] lg:!w-[5vw]"
-            />
+            /> */}
           </div>
           <div>
             <div className="flex items-center justify-between  border border-slate-50  p-2 rounded">

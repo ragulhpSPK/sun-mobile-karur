@@ -263,7 +263,7 @@ function AllCat() {
           isLoading === true ? "invisible" : "visible"
         } xsm:hidden xxl:block mt-[12vh]`}
       >
-        <div className="flex">
+        <div className="flex ">
           <div className="w-[16vw]  h-[85vh] overflow-scroll pl-20 leading-10 ">
             <div
               className={`flex items-center  font-bold pt-[3vh] ${
@@ -273,9 +273,14 @@ function AllCat() {
               } `}
               onClick={allProductsHandler}
             >
-              <span>
-                <ListIcon style={{ fontSize: "26px" }} />
-              </span>
+              <ArrowRightIcon
+              // className={`flex items-center  font-bold pt-[3vh] ${
+              //   router.query._id === "123"
+              //     ? "!text-[--third-color]"
+              //     : "text-black text-bold"
+              // } `}
+              />
+
               <p className={`text-[16px] `}>All Categories</p>
             </div>
 
@@ -484,7 +489,7 @@ function AllCat() {
         </div>
       </div>
 
-      <div className="pt-[15vh] xxl:hidden">
+      <div className="mt-[20vh] xxl:hidden">
         <div className=" flex h-[4vh] w-[90vw] m-auto p-[10px] items-center  text-black justify-between">
           <p
             className="text-[14px] flex items-end justify-center"
@@ -655,8 +660,8 @@ function AllCat() {
               xs: 1,
               sm: 2,
               md: 2,
-              lg: 2,
-              xl: 2,
+              lg: 3,
+              xl: 4,
               xxl: 5,
             }}
             pagination={{
@@ -665,6 +670,7 @@ function AllCat() {
               position: "top",
               size: "small",
             }}
+            className="!w-[90vw]"
             dataSource={priceval.length > 0 ? priceval : filerProduct}
             renderItem={(data, index) => {
               return (
@@ -702,12 +708,12 @@ function AllCat() {
                       <Image
                         alt="example"
                         src={data.image[0]}
-                        width={70}
-                        height={70}
+                        width={50}
+                        height={50}
                         preview={false}
-                        // className="xsm:!h-[10vh] md:!h-[10vh] pt-[1vh]  xl:!h-[10vh] w-fit"
+                        className="xsm:!h-[10vh] md:!h-[10vh] pt-[1vh]  xl:!h-[10vh] w-fit"
                       />
-                      <h1 className="xsm:text-[14px] md:text-[14px] md:leading-tight md:tracking-tight xsm:pt-[3vh] md:!pt-[5vh] lg:pt-[1vh] xl:pt-[2vh]">
+                      <h1 className="xsm:text-[14px] md:text-[14px] md:leading-tight md:tracking-tight xsm:!pt-[5vh] md:!pt-[5vh] lg:pt-[1vh] xl:pt-[2vh]">
                         {data.title}
                       </h1>
 

@@ -4,7 +4,7 @@ import { getAllOrder } from "@/helper/utilities/apiHelper";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { get, result } from "lodash";
+import { get } from "lodash";
 import moment from "moment/moment";
 
 function Orders() {
