@@ -2,7 +2,7 @@ import React from "react";
 import { Spin } from "antd";
 import { useSelector } from "react-redux";
 
-function loading() {
+function Loading() {
   const isLoading = useSelector((state) => state.loader.isLoading);
 
   return (
@@ -14,4 +14,4 @@ function loading() {
   );
 }
 
-export default loading;
+export default Loading;

@@ -24,6 +24,14 @@ import Bestdeals from "@/components/bestdeals";
 import TopProducts from "../../components/topproducts";
 import Cookies from "js-cookie";
 import Login from "@/pages/Authentication/Register";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+
+// import required modules
+import { Pagination } from "swiper";
 
 export default function App() {
   const [current, setCurrentImage] = useState();
@@ -124,8 +132,34 @@ export default function App() {
         } flex justify-center lg:[90vw] mt-[8vh]`}
       >
         <div className="xsm:flex-col  flex lg:!flex-row  xsm:w-[100vw] h-[100vh] lg:w-[90vw] lg:gap-[15vw] xl:gap-[8vw] p-[2vw]   ">
+          <div className="lg:hidden">
+            <Swiper
+              pagination={true}
+              modules={[Pagination]}
+              className="mySwiper"
+            >
+              {filterData.map((data) => {
+                return data.image.map((res, i) => {
+                  return (
+                    <SwiperSlide key={i} className="swiper-slide">
+                      <div>
+                        <Image
+                          src={res}
+                          alt="products"
+                          width={50}
+                          height={50}
+                          className="xsm:!h-[280px] m-auto xsm:!w-fit sm:!h-[400px] sm:!w-[400px]"
+                        />
+                      </div>
+                    </SwiperSlide>
+                  );
+                });
+              })}
+            </Swiper>
+          </div>
+
           <div
-            className={`${styles.container} xsm:w-[100vw] xsm:mt-[8vh] lg:mt-0 lg:w-[40vw] lg:pt-[8vh]`}
+            className={`${styles.container} xsm:w-[100vw] xsm:mt-[8vh]  lg:mt-0 lg:w-[40vw] lg:pt-[8vh] xsm:!hidden lg:!block`}
           >
             <div
               className={`${styles.left} xsm:!h-[25vh] xsm:!pr-[2vw] sm:!h-[35vh] md:h-[50vh] lg:h-[40vh] xl:h-[50vh] xsm:!w-[80vw] lg:!w-[50vw] `}
@@ -176,12 +210,12 @@ export default function App() {
               </div>
             </div>
           </div>
-          <div className="xsm:pt-[3vh] lg:!pt-[8vh] xl:pt-[8vh] bg-slate-100 mt-[8vh] lg:min-h-[70vh] h-fit xxl:!pt-[1vh] py-[2vh] xsm:w-[90vw] lg:w-[40vw] flex ">
+          <div className="xsm:pt-[1vh] lg:!pt-[8vh] xl:pt-[3vh] !self-center bg-slate-100  lg:min-h-[70vh] h-fit xxl:!pt-[1vh] py-[2vh] xsm:w-[90vw] lg:w-[40vw] flex ">
             {result &&
               filterData.map((data, index) => {
                 return (
                   <div className="xsm:pl-[2vw]" key={index}>
-                    <h1 className="xl:text-xl  font-semibold xsm:text-md">
+                    <h1 className="xl:text-xl  font-semibold xsm:text-md py-[1vw]">
                       {data.title}
                     </h1>
                     <p className="text-red-400 pt-1 font-bold">

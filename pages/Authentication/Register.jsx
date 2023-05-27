@@ -26,7 +26,7 @@ function Register({ setLogin }) {
   const [otp, setOtp] = useState([]);
   const [phoneNumber, setPhoneNumber] = useState();
   const [expandForm, setExpandForm] = useState(false);
-  const [statusNumber, setstatusNumber] = useState();
+
   const router = useRouter();
   const [formModal, setFormModal] = useState(false);
 

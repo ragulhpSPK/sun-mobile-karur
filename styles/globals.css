@@ -317,3 +317,17 @@ button,
 }
 }
 
+
+.mySwiper {
+  width: 280px !important;
+  height: 320px !important;
+  margin-top: 30px !important;  
+}
+
+@media(min-width:580px){
+  .mySwiper {
+  width: 420px;
+  height: 440px !important;
+  margin-top: 30px !important;  
+}
+}

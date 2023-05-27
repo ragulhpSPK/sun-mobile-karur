@@ -162,8 +162,8 @@ function Navbar() {
                 >
                   <Image
                     src="/assets/icons/login.png"
-                    width={20}
-                    height={20}
+                    width={10}
+                    height={10}
                     alt="logo"
                   />
                   <h1 className="font-bold xsm:text-[10px] xl:text-[12px] tracking-wider">
