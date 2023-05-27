@@ -11,11 +11,9 @@ import { Skeleton, Spin } from "antd";
 import { useState } from "react";
 import { LoadingOutlined, ReloadOutlined } from "@ant-design/icons";
 import SyncIcon from "@mui/icons-material/Sync";
-import { showLoader, hideLoader } from "@/redux/loadingSlice";
 
 export default function Home() {
   const isLoading = useSelector((state) => state.loader.isLoading);
-  const [loading, setLoading] = useState(true);
   const result = useSelector((data) => {
     return data.search.searches;
   });
@@ -35,7 +33,7 @@ export default function Home() {
       <main>
         <Spin
           spinning={isLoading}
-          tip="Loading Data..."
+          tip="Loading Datas..."
           size="large"
           indicator={antIcon}
         >
@@ -44,12 +42,12 @@ export default function Home() {
               <ProductFilter />
             ) : (
               <>
-                <Swiper setLoading={setLoading} />
+                <Swiper />
                 <Delivery />
-                <Categories setLoading={setLoading} />
+                <Categories />
                 <Bestdeals />
                 <TopRated />
-                <Topproducts setLoading={setLoading} />
+                <Topproducts />
               </>
             )}
           </div>

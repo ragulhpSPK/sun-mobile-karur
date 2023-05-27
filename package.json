@@ -30,6 +30,7 @@
     "jsonwebtoken": "^9.0.0",
     "lint": "^1.1.2",
     "lodash": "^4.17.21",
+    "moment": "^2.29.4",
     "mongoose": "^7.0.3",
     "next": "13.2.4",
     "react": "^18.2.0",

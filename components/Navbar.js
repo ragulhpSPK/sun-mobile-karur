@@ -6,7 +6,16 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import Link from "next/link";
 import { Category } from "@/helper/categories";
 import { useRouter } from "next/router";
-import { Avatar, Badge, Button, Input, Modal, Form, Divider } from "antd";
+import {
+  Avatar,
+  Badge,
+  Button,
+  Input,
+  Modal,
+  Form,
+  Divider,
+  notification,
+} from "antd";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
@@ -49,8 +58,7 @@ function Navbar() {
   const fetchData = async () => {
     try {
       const result = await getAllCart();
-      const getOneUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
-      setActiveUser(get(getOneUser, "data.message[0]", []));
+
       setProduct(get(result, "data.message"));
     } catch (err) {
       console.log(err);
@@ -59,7 +67,20 @@ function Navbar() {
 
   useEffect(() => {
     fetchData();
-  }, [cart.products.length, userDetails, product]);
+  }, [cart.products.length, userDetails]);
+
+  const avtivateNavbar = async () => {
+    try {
+      const getOneUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
+      setActiveUser(get(getOneUser, "data.message[0]", []));
+    } catch (err) {
+      notification.error({ message: "Something went wrong!" });
+    }
+  };
+
+  useEffect(() => {
+    avtivateNavbar();
+  }, [product, userDetails]);
 
   useEffect(() => {
     setData(
@@ -132,7 +153,7 @@ function Navbar() {
           </div>
 
           <div className="flex gap-x-2 text-sm capitalize  items-center">
-            <Link href="/profiles/cart">
+            <Link href="/profiles/SideNavbar#2">
               <Badge
                 count={get(product, "length", "")}
                 size="small"

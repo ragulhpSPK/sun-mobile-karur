@@ -9,22 +9,28 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Spin } from "antd";
 import { ReloadOutlined } from "@ant-design/icons";
+import { showLoader, hideLoader } from "@/redux/loadingSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 function AllProducts() {
   const router = useRouter();
   const [category, setCategory] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const isLoading = useSelector((state) => state.loader.isLoading);
+  const dispatch = useDispatch();
 
   const fetchData = async () => {
     try {
-      setLoading(true);
+      dispatch(showLoader());
       const result = await getAllCatagory();
       setCategory(get(result, "data.data", []));
-      setLoading(false);
     } catch (err) {
       console.log(err);
+    } finally {
+      dispatch(hideLoader());
     }
   };
+
+  console.log(isLoading);
 
   useEffect(() => {
     fetchData();
@@ -36,7 +42,7 @@ function AllProducts() {
 
   return (
     <Spin
-      spinning={loading}
+      spinning={isLoading}
       tip="Loading Data..."
       size="large"
       indicator={antIcon}

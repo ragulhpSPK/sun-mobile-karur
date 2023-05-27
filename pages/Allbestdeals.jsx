@@ -13,7 +13,7 @@ import { get } from "lodash";
 import { useRouter } from "next/router";
 import { Modal, Rate, Spin, notification } from "antd";
 import { addproduct } from "@/redux/cartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LoadingOutlined } from "@ant-design/icons";
 import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
 import Link from "next/link";
@@ -21,20 +21,22 @@ import Cookies from "js-cookie";
 import Login from "@/pages/Authentication/Register";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { isEmpty } from "lodash";
+import { showLoader, hideLoader } from "@/redux/loadingSlice";
 
 function Allbestdeals() {
   const [product, setProducts] = useState([]);
   const [banner, setBanner] = useState([]);
   const [bestProducts, setbestProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.loader.isLoading);
   const [cart, setCart] = useState([]);
   const [getUser, setGetUser] = useState([]);
   const [login, setLogin] = useState(false);
 
   const fetchData = async () => {
     try {
+      dispatch(showLoader());
       const result = [
         await getAllproducts(),
         await getAllCart(),
@@ -49,6 +51,8 @@ function Allbestdeals() {
       setBanner(get(result, "[2].data.data", []));
     } catch (err) {
       console.log(err);
+    } finally {
+      dispatch(hideLoader());
     }
   };
 
@@ -88,16 +92,18 @@ function Allbestdeals() {
     <LoadingOutlined style={{ fontSize: 40 }} className="animate-spin" />
   );
 
-  console.log(banner, "dfj");
-
   return (
     <Spin
-      spinning={loading}
+      spinning={isLoading}
       tip="Loading Data..."
       size="large"
       indicator={antIcon}
     >
-      <div className="xsm:w-[90vw] xl:w-[80vw] m-auto mt-[20vh]">
+      <div
+        className={`${
+          isLoading === true ? "invisible" : "visible"
+        } xsm:w-[90vw] xl:w-[80vw] m-auto mt-[16vh]`}
+      >
         <div className="!w-[85vw]">
           {banner
             .filter((data) => {

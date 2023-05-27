@@ -56,7 +56,7 @@ function AllCat() {
 
   const fetchData = async () => {
     try {
-      showLoader();
+      dispatch(showLoader());
       const result = [
         await getAllCatagory(),
         await getAllSubCatagory(),
@@ -73,7 +73,7 @@ function AllCat() {
     } catch (err) {
       console.log(err);
     } finally {
-      hideLoader();
+      dispatch(hideLoader());
     }
   };
 
@@ -260,7 +260,7 @@ function AllCat() {
     >
       <div
         className={`${
-          loading === true ? "invisible" : "visible"
+          isLoading === true ? "invisible" : "visible"
         } xsm:hidden xxl:block mt-[12vh]`}
       >
         <div className="flex">
@@ -418,6 +418,7 @@ function AllCat() {
                               width={80}
                               height={80}
                               preview={false}
+                              className="!h-[100px] !w-fit m-auto"
                             />
                             <h1 className="text-[16px] pt-[2vh]">
                               {data.title}

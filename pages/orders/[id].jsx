@@ -57,8 +57,6 @@ function Orders() {
     }
   };
 
-  console.log();
-
   return (
     <div className="flex flex-col gap-[5vh] justify-around mt-[5vh] steps:!w-[100vw] steps:px-[1vw]  xl:!w-[70vw] xl:p-[5vw] xl:m-auto min-h-[70vh]">
       {products
@@ -72,7 +70,6 @@ function Orders() {
                 className="pt-[3vh] xsm:!w-[90vw] sm:!pt-[10vh] md:pt-0 md:py-[5vh]  xsm:self-center xsm:pl-[2vw] xl:pl-0 steps:!w-[100vw] xl:!w-[70vw] flex items-center justify-center xl:p-[4vw]"
                 key={i}
               >
-                {console.log(res.status, "tfghbjnm")}
                 <div
                   className={`${
                     res.status === "Cancelled" ? "!hidden" : "!block"
@@ -175,7 +172,6 @@ function Orders() {
 
                   <div className="flex  w-[70vw] flex-wrap xsm:gap-x-10 md:gap-x-6 xl:gap-x-10 gap-y-20 xsm:items-center xsm:justify-center">
                     {res.image.map((img, i) => {
-                      console.log(img, "dki");
                       return (
                         <div
                           className="xxl:!w-[10vw] xsm:!w-[40vw] sm:!w-[20vw] md:w-[10vw] lg:min-h-[20vh]  flex  shadow-2xl rounded-box items-center justify-center flex-col h-[15vh]"

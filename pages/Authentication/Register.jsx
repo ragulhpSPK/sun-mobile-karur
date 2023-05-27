@@ -37,6 +37,7 @@ function Register({ setLogin }) {
         "recaptacha-container",
         {
           size: "invisible",
+
           callback: (response) => {
             // reCAPTCHA solved, allow signInWithPhoneNumber.
           },
@@ -77,13 +78,13 @@ function Register({ setLogin }) {
         const result = await getOneUer(get(res, "user.phoneNumber", ""));
 
         if (isEmpty(result.data.message)) {
-          console.log("trigger");
+          console.log("trigger1234");
           setFormModal(true);
         } else {
           const result = await authHandler({
             number: get(res, "user.phoneNumber", ""),
           });
-          console.log("trigger");
+          console.log("triggered746");
           Cookies.set("x-o-t-p", result.data.data);
           dispatch(changeUserValues({ user: result.data.data }));
           notification.success({ message: "Continue to shop" });
@@ -229,13 +230,7 @@ function Register({ setLogin }) {
           ></OtpInput>
         </div>
       </Modal>
-      <Modal
-        open={formModal}
-        footer={false}
-        onCancel={() => {
-          setFormModal(false);
-        }}
-      >
+      <Modal open={formModal} footer={false}>
         <div className="flex flex-col justify-center">
           <Form
             form={form}

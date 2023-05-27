@@ -23,10 +23,13 @@ export default function Swipper() {
 
   const fetchData = async () => {
     try {
+      dispatch(showLoader());
       const result = await getAllBanner();
       setBanner(get(result, "data.data"));
     } catch (err) {
       console.log(err);
+    } finally {
+      dispatch(hideLoader());
     }
   };
 
@@ -57,7 +60,16 @@ export default function Swipper() {
       >
         {left.map((data, i) => {
           return (
-            <div className="cursor-pointer " key={i}>
+            <div
+              className="cursor-pointer "
+              key={i}
+              onClick={() =>
+                router.push({
+                  pathname: `/product/${data._id}`,
+                  query: { id: data._id },
+                })
+              }
+            >
               <Image
                 src={data.image}
                 width={100}
@@ -75,7 +87,16 @@ export default function Swipper() {
         <div>
           {top.map((data, i) => {
             return (
-              <div className="cursor-pointer " key={i}>
+              <div
+                className="cursor-pointer "
+                key={i}
+                onClick={() =>
+                  router.push({
+                    pathname: `/product/${data._id}`,
+                    query: { id: data._id },
+                  })
+                }
+              >
                 <Image
                   src={data.image}
                   width={100}
@@ -90,7 +111,16 @@ export default function Swipper() {
         <div>
           {bottom.map((data, i) => {
             return (
-              <div className="cursor-pointer " key={i}>
+              <div
+                className="cursor-pointer "
+                key={i}
+                onClick={() =>
+                  router.push({
+                    pathname: `/product/${data._id}`,
+                    query: { id: data._id },
+                  })
+                }
+              >
                 <Image
                   src={data.image}
                   width={100}

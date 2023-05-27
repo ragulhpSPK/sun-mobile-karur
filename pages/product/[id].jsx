@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import React from "react";
 import styles from "../../styles/zoom.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addproduct } from "@/redux/cartSlice";
 import { useRouter } from "next/router";
 import { AddCart } from "@/helper/Addcart";
@@ -25,15 +25,13 @@ import TopProducts from "../../components/topproducts";
 import Cookies from "js-cookie";
 import Login from "@/pages/Authentication/Register";
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
-
-// import required modules
 import { Pagination } from "swiper";
+import { showLoader, hideLoader } from "@/redux/loadingSlice";
 
 export default function App() {
+  const isLoading = useSelector((state) => state.loader.isLoading);
   const [current, setCurrentImage] = useState();
   const router = useRouter();
   const [imgs, setImgs] = useState([]);
@@ -54,17 +52,17 @@ export default function App() {
 
   const fetchData = async () => {
     try {
-      setLoading(true);
+      dispatch(showLoader());
       const result = [await getAllproducts(), await getAllCart()];
       setProduct(get(result, "[0].data.data", []));
       setCart(get(result, "[1].data.message", []));
-      setLoading(false);
+
       const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
       setGetUser(get(getUser, "data.message[0]", []));
     } catch (err) {
       console.log(err);
     } finally {
-      setLoading(false);
+      dispatch(hideLoader());
     }
   };
 
@@ -120,7 +118,7 @@ export default function App() {
 
   return (
     <Spin
-      spinning={loading}
+      spinning={isLoading}
       tip="loading data..."
       size="large"
       indicator={AntIcon}
@@ -128,7 +126,7 @@ export default function App() {
     >
       <div
         className={`${
-          loading ? "invisible" : "visible"
+          isLoading ? "invisible" : "visible"
         } flex justify-center lg:[90vw] mt-[8vh]`}
       >
         <div className="xsm:flex-col  flex lg:!flex-row  xsm:w-[100vw] h-[100vh] lg:w-[90vw] lg:gap-[15vw] xl:gap-[8vw] p-[2vw]   ">

@@ -15,19 +15,21 @@ import { LoadingOutlined } from "@ant-design/icons";
 import Buy from "./buy";
 import { Rate } from "antd";
 import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addproduct } from "@/redux/cartSlice";
 import Link from "next/link";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import Cookies from "js-cookie";
 import Login from "@/pages/Authentication/Register";
 import { isEmpty } from "lodash";
+import { showLoader, hideLoader } from "@/redux/loadingSlice";
 
 function FlashDeals() {
   const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.loader.isLoading);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [product, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
+
   const [cart, setCart] = useState([]);
   const router = useRouter();
   const [getUser, setGetUser] = useState([]);
@@ -35,6 +37,7 @@ function FlashDeals() {
 
   const fetchData = async () => {
     try {
+      dispatch(showLoader());
       const result = [await getAllproducts(), await getAllCart()];
       console.log(result);
       const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
@@ -44,6 +47,8 @@ function FlashDeals() {
       setCart(get(result, "[1].data.message"));
     } catch (err) {
       console.log(err);
+    } finally {
+      dispatch(hideLoader());
     }
   };
 
@@ -85,12 +90,16 @@ function FlashDeals() {
 
   return (
     <Spin
-      spinning={loading}
+      spinning={isLoading}
       tip="Loading Data..."
       size="large"
       indicator={antIcon}
     >
-      <div className="xsm:w-[90vw] xl:w-[80vw] flex !flex-col m-auto mt-[10vh]">
+      <div
+        className={`${
+          isLoading === true ? "invisible" : "visible"
+        } xsm:w-[90vw] xl:w-[80vw] flex !flex-col m-auto mt-[10vh]`}
+      >
         <div className="bg-[--third-color] xsm:w-[90vw] xl:w-[80vw] m-auto ">
           <div className="text-[6vw] text-white text-center xsm:p-[4vh] xl:p-[7vh]  ">
             <p>
