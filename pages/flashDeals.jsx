@@ -30,7 +30,7 @@ function FlashDeals() {
   const isLoading = useSelector((state) => state.loader.isLoading);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [product, setProducts] = useState([]);
-
+  const [goCart, setGoGart] = useState([]);
   const [cart, setCart] = useState([]);
   const router = useRouter();
   const [getUser, setGetUser] = useState([]);
@@ -40,10 +40,10 @@ function FlashDeals() {
     try {
       dispatch(showLoader());
       const result = [await getAllproducts(), await getAllCart()];
-      console.log(result);
+
       const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
       setGetUser(get(getUser, "data.message[0]", []));
-      console.log(getUser, "dwnd");
+
       setProducts(get(result, "[0].data.data"));
       setCart(get(result, "[1].data.message"));
     } catch (err) {
@@ -88,6 +88,13 @@ function FlashDeals() {
       notification.failure({ message: "something went wrong" });
     }
   };
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      window.innerWidth < 640 ? setGoGart(true) : setGoGart(false);
+    });
+    window.innerWidth < 640 ? setGoGart(true) : setGoGart(false);
+  }, [goCart]);
 
   return (
     <Spin
@@ -156,7 +163,11 @@ function FlashDeals() {
                       {cart.find((res) => {
                         return res.productId === data._id;
                       }) ? (
-                        <Link href="/profiles/SideNavbar#2">
+                        <Link
+                          href={`${
+                            goCart ? "/profiles/cart" : "/profiles/SideNavbar#2"
+                          }`}
+                        >
                           <div className="absolute   xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded">
                             <ShoppingCartOutlined />
                             <div>Go to Cart</div>

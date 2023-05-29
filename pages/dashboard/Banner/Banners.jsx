@@ -190,9 +190,9 @@ function Banner() {
 
   return (
     <div className="flex flex-col gap-[5px]">
-      <div>
+      {/* <div>
         <AdminNavbar />
-      </div>
+      </div> */}
       <div className="flex gap-[18px] items-start justify-start">
         <div>
           <Sidenavbar />
@@ -206,7 +206,7 @@ function Banner() {
               <AddOutlinedIcon className="text-[--third-color] mr-2" />
             </div>
 
-            <div className="mt-5 grid grid-cols-5  gap-14 justify-start relative">
+            <div className="mt-5 grid xsm:grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-3 xl:grid-cols-4   gap-14 justify-start relative">
               {banner.map((data) => {
                 return (
                   <Skeleton
@@ -214,7 +214,7 @@ function Banner() {
                     loading={loading ? true : false}
                     key={data._id}
                   >
-                    <Card className="w-[16vw] h-[34vh]  shadow-lg">
+                    <Card className="xl:w-[16vw]   shadow-lg">
                       <div className="float-left relative pl-[15px] w-[25px]">
                         <Badge.Ribbon
                           text={data.status}
@@ -232,14 +232,14 @@ function Banner() {
                       </div>
 
                       <EditNoteOutlinedIcon
-                        className="absolute right-8 top-[3px] text-[--third-color]"
+                        className="absolute right-8 top-[3px] text-[--third-color] cursor-pointer"
                         onClick={() => {
                           setUpdateId(data._id);
                           handleEdit(data);
                         }}
                       />
                       <CloseIcon
-                        className=" absolute right-0 top-0 pr-2 font-bold text-3xl text-[--third-color]"
+                        className=" absolute right-0 top-0 pr-2 font-bold text-3xl text-[--third-color] cursor-pointer"
                         onClick={() => {
                           // setUpdateId(data._id);
                           handleDelete(data._id);
@@ -247,21 +247,21 @@ function Banner() {
                       />
 
                       <div className="flex flex-col gap-2  items-center justify-center w-[100%]">
-                        <div className="text-center h-[10vh] pt-[10px] ">
+                        <div className="text-center  pt-[10px] ">
                           <Image
                             src={data.image}
                             alt="not found"
-                            className=" !w-[12vw] !h-[12vh]  mt-4"
+                            className=" lg:!w-[12vw] lg:!h-[12vh]  mt-4"
                           />
                         </div>
 
                         <div className="pt-10 ">
-                          <h1 className="text-center font-bold text-[16px] ">
+                          <h1 className="text-center font-bold text-[12px] ">
                             {data.name}
                           </h1>
                         </div>
-                        <div className="flex gap-[15px] h-[5vh]">
-                          <p className="text-[15px] font-bold ">
+                        <div className="flex gap-[15px] ">
+                          <p className="text-[12px] font-bold ">
                             {data.productname}
                           </p>
                         </div>
@@ -277,18 +277,13 @@ function Banner() {
         <Modal open={open} footer={false} destroyOnClose>
           <Form form={form} onFinish={handleFinish}>
             <Form.Item name="name" rules={[{ required: true }]}>
-              <Input
-                size="large"
-                placeholder="Enter Banner Name"
-                className="w-[25vw]"
-              />
+              <Input size="large" placeholder="Enter Banner Name" />
             </Form.Item>
             <Form.Item name="productname" rules={[{ required: true }]}>
               <Select
                 size="large"
                 placeholder="Select product name here"
                 onChange={(e) => setProductId(e)}
-                className="!w-[25vw]"
               >
                 {allProducts.map((data) => {
                   return (
@@ -305,7 +300,6 @@ function Banner() {
                 size="large"
                 placeholder="Select your status here.."
                 onChange={(e) => setStatus(e)}
-                className="!w-[25vw]"
               >
                 <Option value="Best Deals">Best Deals</Option>
                 <Option value="Left">left</Option>
@@ -317,7 +311,7 @@ function Banner() {
             <Form.Item>
               <Form.Item className="w-[100%]" name="image">
                 <Upload
-                  listType="picture"
+                  listType="picture-card"
                   onRemove={(e) => {
                     setImageList("");
                   }}

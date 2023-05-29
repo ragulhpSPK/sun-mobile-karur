@@ -15,17 +15,20 @@ import {
   Checkbox,
   Button,
   notification,
+  Skeleton,
 } from "antd";
 import { v1 as uuidv1 } from "uuid";
+import { useDispatch, useSelector } from "react-redux";
+import { showLoader, hideLoader } from "@/redux/loadingSlice";
 
-function Buy({ id }) {
+function Buy({ id, address }) {
   const [products, setProducts] = useState();
   const [qty, setQty] = useState(1);
   const [UID, setUID] = useState("");
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const [payment, setPayment] = useState("");
-  const [address, setAddress] = useState("");
+  const isLoading = useSelector((state) => state.loader.isLoading);
 
   const handleCheck = () => {
     var today = new Date();
@@ -51,12 +54,13 @@ function Buy({ id }) {
 
   const fetchData = async () => {
     try {
-      const result = [await getAllproducts(), await getOneUerforNav()];
-
+      showLoader();
+      const result = [await getAllproducts()];
       setProducts(get(result, "[0]data.data", []));
-      setAddress(get(result, "[1]data.message[0]", []));
     } catch (err) {
       console.error(err);
+    } finally {
+      hideLoader();
     }
   };
 
@@ -107,7 +111,7 @@ function Buy({ id }) {
     setPayment(e.target.defaultValue);
   };
 
-  console.log(address, "dfgynm,");
+  console.log(isLoading, "Loading");
 
   return (
     <div className="flex flex-col gap-[10vh]">
@@ -118,36 +122,55 @@ function Buy({ id }) {
           })
           .map((res, i) => {
             return (
-              <div className="grid grid-cols-2 gap-[2vh] pt-[5vh]" key={i}>
-                <div>
-                  <Image src={res.image[0]} alt="img" height={50} width={50} />
+              <Skeleton key={i} active loading={isLoading}>
+                <div className="grid grid-cols-2 gap-[2vh] pt-[5vh]">
+                  <div>
+                    <Image
+                      src={res.image[0]}
+                      alt="img"
+                      height={50}
+                      width={50}
+                    />
+                  </div>
+                  <div className="xsm:text-[10px] lg:text-lg text-slate-500">
+                    {res.title}
+                  </div>
+                  <div className="flex items-center">
+                    <span className="text-lg pr-[1vw]">Qty:</span>
+                    <InputNumber
+                      min={1}
+                      max={5}
+                      defaultValue={1}
+                      onChange={(e) => {
+                        // setQty(e);
+                        handleChange(res._id, e);
+                      }}
+                    />
+                  </div>
+                  <div className="text-lg text-slate-500">Rs:{res.price}</div>
+                  <div className="flex items-center justify-center">
+                    <span className="text-2xl text-slate-500 ">
+                      Total:{qty * res.price}
+                    </span>
+                  </div>
                 </div>
-                <div className="xsm:text-[10px] lg:text-lg text-slate-500">
-                  {res.title}
-                </div>
-                <div className="flex items-center">
-                  <span className="text-lg pr-[1vw]">Qty:</span>
-                  <InputNumber
-                    min={1}
-                    max={5}
-                    defaultValue={1}
-                    onChange={(e) => {
-                      // setQty(e);
-                      handleChange(res._id, e);
-                    }}
-                  />
-                </div>
-                <div className="text-lg text-slate-500">Rs:{res.price}</div>
-                <div className="flex items-center justify-center">
-                  <span className="text-2xl text-slate-500 ">
-                    Total:{qty * res.price}
-                  </span>
-                </div>
-              </div>
+              </Skeleton>
             );
           })}
 
-      <Form form={form} size="small" layout="vertical" onFinish={handleSubmit}>
+      <Form
+        form={form}
+        size="small"
+        layout="vertical"
+        onFinish={handleSubmit}
+        initialValues={{
+          firstName: address[0]?.firstName,
+          number: address[0]?.number,
+          alternateNumber: address[0]?.alternateNumber,
+          address: address[0]?.address,
+          email: address[0]?.email,
+        }}
+      >
         <Form.Item
           name="firstName"
           label="Name"
@@ -162,25 +185,19 @@ function Buy({ id }) {
             { required: true, message: "Please Enter Your Mobile Number" },
           ]}
         >
-          <Input
-            placeholder="Enter Your  Mobile number"
-            value={address.number}
-          />
+          <Input placeholder="Enter Your  Mobile number" />
         </Form.Item>
         <Form.Item
           name="alternateNumber"
           label={
             <span>
-              Alternate Mobile number{" "}
+              Alternate Mobile number
               <span className="text-slate-400">(optional)</span>
             </span>
           }
           rules={[{ message: "Please Enter Your Alternate Mobile number" }]}
         >
-          <Input
-            placeholder="Enter Your Alternate Mobile number"
-            value={address.alternateNumber}
-          />
+          <Input placeholder="Enter Your Alternate Mobile number" />
         </Form.Item>
         <Form.Item
           name="email"
@@ -191,10 +208,7 @@ function Buy({ id }) {
           }
           rules={[{ message: "Please Enter Your Email Address" }]}
         >
-          <Input
-            placeholder="Enter Your Alternate Mobile number"
-            value={address.email}
-          />
+          <Input placeholder="Enter Your Alternate Mobile number" />
         </Form.Item>
         <Form.Item
           name="address"

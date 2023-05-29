@@ -102,7 +102,7 @@ function Order() {
           );
         } else if (name === "Delivered") {
           return (
-            <div className="bg-green-500 w-[8vw] text-center p-3 text-white rounded">
+            <div className="bg-green-500 xl:w-[8vw] text-center p-3 text-white rounded">
               {name}
             </div>
           );
@@ -110,7 +110,7 @@ function Order() {
         return (
           <Select
             placeholder="Select order status"
-            className="w-[8vw]"
+            className="xl:w-[8vw]"
             defaultValue={name}
             value={name}
             onChange={(e) => handleChangeStatus(e, id)}
@@ -136,19 +136,22 @@ function Order() {
 
   return (
     <div className="flex flex-col">
-      <div>
+      {/* <div>
         <AdminNavbar />
-      </div>
+      </div> */}
       <div className="flex">
         <div>
           <Sidenavbar />
         </div>
 
-        <div className="w-[80vw] p-5">
+        <div className="xl:w-[80vw] p-5 !pt-[12vh]">
           <Table
-            className="m-auto w-[80vw]"
+            className="m-auto xl:w-[80vw]"
             columns={columns}
             dataSource={order}
+            pagination={{
+              pageSize: 10,
+            }}
           />
         </div>
       </div>

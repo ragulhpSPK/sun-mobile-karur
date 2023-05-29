@@ -50,6 +50,7 @@ function Profile() {
       };
       await userProfile(formData);
       fetchData();
+      setOpenDrawer(false);
       notification.success({ message: "profile updated successfully" });
     } catch (err) {
       console.log(err);

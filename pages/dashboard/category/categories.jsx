@@ -9,6 +9,7 @@ import {
   Upload,
   Image,
   Tooltip,
+  Select,
 } from "antd";
 import { FileAddOutlined } from "@ant-design/icons";
 import { DeleteOutlined, PlusOutlined, RedoOutlined } from "@ant-design/icons";
@@ -125,8 +126,6 @@ const Categories = (properties) => {
   //   });
   // }, []);
 
-  console.log(imageList, typeof updateId, "image");
-
   const handleEdit = (value) => {
     console.log(value);
     setUpdateId(value._id);
@@ -162,7 +161,7 @@ const Categories = (properties) => {
     setCategories(category);
     setCategories(
       category.filter((res) => {
-        return res.name.toLowerCase().includes(data);
+        return res.name.toLowerCase().includes(data.toString().toLowerCase());
       })
     );
   }, [category, data]);
@@ -237,6 +236,12 @@ const Categories = (properties) => {
   //   },
   // };
 
+  const searchers = [];
+
+  category.map((data) => {
+    return searchers.push({ value: data.name });
+  });
+
   return (
     <div className="flex flex-col gap-[4vh]">
       {/* <Search
@@ -247,14 +252,27 @@ const Categories = (properties) => {
         }}
       /> */}
 
-      <div className="relative w-[42vw]">
-        <input
+      <div className="relative  lg:w-[39vw]">
+        {/* <input
           type="search"
           placeholder="Type here"
           className="input input-bordered  !w-[100%] "
           onChange={(e) => setData(e.target.value)}
         />
-        <SearchIcon className="absolute top-[8px] right-1 text-3xl" />
+        <SearchIcon className="absolute top-[8px] right-1 text-3xl" /> */}
+
+        <Select
+          mode="tags"
+          style={{
+            width: "100%",
+          }}
+          placeholder="Type here for Category"
+          options={searchers}
+          onChange={(data) => {
+            setData(data);
+          }}
+          size="large"
+        />
       </div>
 
       <Collapse
@@ -277,7 +295,7 @@ const Categories = (properties) => {
             </div>
           }
           key="1"
-          className="!w-[42vw]"
+          className="lg:!w-[39vw]"
         >
           <div className="flex flex-col ">
             <div className="flex flex-col gap-y-2">
@@ -287,7 +305,7 @@ const Categories = (properties) => {
                   loading={loading}
                   size="middle"
                   pagination={{
-                    pageSize: 6,
+                    pageSize: 5,
                   }}
                   dataSource={categories}
                   columns={columns}
@@ -315,12 +333,12 @@ const Categories = (properties) => {
                   ]}
                   name="name"
                 >
-                  <Input placeholder="Category Name" className="w-[25vw]" />
+                  <Input placeholder="Category Name" />
                 </Form.Item>
 
                 <Form.Item className="w-[100%]" name="image">
                   <Upload
-                    listType="picture"
+                    listType="picture-card"
                     onRemove={(e) => {
                       setImageList("");
                     }}

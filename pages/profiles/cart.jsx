@@ -28,7 +28,7 @@ import {
   getOneUerforNav,
 } from "../../helper/utilities/apiHelper";
 import { get } from "lodash";
-import Navbar from "@/components/Navbar";
+
 import { v1 as uuidv1 } from "uuid";
 import { addproduct } from "@/redux/cartSlice";
 import CloseIcon from "@mui/icons-material/Close";
@@ -43,11 +43,9 @@ function Cart() {
   const router = useRouter();
   const [price, setPrice] = useState(router.query.price);
   const [products, setProduts] = useState();
-  const [Buy, setBuy] = useState(false);
   const [draw, setDrawOpen] = useState(false);
-  const [allProducts, setAllProducts] = useState([]);
+
   const dispatch = useDispatch();
-  const [id, setId] = useState([]);
   const [payment, setPayment] = useState("");
   const [form] = Form.useForm();
   const { TextArea } = Input;
@@ -57,10 +55,7 @@ function Cart() {
   uuidv1();
 
   const handleCheck = () => {
-    form.setFieldsValue({ address: "duhjn" });
-
     setDrawOpen(false);
-    setBuy(false);
 
     var today = new Date();
     const v1options = {
@@ -86,15 +81,9 @@ function Cart() {
   const fetchData = async () => {
     try {
       dispatch(showLoader());
-      const result = [
-        await getAllCart(),
-        await getAllproducts(),
-        await getOneUerforNav(),
-      ];
-
+      const result = [await getAllCart(), await getOneUerforNav()];
       setProduts(get(result, "[0].data.message"), []);
-      setAllProducts(get(result, "[1].data.data"), []);
-      setAddress(get(result, "[2].data.message"), []);
+      setAddress(get(result, "[1].data.message"), []);
     } catch (err) {
       console.log(err);
     } finally {
@@ -102,25 +91,9 @@ function Cart() {
     }
   };
 
-  console.log(address[0], "fnjm");
-
   useEffect(() => {
     fetchData();
-    if (Object.keys(router.query).length > 0) {
-      setBuy(true);
-    }
-
-    setPrice(bqty * router.query.price);
-  }, [router.query, bqty]);
-
-  useEffect(() => {
-    setId(
-      products &&
-        products.map((data) => {
-          return data._id;
-        })
-    );
-  }, [products]);
+  }, []);
 
   const deleteHandler = async (data) => {
     try {
@@ -153,7 +126,6 @@ function Cart() {
     });
 
   const handleSubmit = async (e) => {
-    console.log(e);
     try {
       const formData = {
         data: {
@@ -187,14 +159,6 @@ function Cart() {
   const onChangeHandler = (e) => {
     setPayment(e.target.defaultValue);
   };
-
-  const BuyId = allProducts
-    .filter((data) => {
-      return data._id === router.query._id;
-    })
-    .map((res) => {
-      return res._id;
-    });
 
   const antIcon = (
     <ReloadOutlined style={{ fontSize: 40 }} className="animate-spin" />
@@ -331,6 +295,14 @@ function Cart() {
                   layout="vertical"
                   onFinish={handleSubmit}
                   className=" m-auto !text-white !text-lg"
+                  form={form}
+                  initialValues={{
+                    firstName: address[0]?.firstName,
+                    number: address[0]?.number,
+                    alternateNumber: address[0]?.alternateNumber,
+                    address: address[0]?.address,
+                    email: address[0]?.email,
+                  }}
                 >
                   <Form.Item
                     name="firstName"

@@ -51,6 +51,7 @@ function AllCat() {
   const [priceFilter, setPriceFilter] = useState();
   const [getUser, setGetUser] = useState([]);
   const [login, setLogin] = useState(false);
+  const [goCart, setGoGart] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -65,7 +66,7 @@ function AllCat() {
       ];
       const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
       setGetUser(get(getUser, "data.message[0]", []));
-      console.log(getUser, "dwnd");
+
       setCategory(get(result, "[0].data.data", []));
       setSubCategory(get(result, "[1].data.data", []));
       setProducts(get(result, "[2].data.data", []));
@@ -251,6 +252,13 @@ function AllCat() {
     router.push({ pathname: "/allCat", query: { _id: 123 } });
     setActive(true);
   };
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      window.innerWidth < 640 ? setGoGart(true) : setGoGart(false);
+    });
+    window.innerWidth < 640 ? setGoGart(true) : setGoGart(false);
+  }, [goCart]);
 
   return (
     <Spin
@@ -451,7 +459,13 @@ function AllCat() {
                               {cart.find((res) => {
                                 return res.productId === data._id;
                               }) ? (
-                                <Link href="/profiles/SideNavbar#2">
+                                <Link
+                                  href={`${
+                                    goCart
+                                      ? "/profiles/cart"
+                                      : "/profiles/SideNavbar#2"
+                                  }`}
+                                >
                                   <div
                                     className="absolute  xsm:left-0 xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
@@ -735,7 +749,13 @@ function AllCat() {
                           {cart.find((res) => {
                             return res.productId === data._id;
                           }) ? (
-                            <Link href="/profiles/cart">
+                            <Link
+                              href={`${
+                                goCart
+                                  ? "/profiles/cart"
+                                  : "/profiles/SideNavbar#2"
+                              }`}
+                            >
                               <div
                                 className="absolute  xsm:left-0 xsm:w-[180px] sm:w-[30vw] md:w-[160px] lg:w-[190px] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "

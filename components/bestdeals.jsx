@@ -33,13 +33,14 @@ function Bestdeals() {
   const [cart, setCart] = useState([]);
   const router = useRouter();
   const dispatch = useDispatch();
+  const [goCart, setGoGart] = useState([]);
 
   const fetchData = async () => {
     try {
       const result = [await getAllproducts(), await getAllCart()];
       const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
       setGetUser(get(getUser, "data.message[0]", []));
-      console.log(getUser, "dwnd");
+
       setProducts(get(result, "[0].data.data"));
       setCart(get(result, "[1].data.message"));
     } catch (err) {
@@ -78,6 +79,13 @@ function Bestdeals() {
       notification.failure({ message: "something went wrong" });
     }
   };
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      window.innerWidth < 640 ? setGoGart(true) : setGoGart(false);
+    });
+    window.innerWidth < 640 ? setGoGart(true) : setGoGart(false);
+  }, [goCart]);
 
   return (
     <div className="flex flex-col  !w-[90vw] xl:!w-[80vw] mt-0 pt-0  m-auto justify-center">
@@ -147,7 +155,7 @@ function Bestdeals() {
                     <div className="card-body ">
                       <div className="h-[6vh]">
                         <h2
-                          className="font-bold xsm:text-[12px] text-center p-[1vh] lg:text-[16px]"
+                          className="font-bold xsm:text-[12px] text-center p-[1vh] lg:text-[16px] cursor-pointer"
                           onClick={() =>
                             router.push({
                               pathname: `/product/${res._id}`,
@@ -181,9 +189,13 @@ function Bestdeals() {
                       {cart.find((data) => {
                         return data.productId === res._id;
                       }) ? (
-                        <Link href="/profiles/SideNavbar#2">
+                        <Link
+                          href={`${
+                            goCart ? "/profiles/cart" : "/profiles/SideNavbar#2"
+                          }`}
+                        >
                           <div
-                            className="absolute bottom-5 xsm:left-[15%] lg:left-[12%] xsm:w-[80%] xl:left-[28%] xxl:left-[17%]   xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
+                            className="absolute bottom-5 xsm:left-[15%] lg:left-[12%] xsm:w-[80%] xl:left-[28%] cursor-pointer xxl:left-[17%]   xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
                   "
                           >
                             <ShoppingCartOutlined />
@@ -192,7 +204,7 @@ function Bestdeals() {
                         </Link>
                       ) : (
                         <div
-                          className="absolute bottom-5 xsm:left-[15%] lg:left-[12%] xsm:w-[80%] xl:left-[28%] xxl:left-[17%]   xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                          className="absolute bottom-5 xsm:left-[15%] cursor-pointer lg:left-[12%] xsm:w-[80%] xl:left-[28%] xxl:left-[17%]   xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                           onClick={() => {
                             isEmpty(getUser)

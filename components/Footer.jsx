@@ -51,7 +51,9 @@ const CustomerFooters = () => {
                 className="flex gap-x-2 items-start justify-start"
               >
                 <div>{res.icon}</div>
-                <div className="font-bold">{res.title}:</div>
+                <div className="font-bold hover:text-[--third-color] cursor-pointer">
+                  {res.title}:
+                </div>
                 <div className="text-md lg:w-[20vw]">{res.subTitle}</div>
               </div>
             );
@@ -60,13 +62,17 @@ const CustomerFooters = () => {
       </div>
       {/* Tours */}
       <div className="lg:w-[20vw] flex-col  items-center pt-2 gap-y-4  p-2">
-        <div className="text-lg font-bold ">Website Tour</div>
+        <div className="text-lg font-bold hover:text-[--third-color] cursor-pointer">
+          Website Tour
+        </div>
         <div className="pt-2 flex gap-y-2 flex-col  ">
           {["Home", "Categories", "Profile", "Orders", "Abous us"].map(
             (res, index) => {
               return (
                 <div key={index} className="flex gap-x-2 items-start">
-                  <div className="">{res}</div>
+                  <div className="hover:text-[--third-color] cursor-pointer font-normal">
+                    {res}
+                  </div>
                 </div>
               );
             }

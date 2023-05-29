@@ -8,7 +8,6 @@ import {
   notification,
   Collapse,
   Upload,
-  Tooltip,
   Image,
 } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
@@ -133,12 +132,20 @@ const Subcategories = (properties) => {
     setsubCategories(
       subcategory.filter((res) => {
         return (
-          res.subcategoryname.toLowerCase().includes(data) ||
-          res.categoryname.toLowerCase().includes(data)
+          res.subcategoryname
+            .toLowerCase()
+            .includes(data.toString().toLowerCase()) ||
+          res.categoryname.toLowerCase().includes(data.toString().toLowerCase())
         );
       })
     );
   }, [subcategory, data]);
+
+  const searchers = [];
+
+  subcategory.map((data) => {
+    return searchers.push({ value: data.subcategoryname });
+  });
 
   const columns = [
     {
@@ -240,14 +247,27 @@ const Subcategories = (properties) => {
 
   return (
     <div className="flex flex-col gap-[4vh]">
-      <div className="relative w-[42vw]">
-        <input
+      <div className="relative xsm:pr-2 lg:pr-0 lg:w-[39vw]">
+        {/* <input
           type="search"
           placeholder="Type here"
           className="input input-bordered  !w-[100%] "
           onChange={(e) => setData(e.target.value)}
         />
-        <SearchIcon className="absolute top-[8px] right-1 text-3xl" />
+        <SearchIcon className="absolute top-[8px] right-1 text-3xl" /> */}
+
+        <Select
+          mode="tags"
+          style={{
+            width: "100%",
+          }}
+          placeholder="Type here for Subcategory"
+          options={searchers}
+          onChange={(data) => {
+            setData(data);
+          }}
+          size="large"
+        />
       </div>
       <Collapse
         defaultActiveKey={["1"]}
@@ -270,7 +290,7 @@ const Subcategories = (properties) => {
             </div>
           }
           key="1"
-          className="!w-[42vw]"
+          className="lg:!w-[39vw]"
         >
           <div className="flex flex-col ">
             <div className="flex flex-col gap-y-2 ">
@@ -281,13 +301,13 @@ const Subcategories = (properties) => {
                   size="middle"
                   loading={loading}
                   pagination={{
-                    pageSize: 6,
+                    pageSize: 5,
                   }}
                 />
               </div>
               <Modal footer={false} open={open} destroyOnClose>
                 <Form form={form} onFinish={handleFinish}>
-                  <div className="flex flex-col gap-y-2 items-center">
+                  <div className="flex flex-col gap-y-2 items-center relative">
                     <Form.Item
                       className="!w-[100%]"
                       rules={[
@@ -301,11 +321,11 @@ const Subcategories = (properties) => {
                       <Input
                         size="large"
                         placeholder="Enter SubCategory Name"
-                        className="!w-[25vw]"
+                        // className="lg:!w-[35vw] xl:!w-[25vw]"
                       />
                     </Form.Item>
                     <Form.Item
-                      className="!w-[25vw]"
+                      className="!w-[100%]"
                       name="categoryId"
                       rules={[
                         {
@@ -319,7 +339,7 @@ const Subcategories = (properties) => {
                         onChange={(e) => {
                           selectedSetcategorieName(e);
                         }}
-                        className="!w-[25vw]"
+                        // className="xsm:!w-[80vw] sm:!w-[60vw] md:!w-[50vw] lg:!ml-[-9vw] xl:!pl-[3vw] xxl:!pl-[5vw] xl:w-[25vw] xxl:!w-[25vw] lg:!w-[30vw]"
                       >
                         {category &&
                           category.map((res) => {
@@ -332,31 +352,29 @@ const Subcategories = (properties) => {
                       </Select>
                     </Form.Item>
 
-                    <Form.Item>
-                      <Form.Item className="w-[100%]" name="image">
-                        <Upload
-                          listType="picture"
-                          onRemove={(e) => {
-                            setImageList("");
-                          }}
-                          fileList={
-                            imageList !== ""
-                              ? [
-                                  {
-                                    url: imageList,
-                                  },
-                                ]
-                              : []
-                          }
-                          maxCount={1}
-                          onChange={(e) => uploadImage(e.file.originFileObj)}
-                        >
-                          <div>
-                            <PlusOutlined />
-                            <div style={{ marginTop: 8 }}>Upload</div>
-                          </div>
-                        </Upload>
-                      </Form.Item>
+                    <Form.Item className="w-[100%]" name="image">
+                      <Upload
+                        listType="picture-card"
+                        onRemove={(e) => {
+                          setImageList("");
+                        }}
+                        fileList={
+                          imageList !== ""
+                            ? [
+                                {
+                                  url: imageList,
+                                },
+                              ]
+                            : []
+                        }
+                        maxCount={1}
+                        onChange={(e) => uploadImage(e.file.originFileObj)}
+                      >
+                        <div>
+                          <PlusOutlined />
+                          <div style={{ marginTop: 8 }}>Upload</div>
+                        </div>
+                      </Upload>
                     </Form.Item>
 
                     <div className="flex gap-5 justify-end self-end">

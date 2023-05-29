@@ -8,6 +8,7 @@ import StayCurrentPortraitOutlinedIcon from "@mui/icons-material/StayCurrentPort
 import AppsOutlinedIcon from "@mui/icons-material/AppsOutlined";
 import ViewCarouselOutlinedIcon from "@mui/icons-material/ViewCarouselOutlined";
 import React from "react";
+import Image from "next/image";
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -17,48 +18,46 @@ function getItem(label, key, icon, children, type) {
     type,
   };
 }
+
 export const Items = [
   getItem(
     <Link href="/dashboard">
       <h1 className="!text-xl">Dashboard</h1>
     </Link>,
-    "menu1",
-    <FundOutlined className="!text-xl" />
+    "dashboard",
+    // <FundOutlined className="!text-xl" />
+    <Image src="/assets/dash.png" alt="no" width={28} height={28} />
   ),
   getItem(
     <Link href="/dashboard/product/products">
       <h1 className="!text-xl">Products</h1>
     </Link>,
-    "menu2",
-    <StayCurrentPortraitOutlinedIcon className="!text-xl" />
+    "products",
+    // <StayCurrentPortraitOutlinedIcon className="!text-xl" />
+    <Image src="/assets/products.png" alt="no" width={28} height={28} />
   ),
   getItem(
     <Link href="/dashboard/category">
       <h1 className="!text-xl">Category</h1>
     </Link>,
-    "menu3",
-    <AppsOutlinedIcon className="!text-xl" />
+    "category",
+    // <AppsOutlinedIcon className="!text-xl" />
+    <Image src="/assets/category.png" alt="no" width={28} height={28} />
   ),
   getItem(
     <Link href="/dashboard/Banner/Banners">
       <h1 className="!text-xl">Banner</h1>
     </Link>,
-    "menu4",
-    <ViewCarouselOutlinedIcon className="!text-xl" />
+    "Banners",
+    // <ViewCarouselOutlinedIcon className="!text-xl" />
+    <Image src="/assets/banner2.png" alt="no" width={28} height={28} />
   ),
   getItem(
     <Link href="/dashboard/order/order">
       <h1 className="!text-xl">order</h1>
     </Link>,
-    "menu5",
-    <ViewCarouselOutlinedIcon className="!text-xl" />
-  ),
-
-  getItem(
-    <Link href="/dashboard/topProducts/Topproducts">
-      <h1 className="!text-xl">Top Products</h1>
-    </Link>,
-    "menu6",
-    <ViewCarouselOutlinedIcon className="!text-xl" />
+    "order",
+    // <ViewCarouselOutlinedIcon className="!text-xl" />
+    <Image src="/assets/order.png" alt="no" width={28} height={28} />
   ),
 ];

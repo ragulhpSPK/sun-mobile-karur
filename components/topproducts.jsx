@@ -35,7 +35,7 @@ function Topproducts() {
       const result = [await getAllproducts(), await getAllCart()];
       const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
       setGetUser(get(getUser, "data.message[0]", []));
-      console.log(getUser, "dwnd");
+
       setProducts(get(result, "[0].data.data"));
       setCart(get(result, "[1].data.message"));
     } catch (err) {
@@ -99,7 +99,7 @@ function Topproducts() {
                 </figure>
                 <div className="card-body ">
                   <h2
-                    className="font-bold xsm:text-[12px] lg:text-[16px] text-center"
+                    className="font-bold xsm:text-[12px] cursor-pointer lg:text-[16px] text-center"
                     onClick={() =>
                       router.push({
                         pathname: `/product/${res._id}`,
@@ -131,7 +131,7 @@ function Topproducts() {
                   }) ? (
                     <Link href="/profiles/SideNavbar#2">
                       <div
-                        className="absolute bottom-5 xsm:left-[10%] xsm:!w-[80%] xl:w-[15vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
+                        className="absolute bottom-5 cursor-pointer xsm:left-[10%] xsm:!w-[80%] xl:w-[15vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
                   "
                       >
                         <ShoppingCartOutlined />
@@ -140,7 +140,7 @@ function Topproducts() {
                     </Link>
                   ) : (
                     <div
-                      className="absolute bottom-5 xsm:left-[10%] xsm:!w-[80%] xl:w-[15vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                      className="absolute bottom-5 cursor-pointer xsm:left-[10%] xsm:!w-[80%] xl:w-[15vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                       onClick={() => {
                         isEmpty(getUser)

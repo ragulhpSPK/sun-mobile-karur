@@ -30,8 +30,6 @@ function AllProducts() {
     }
   };
 
-  console.log(isLoading);
-
   useEffect(() => {
     fetchData();
   }, []);

@@ -38,12 +38,14 @@ export default function App() {
   const [product, setProduct] = useState([]);
   const [filterData, setFilterData] = useState([]);
   const [cart, setCart] = useState([]);
+  const [goCart, setGoGart] = useState([]);
   const dispatch = useDispatch();
   const [openDraw, setopenDraw] = useState(false);
   const [size, setSize] = useState();
   const [login, setLogin] = useState(false);
   const [getUser, setGetUser] = useState([]);
   const [go, setGo] = useState("");
+  const [address, setAddress] = useState("");
 
   const result = AddCart.filter((data) => {
     return data.product_id == router.query.id;
@@ -52,9 +54,14 @@ export default function App() {
   const fetchData = async () => {
     try {
       dispatch(showLoader());
-      const result = [await getAllproducts(), await getAllCart()];
+      const result = [
+        await getAllproducts(),
+        await getAllCart(),
+        await getOneUerforNav(),
+      ];
       setProduct(get(result, "[0].data.data", []));
       setCart(get(result, "[1].data.message", []));
+      setAddress(get(result, "[2]data.message", []));
       const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
       setGetUser(get(getUser, "data.message[0]", []));
     } catch (err) {
@@ -114,6 +121,13 @@ export default function App() {
     <ReloadOutlined style={{ fontSize: 40 }} className="animate-spin" />
   );
 
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      window.innerWidth < 640 ? setGoGart(true) : setGoGart(false);
+    });
+    window.innerWidth < 640 ? setGoGart(true) : setGoGart(false);
+  }, [goCart]);
+
   return (
     <Spin
       spinning={isLoading}
@@ -127,7 +141,7 @@ export default function App() {
           isLoading ? "invisible" : "visible"
         } flex justify-center lg:[90vw] mt-[8vh]`}
       >
-        <div className="xsm:flex-col  flex lg:!flex-row  xsm:w-[100vw] h-[100vh] lg:w-[90vw] lg:gap-[15vw] xl:gap-[8vw] p-[2vw]   ">
+        <div className="xsm:flex-col  flex lg:!flex-row  xsm:w-[100vw] lg:h-[100vh] lg:w-[90vw] lg:gap-[15vw] xl:gap-[8vw] p-[2vw]   ">
           <div className="lg:hidden">
             <Swiper
               pagination={true}
@@ -206,7 +220,7 @@ export default function App() {
               </div>
             </div>
           </div>
-          <div className="xsm:pt-[1vh] lg:!pt-[8vh] xl:pt-[3vh] !self-center bg-slate-100  lg:min-h-[70vh] h-fit xxl:!pt-[1vh] py-[2vh] xsm:w-[90vw] lg:w-[40vw] flex ">
+          <div className="xsm:pt-[1vh]  lg:!pt-[8vh] xl:pt-[3vh] !self-center bg-slate-100  lg:min-h-[70vh] h-fit lg:!mt-[-7vh] xxl:!mt-[-5vh] py-[2vh] xsm:w-[90vw] lg:w-[40vw] flex ">
             {result &&
               filterData.map((data, index) => {
                 return (
@@ -247,7 +261,11 @@ export default function App() {
 
                     <div className="pt-10 flex lg:gap-5 xsm:pl-0   !gap-x-[6vw] xsm:w-[80vw]  sm:pr-[8vw] sm:w-[40vw] xl:!pl-0">
                       {go !== undefined ? (
-                        <Link href="/profiles/SideNavbar#2">
+                        <Link
+                          href={`${
+                            goCart ? "/profiles/cart" : "/profiles/SideNavbar#2"
+                          }`}
+                        >
                           <button className="bg-slate-300 text-[#000] shadow-2xl hover:bg-[--second-color] hover:scale-105 hover:font-medium hover:text-white duration-1000 text-sm rounded-md w-[150px] !h-[40px] px-2">
                             Go to Cart
                           </button>
@@ -293,7 +311,7 @@ export default function App() {
                         setopenDraw(false);
                       }}
                     >
-                      <Buy id={router.query.id} />
+                      <Buy id={router.query.id} address={address} />
                     </Drawer>
                   </div>
                 );

@@ -37,14 +37,14 @@ const CategoryHome = () => {
 
   return (
     <div className="flex flex-col">
-      <div>
+      {/* <div>
         <AdminNavbar />
-      </div>
+      </div> */}
       <div className="flex flex-row gap-x-5">
         <div>
           <Sidenavbar />
         </div>
-        <div className="pt-[5vh] flex items-start gap-x-10 justify-start">
+        <div className="pt-[5vh] flex flex-col lg:flex-row gap-y-10 items-start gap-x-10 justify-start">
           <Categories
             loading={loading}
             setLoading={setLoading}

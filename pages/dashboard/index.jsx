@@ -5,14 +5,14 @@ import AdminNavbar from "./shared/AdminNavbar";
 const Home = () => {
   return (
     <div className="flex flex-col">
-      <div>
+      {/* <div>
         <AdminNavbar />
-      </div>
+      </div> */}
       <div className="flex flex-row">
         <div>
           <Sidenavbar />
         </div>
-        <div>home</div>
+        <div className="pt-[6vh] pl-2">home</div>
       </div>
     </div>
   );

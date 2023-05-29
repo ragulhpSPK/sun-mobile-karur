@@ -1,7 +1,6 @@
 const crypto = require("crypto");
 
 export const excrypt = (value) => {
-  console.log(value, "value");
   try {
     var mykey = crypto.createCipheriv("aes-128-cbc", process.env.PLAIN_TEXT);
     var mystr = mykey.update(jSON.stringify(value), "utf-8", "hex");

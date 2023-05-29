@@ -42,7 +42,7 @@ function Categories() {
           freeMode={true}
           autoplay={true}
           modules={[FreeMode, Pagination, Autoplay]}
-          className=" !bg-white !flex !items-center !justify-center !p-2"
+          className="!bg-white !flex !flex-row  !items-center !justify-center !p-10 !h-fit !px-10"
           breakpoints={{
             640: {
               slidesPerView: 2,
@@ -73,7 +73,7 @@ function Categories() {
                   });
                 }}
               >
-                <div className="card xl:w-[12vw] h-[250px] bg-base-100 xsm:shadow-sm xl:shadow-xl flex items-center justify-center  cursor-pointer">
+                <div className="card xl:w-[12vw] h-[250px]  bg-base-100 xsm:shadow-sm xl:shadow-xl flex items-center justify-center  cursor-pointer">
                   <figure className="px-10 pt-10  flex flex-col items-center">
                     <Image
                       src={data.image}

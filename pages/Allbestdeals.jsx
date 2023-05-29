@@ -28,7 +28,7 @@ function Allbestdeals() {
   const [product, setProducts] = useState([]);
   const [banner, setBanner] = useState([]);
   const [bestProducts, setbestProducts] = useState([]);
-
+  const [goCart, setGoGart] = useState([]);
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.loader.isLoading);
   const [cart, setCart] = useState([]);
@@ -45,7 +45,7 @@ function Allbestdeals() {
       ];
       const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
       setGetUser(get(getUser, "data.message[0]", []));
-      console.log(getUser, "dwnd");
+
       console.log(result);
       setProducts(get(result, "[0].data.data"));
       setCart(get(result, "[1].data.message"));
@@ -93,6 +93,13 @@ function Allbestdeals() {
     <LoadingOutlined style={{ fontSize: 40 }} className="animate-spin" />
   );
 
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      window.innerWidth < 640 ? setGoGart(true) : setGoGart(false);
+    });
+    window.innerWidth < 640 ? setGoGart(true) : setGoGart(false);
+  }, [goCart]);
+
   return (
     <Spin
       spinning={isLoading}
@@ -108,7 +115,6 @@ function Allbestdeals() {
         <div className="!w-[85vw]">
           {banner
             .filter((data) => {
-              console.log(data);
               return data.status === "Best Deals";
             })
             .map((res) => {
@@ -171,7 +177,11 @@ function Allbestdeals() {
                     {cart.find((res) => {
                       return res.productId === data._id;
                     }) ? (
-                      <Link href="/profiles/SideNavbar#2">
+                      <Link
+                        href={`${
+                          goCart ? "/profiles/cart" : "/profiles/SideNavbar#2"
+                        }`}
+                      >
                         <div
                           className="absolute   xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
                   "

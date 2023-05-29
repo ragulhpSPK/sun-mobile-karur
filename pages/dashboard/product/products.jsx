@@ -71,23 +71,16 @@ function Products({ content }) {
   const [values, setValue] = useState("");
   const [imagename, setImageName] = useState([]);
   const [data, setData] = useState([]);
-  const [offer, setOffer] = useState(false);
+  const [size, setSize] = useState();
   const [catFilter, setCatFilter] = useState([]);
   const [catFil, setCategoryFil] = useState([]);
   const [highlight, setHighlights] = useState([]);
   const [subCatFilter, setSubCatFilter] = useState([]);
-  const [deleted, setDeleted] = useState(false);
-  // const ref = useRef;
 
-  const [offerId, setOfferId] = useState([]);
-  const [offerPercent, setOfferPercet] = useState("");
-  const [offerValue, setOfferValue] = useState("");
   const [checked, setChecked] = useState();
   const [tablechecked, setTablechecked] = useState(false);
   const [status, setStatus] = useState(false);
-  const [best, setBest] = useState(false);
-  const [bestPercent, setbestPercent] = useState([]);
-  const [bestId, setBestId] = useState("");
+
   const [imageList, setImageList] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -333,6 +326,7 @@ function Products({ content }) {
 
   const toggleBestDeals = async (res, id) => {
     console.log(res, id);
+    setLoading(true);
     try {
       const formData = {
         id: id._id,
@@ -344,6 +338,8 @@ function Products({ content }) {
     } catch (error) {
       console.log(error);
       notification.error({ message: "something went wrong" });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -540,6 +536,17 @@ function Products({ content }) {
       },
     ],
   };
+
+  const searchers = [];
+
+  products.map((data) => {
+    return searchers.push({
+      value: data.title,
+    });
+  });
+
+  console.log(props, "searchers");
+
   return (
     <div className="flex flex-col">
       <div>
@@ -550,31 +557,61 @@ function Products({ content }) {
           <Sidenavbar />
         </div>
         <div className="flex flex-col">
-          <div className="relative w-[60vw] h-[10vh] pl-[20vw] mt-10">
-            <input
+          <div className="relative lg:w-[60vw] h-[10vh] pl-[20vw] xsm:pr-2 mt-10">
+            {/* <input
               type="search"
               placeholder="Type here"
               className="input input-bordered  !w-[100%] "
               onChange={(e) => setData(e.target.value)}
             />
-            <SearchIcon className="absolute top-[8px] right-1 text-3xl" />
+            <SearchIcon className="absolute top-[8px] right-1 text-3xl" />*/}
+            <Select
+              mode="tags"
+              style={{
+                width: "100%",
+              }}
+              placeholder="Type here for Products"
+              options={searchers}
+              onChange={(data) => {
+                setData(data);
+              }}
+              size="large"
+            />
           </div>
-          <div className="relative flex flex-col gap-[2px]">
-            <div className="w-[82vw] !bg-white" onClick={() => setOpen(!open)}>
-              <FileAddOutlined className="!text-[#943074] !bg-white !text-2xl float-right mr-[1vw]" />
+          <div className="relative flex flex-col gap-[2px] ">
+            <div
+              className="w-[82vw] !bg-white lg:hidden"
+              onClick={() => {
+                setOpen(!open);
+                setSize(250);
+              }}
+            >
+              <FileAddOutlined className="!text-[#943074] !bg-white !text-2xl float-right mr-[1vw] cursor-pointer" />
+            </div>
+            <div
+              className="w-[82vw] !bg-white hidden lg:block"
+              onClick={() => {
+                setOpen(!open);
+                setSize(550);
+              }}
+            >
+              <FileAddOutlined className="!text-[#943074] !bg-white !text-2xl float-right mr-[1vw] cursor-pointer" />
             </div>
             <div className="pl-10">
               <div className="overflow-x-auto ">
                 <Table
-                  className="w-[85vw] "
+                  className="w-[80vw] "
                   columns={columns}
                   dataSource={result}
                   loading={loading}
+                  pagination={{
+                    pageSize: 5,
+                  }}
                   // rowSelection={rowSelection}
                 />
               </div>
             </div>
-            <Drawer width={600} open={open} destroyOnClose placement="right">
+            <Drawer width={size} open={open} destroyOnClose placement="right">
               <Form
                 className="flex flex-col relative"
                 form={form}
@@ -594,7 +631,7 @@ function Products({ content }) {
                   <Input
                     size="large"
                     placeholder="Enter product Name"
-                    className="w-[35vw]"
+                    className="lg:w-[35vw]"
                   />
                 </Form.Item>
                 <Form.Item
@@ -608,7 +645,7 @@ function Products({ content }) {
                   <Input
                     size="large"
                     placeholder="Enter product Price"
-                    className="w-[35vw]"
+                    className="lg:w-[35vw]"
                   />
                 </Form.Item>
                 <Form.Item
@@ -622,7 +659,7 @@ function Products({ content }) {
                   <Input
                     size="large"
                     placeholder="Enter product Offer"
-                    className="w-[35vw]"
+                    className="lg:w-[35vw]"
                   />
                 </Form.Item>
                 <Form.Item
@@ -640,7 +677,7 @@ function Products({ content }) {
                       handleChange(e);
                       setCategoryFil(e);
                     }}
-                    className="!w-[35vw]"
+                    className="lg:!w-[35vw]"
                   >
                     {category.map((res) => {
                       return (
@@ -733,22 +770,40 @@ function Products({ content }) {
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
                 </Upload> */}
-                <div className="flex flex-col">
-                  <Upload
-                    multiple
-                    customRequest={({ file }) => handleUpload(file)}
-                    className="flex flex-col w-[100%] items-center justify-center"
-                    listType="picture"
-                    {...(props ? props : "")}
-                  >
-                    <Button
-                      icon={<UploadOutlined />}
-                      className="!bg-[--third-color]"
+                {props.defaultFileList[0].url === undefined ? (
+                  <div className="flex flex-col">
+                    <Upload
+                      multiple
+                      customRequest={({ file }) => handleUpload(file)}
+                      className="flex flex-col w-[100%] items-center justify-center"
+                      listType="picture"
                     >
-                      Select Files
-                    </Button>
-                  </Upload>
-                </div>
+                      <Button
+                        icon={<UploadOutlined />}
+                        className="!bg-[--third-color]"
+                      >
+                        Select Files
+                      </Button>
+                    </Upload>
+                  </div>
+                ) : (
+                  <div className="flex flex-col !w-[100%]">
+                    <Upload
+                      multiple
+                      customRequest={({ file }) => handleUpload(file)}
+                      className="flex flex-col "
+                      listType="picture-card"
+                      {...props}
+                    >
+                      <Button
+                        icon={<UploadOutlined />}
+                        className="!bg-[--third-color]"
+                      >
+                        Select Files
+                      </Button>
+                    </Upload>
+                  </div>
+                )}
 
                 <div className="flex gap-5 justify-end ">
                   <Button

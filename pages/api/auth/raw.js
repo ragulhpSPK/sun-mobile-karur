@@ -17,7 +17,7 @@ export default async function MessageController(req, res) {
       {
         try {
           await middleware(req, res);
-          console.log(req);
+
           const user = await User.findByIdAndUpdate(
             { _id: req.body.uid.id },
             req.body

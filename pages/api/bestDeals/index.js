@@ -9,7 +9,6 @@ export default async function bestController(req, res) {
       } catch (err) {}
     }
     case "PUT": {
-      console.log(req.body, "ijhbvghbjnkm");
       try {
         await Product.findByIdAndUpdate({ _id: req.body.id }, { ...req.body });
         return res.status(200).send({ message: "success" });

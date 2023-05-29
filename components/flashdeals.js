@@ -26,13 +26,14 @@ const TopRated = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const router = useRouter();
   const dispatch = useDispatch();
+  const [goCart, setGoGart] = useState([]);
 
   const fetchData = async () => {
     try {
       const result = [await getAllproducts(), await getAllCart()];
       const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
       setGetUser(get(getUser, "data.message[0]", []));
-      console.log(getUser, "dwnd");
+
       setProducts(get(result, "[0].data.data"));
       setCart(get(result, "[1].data.message"));
     } catch (err) {
@@ -70,6 +71,13 @@ const TopRated = () => {
       notification.failure({ message: "something went wrong" });
     }
   };
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      window.innerWidth < 640 ? setGoGart(true) : setGoGart(false);
+    });
+    window.innerWidth < 640 ? setGoGart(true) : setGoGart(false);
+  }, [goCart]);
 
   return (
     <div className="flex flex-col mt-[5vh] !w-[90vw] xl:!w-[80vw]  m-auto justify-center">
@@ -139,7 +147,7 @@ const TopRated = () => {
                     <div className="card-body ">
                       <div className="h-[6vh]">
                         <h2
-                          className="font-bold text-center p-[1vh] xsm:text-[12px] lg:text-[16px]"
+                          className="font-bold text-center p-[1vh] xsm:text-[12px] cursor-pointer lg:text-[16px]"
                           onClick={() =>
                             router.push({
                               pathname: `/product/${res._id}`,
@@ -172,9 +180,13 @@ const TopRated = () => {
                       {cart.find((data) => {
                         return data.productId === res._id;
                       }) ? (
-                        <Link href="/profiles/SideNavbar#2">
+                        <Link
+                          href={`${
+                            goCart ? "/profiles/cart" : "/profiles/SideNavbar#2"
+                          }`}
+                        >
                           <div
-                            className="absolute bottom-5 xsm:left-[15%] lg:left-[12%] xsm:w-[80%] xl:left-[28%] xxl:left-[17%]   xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
+                            className="absolute bottom-5 xsm:left-[15%] cursor-pointer lg:left-[12%] xsm:w-[80%] xl:left-[28%] xxl:left-[17%]   xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
                   "
                           >
                             <ShoppingCartOutlined />
@@ -183,7 +195,7 @@ const TopRated = () => {
                         </Link>
                       ) : (
                         <div
-                          className="absolute bottom-5  xsm:left-[15%] lg:left-[12%] xsm:w-[80%] xl:left-[28%]  xl:!w-[12vw] xxl:left-[17%] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded"
+                          className="absolute bottom-5 cursor-pointer xsm:left-[15%] lg:left-[12%] xsm:w-[80%] xl:left-[28%]  xl:!w-[12vw] xxl:left-[17%] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded"
                           onClick={() => {
                             isEmpty(getUser)
                               ? setLogin(true)

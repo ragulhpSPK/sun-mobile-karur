@@ -146,7 +146,6 @@ export const addOrRemoveFlash = (formData) => {
 //best deals
 
 export const addOrRemoveBest = (formData) => {
-  console.log(formData);
   axios.put(`/api/bestDeals/`, formData);
 };
 
@@ -165,6 +164,5 @@ export const getOneUerforNav = () => {
 };
 
 export const userProfile = (formData) => {
-  console.log(formData, "deuhrinj");
   return axios.put(`/api/auth/raw`, formData);
 };

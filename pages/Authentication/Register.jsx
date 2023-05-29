@@ -31,41 +31,44 @@ function Register({ setLogin }) {
   const [formModal, setFormModal] = useState(false);
 
   const dispatch = useDispatch();
-  // const generateRecaptchaVerifier = () => {
-  //   try {
-  //     window.recaptchaVerifier = new RecaptchaVerifier(
-  //       "recaptacha-container",
-  //       {
-  //         size: "invisible",
+  const generateRecaptchaVerifier = () => {
+    try {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        "recaptacha-container",
+        {
+          size: "invisible",
 
-  //         callback: (response) => {
-  //           // reCAPTCHA solved, allow signInWithPhoneNumber.
-  //         },
-  //       },
-  //       authentication
-  //     );
-  //   } catch (err) {
-  //     console.log(err, "oiodieuoe");
-  //   }
-  // };
+          callback: (response) => {
+            // reCAPTCHA solved, allow signInWithPhoneNumber.
+          },
+        },
+        authentication
+      );
+    } catch (err) {
+      console.log(err, "oiodieuoe");
+    }
+  };
 
   const requestOTP = async (e) => {
     setLogin(false);
     setExpandForm(true);
 
     e.preventDefault();
-    if (phoneNumber.length >= 12) {
-      setExpandForm(true);
-      // generateRecaptchaVerifier();
-      let appVerfier = window.recaptchaVerifier;
-      signInWithPhoneNumber(authentication, phoneNumber, appVerfier)
-        .then((confirmationResult) => {
+    try {
+      if (phoneNumber.length >= 10) {
+        generateRecaptchaVerifier();
+        let appVerfier = window.recaptchaVerifier;
+        signInWithPhoneNumber(
+          authentication,
+          `+91 ${phoneNumber}`,
+          appVerfier
+        ).then((confirmationResult) => {
           window.confirmationResult = confirmationResult;
           console.log("trigered");
-        })
-        .catch((err) => {
-          console.log(err);
         });
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -73,24 +76,30 @@ function Register({ setLogin }) {
     try {
       console.log("trigger");
       if (otp.length === 6) {
-        // let confirmationResult = window.confirmationResult;
-        // const res = await confirmationResult.confirm(otp);
-        // const result = await getOneUer(get(res, "user.phoneNumber", ""));
+        let confirmationResult = window.confirmationResult;
+        const res = await confirmationResult.confirm(otp);
 
+        const result = await getOneUer(
+          get(res, "user.phoneNumber", "").split("+")[1]
+        );
+
+        setExpandForm(false);
+        console.log(result, "res");
         if (isEmpty(result.data.message)) {
           setFormModal(true);
           console.log("trigger1234");
         } else {
-          // const result = await authHandler({
-          //   number: get(res, "user.phoneNumber", ""),
-          // });
-          // console.log("triggered746");
-          const result = await authHandler({ number: phoneNumber });
+          const result = await authHandler({
+            number: get(res, "user.phoneNumber", ""),
+          });
+          console.log("triggered746");
+
+          // const result = await authHandler({ number: phoneNumber });
+          console.log(result, "erihujn");
           Cookies.set("x-o-t-p", result.data.data);
           dispatch(changeUserValues({ user: result.data.data }));
           notification.success({ message: "Continue to shop" });
         }
-        setExpandForm(false);
       }
     } catch (err) {
       console.log(err);
@@ -119,6 +128,8 @@ function Register({ setLogin }) {
   }, [otp]);
 
   const handleSubmit = async (values) => {
+    values.number = `91${values.number}`;
+
     try {
       const result = await authHandler(values);
       dispatch(changeUserValues({ user: result.data.data }));
@@ -172,7 +183,7 @@ function Register({ setLogin }) {
                     className="xsm:w-[56vw] sm:w-[50vw] md:w-[50vw] lg:!w-[16vw]"
                     value={phoneNumber}
                     type="number"
-                    onChange={(e) => setPhoneNumber(`+91${e.target.value}`)}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
                   />
                   {console.log(phoneNumber, "phoneNumber")}
                 </Form.Item>
@@ -203,6 +214,7 @@ function Register({ setLogin }) {
         open={expandForm}
         footer={false}
         header={false}
+        destroyOnClose
         className="absolute top-[22vh] xsm:!w-[80vw] sm:!w-[55vw] sm:right-[22vw] md:!w-[40vw] md:!right-[30vw] lg:!w-[26vw] xsm:right-[10vw] lg:!right-[40vw] "
       >
         <div
@@ -229,7 +241,12 @@ function Register({ setLogin }) {
               <input {...props} className="border-2 h-10 !w-8 ml-2" />
             )}
           ></OtpInput>
-          <CloseIcon className="absolute top-0 right-0 !text-black text-lg" />
+          <CloseIcon
+            className="absolute top-0 right-0 !text-black text-lg"
+            onClick={() => {
+              setExpandForm(false);
+            }}
+          />
         </div>
       </Modal>
       <Modal open={formModal} footer={false}>
