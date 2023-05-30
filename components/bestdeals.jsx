@@ -19,7 +19,7 @@ import { useEffect } from "react";
 import { get, isEmpty } from "lodash";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
 import Cookies from "js-cookie";
 import Login from "@/pages/Authentication/Register";
 import { addproduct } from "@/redux/cartSlice";
@@ -198,7 +198,7 @@ function Bestdeals() {
                             className="absolute bottom-5 xsm:left-[15%] lg:left-[12%] xsm:w-[80%] xl:left-[28%] cursor-pointer xxl:left-[17%]   xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
                   "
                           >
-                            <ShoppingCartOutlined />
+                            <ShoppingCartCheckoutOutlinedIcon />
                             <div>Go to Cart</div>
                           </div>
                         </Link>
@@ -214,7 +214,7 @@ function Bestdeals() {
                             dispatch(addproduct({ ...res }));
                           }}
                         >
-                          <ShoppingCartOutlined />
+                          <ShoppingCartCheckoutOutlinedIcon />
                           <div>Add To Cart</div>
                         </div>
                       )}

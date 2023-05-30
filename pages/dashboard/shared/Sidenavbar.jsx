@@ -46,9 +46,7 @@ function Sidenavbar() {
             <p className="font-bold pt-2">Sun Mobiles</p>
             <p className="font-bold pt-2">sunmob123@gmail.com</p>
           </div>
-          {console.log(
-            router.route.split("/")[router.route.split("/").length - 1]
-          )}
+
           <Menu
             defaultSelectedKeys={
               router.route.split("/")[router.route.split("/").length - 1]
@@ -77,9 +75,7 @@ function Sidenavbar() {
           <p className="font-bold pt-2">Sun Mobiles</p>
           <p className="font-bold pt-2">sunmob123@gmail.com</p>
         </div>
-        {console.log(
-          router.route.split("/")[router.route.split("/").length - 1]
-        )}
+
         <Menu
           defaultSelectedKeys={
             router.route.split("/")[router.route.split("/").length - 1]

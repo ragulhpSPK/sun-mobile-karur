@@ -200,11 +200,10 @@ function Navbar() {
               <Link href="/profiles/SideNavbar">
                 <Avatar
                   style={{
-                    background: "orange",
                     textTransform: "uppercase",
                   }}
-                  size={20}
-                  className="xsm:!text-[12px]"
+                  size={25}
+                  className="xsm:!text-[12px] !bg-[--second-color]"
                 >
                   {activeUser.firstName?.split("")[0]}
                 </Avatar>

@@ -128,37 +128,6 @@ function SideNavebar() {
           </div>
         </div>
       </div>
-      {/* <div className="mt-[10vh] sm:hidden pl-[5vw]">
-        {sidenavData.map((res, index) => {
-          return (
-            <div
-              key={index}
-              onClick={() => {
-                res.id === 1
-                  ? router.push({ pathname: "/profiles/myaccount" })
-                  : res.id === 3
-                  ? router.push({ pathname: "/profiles/Orders" })
-                  : router.push({ pathname: "/profiles/cart" });
-              }}
-            >
-              <div key={index} className={`${"bg-white"} h-[10vh] rounded`}>
-                <Link
-                  href={`${res.goto}`}
-                  onClick={() => {
-                    res.id === 4 && handleLogout();
-                  }}
-                >
-                  <div className="flex items-center justify-start    h-[100%]">
-                    <div className="p-3">{res.img}</div>
-                    <div className="font-bold text-lg">{res.name}</div>
-                  </div>
-                </Link>
-              </div>
-              <hr />
-            </div>
-          );
-        })}
-      </div> */}
 
       <div className="flex justify-between w-[100vw] pt-[7vh]  flex-row-reverse sm:hidden">
         <div className="!w-[100vw] h-[85vh] flex flex-col gap-y-3  pt-[10vh]  p-10 overflow-y-hidden">
@@ -201,11 +170,3 @@ function SideNavebar() {
 }
 
 export default SideNavebar;
-
-// import React from "react";
-
-// function SideNavbar() {
-//   return <div>SideNavbar</div>;
-// }
-
-// export default SideNavbar;

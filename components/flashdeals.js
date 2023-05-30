@@ -1,6 +1,6 @@
-import { Divider, Modal, Rate, notification } from "antd";
+import { Modal, Rate, notification } from "antd";
 import React, { useEffect, useState } from "react";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
 import Image from "next/image";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Autoplay, FreeMode, Pagination } from "swiper";
@@ -185,11 +185,8 @@ const TopRated = () => {
                             goCart ? "/profiles/cart" : "/profiles/SideNavbar#2"
                           }`}
                         >
-                          <div
-                            className="absolute bottom-5 xsm:left-[15%] cursor-pointer lg:left-[12%] xsm:w-[80%] xl:left-[28%] xxl:left-[17%]   xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
-                  "
-                          >
-                            <ShoppingCartOutlined />
+                          <div className="absolute bottom-5 xsm:left-[15%] cursor-pointer lg:left-[12%] xsm:w-[80%] xl:left-[28%] xxl:left-[17%]   xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded">
+                            <ShoppingCartCheckoutOutlinedIcon />
                             <div>Go to Cart</div>
                           </div>
                         </Link>
@@ -203,7 +200,7 @@ const TopRated = () => {
                             dispatch(addproduct({ ...res }));
                           }}
                         >
-                          <ShoppingCartOutlined />
+                          <ShoppingCartCheckoutOutlinedIcon />
                           <div>Add To Cart</div>
                         </div>
                       )}

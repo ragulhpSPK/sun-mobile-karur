@@ -4,9 +4,6 @@ import {
   AppstoreOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
-import StayCurrentPortraitOutlinedIcon from "@mui/icons-material/StayCurrentPortraitOutlined";
-import AppsOutlinedIcon from "@mui/icons-material/AppsOutlined";
-import ViewCarouselOutlinedIcon from "@mui/icons-material/ViewCarouselOutlined";
 import React from "react";
 import Image from "next/image";
 function getItem(label, key, icon, children, type) {
@@ -54,7 +51,7 @@ export const Items = [
   ),
   getItem(
     <Link href="/dashboard/order/order">
-      <h1 className="!text-xl">order</h1>
+      <h1 className="!text-xl">Orders</h1>
     </Link>,
     "order",
     // <ViewCarouselOutlinedIcon className="!text-xl" />

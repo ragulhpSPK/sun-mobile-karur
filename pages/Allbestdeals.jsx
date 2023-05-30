@@ -20,7 +20,7 @@ import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCh
 import Link from "next/link";
 import Cookies from "js-cookie";
 import Login from "@/pages/Authentication/Register";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+
 import { isEmpty } from "lodash";
 import { showLoader, hideLoader } from "@/redux/loadingSlice";
 
@@ -202,7 +202,7 @@ function Allbestdeals() {
                           className="absolute  cursor-pointer xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
                   "
                         >
-                          <ShoppingCartOutlined />
+                          <ShoppingCartCheckoutOutlinedIcon />
                           <div>Go to Cart</div>
                         </div>
                       </Link>
@@ -218,7 +218,7 @@ function Allbestdeals() {
                           dispatch(addproduct({ ...data }));
                         }}
                       >
-                        <ShoppingCartOutlined />
+                        <ShoppingCartCheckoutOutlinedIcon />
                         <div>Add To Cart</div>
                       </div>
                     )}

@@ -29,6 +29,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper";
 import { showLoader, hideLoader } from "@/redux/loadingSlice";
+import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
 
 export default function App() {
   const isLoading = useSelector((state) => state.loader.isLoading);
@@ -95,6 +96,8 @@ export default function App() {
     });
   }, [filterData]);
 
+  console.log(go, "erugybhnjkpojihbgvbhjiojb v");
+
   const handleClick = async (data) => {
     try {
       const formData = {
@@ -110,6 +113,7 @@ export default function App() {
 
       await createCart(formData);
       notification.success({ message: "cart added successfully" });
+      fetchData();
     } catch (err) {
       notification.error({ message: "something went wrong" });
     }
@@ -265,6 +269,7 @@ export default function App() {
                           }`}
                         >
                           <button className="bg-[--fifth-color] text-[#000] shadow-2xl hover:bg-[--second-color] hover:scale-105 hover:font-medium hover:text-white duration-1000 text-sm rounded-md w-[150px] !h-[40px] px-2">
+                            <ShoppingCartCheckoutOutlinedIcon />
                             Go to Cart
                           </button>
                         </Link>
@@ -279,6 +284,7 @@ export default function App() {
                             dispatch(addproduct({ ...data }));
                           }}
                         >
+                          <ShoppingCartCheckoutOutlinedIcon />
                           Add to Cart
                         </button>
                       )}

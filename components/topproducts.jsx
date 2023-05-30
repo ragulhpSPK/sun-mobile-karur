@@ -17,7 +17,7 @@ import { addproduct } from "@/redux/cartSlice";
 import { useDispatch } from "react-redux";
 import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
 import Link from "next/link";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+
 import Cookies from "js-cookie";
 import Login from "@/pages/Authentication/Register";
 
@@ -146,7 +146,7 @@ function Topproducts() {
                         className="absolute bottom-5 cursor-pointer xsm:left-[10%] xsm:!w-[80%] xl:w-[15vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
                   "
                       >
-                        <ShoppingCartOutlined />
+                        <ShoppingCartCheckoutOutlinedIcon />
                         <div>Go to Cart</div>
                       </div>
                     </Link>
@@ -162,7 +162,7 @@ function Topproducts() {
                         dispatch(addproduct({ ...res }));
                       }}
                     >
-                      <ShoppingCartOutlined />
+                      <ShoppingCartCheckoutOutlinedIcon />
                       <div>Add To Cart</div>
                     </div>
                   )}

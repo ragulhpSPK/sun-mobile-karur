@@ -5,7 +5,7 @@ import { Category } from "@/helper/categories";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { useState } from "react";
 import { useEffect } from "react";
-import { LoadingOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { LoadingOutlined } from "@ant-design/icons";
 import { Card, Image, List, Select, notification, Drawer, Modal } from "antd";
 import { SubCategory } from "@/helper/Subcategory";
 import "rc-menu/assets/index.css";
@@ -25,6 +25,7 @@ import SyncIcon from "@mui/icons-material/Sync";
 import { useDispatch, useSelector } from "react-redux";
 import { addproduct } from "@/redux/cartSlice";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
 import Cookies from "js-cookie";
 import Login from "@/pages/Authentication/Register";
 import { showLoader, hideLoader } from "@/redux/loadingSlice";
@@ -470,7 +471,7 @@ function AllCat() {
                                     className="absolute  xsm:left-0 xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                                   >
-                                    <ShoppingCartOutlined />
+                                    <ShoppingCartCheckoutOutlinedIcon />
                                     <div>Go to Cart</div>
                                   </div>
                                 </Link>
@@ -486,7 +487,7 @@ function AllCat() {
                                     dispatch(addproduct({ ...data }));
                                   }}
                                 >
-                                  <ShoppingCartOutlined />
+                                  <ShoppingCartCheckoutOutlinedIcon />
                                   <div>Add To Cart</div>
                                 </div>
                               )}
@@ -760,7 +761,7 @@ function AllCat() {
                                 className="absolute  xsm:left-0 xsm:w-[180px] sm:w-[30vw] md:w-[160px] lg:w-[190px] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                               >
-                                <ShoppingCartOutlined />
+                                <ShoppingCartCheckoutOutlinedIcon />
                                 <div>Go to Cart</div>
                               </div>
                             </Link>
@@ -776,7 +777,7 @@ function AllCat() {
                                 dispatch(addproduct({ ...data }));
                               }}
                             >
-                              <ShoppingCartOutlined />
+                              <ShoppingCartCheckoutOutlinedIcon />
                               <div>Add To Cart</div>
                             </div>
                           )}

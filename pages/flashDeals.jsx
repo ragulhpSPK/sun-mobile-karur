@@ -19,7 +19,7 @@ import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCh
 import { useDispatch, useSelector } from "react-redux";
 import { addproduct } from "@/redux/cartSlice";
 import Link from "next/link";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+
 import Cookies from "js-cookie";
 import Login from "@/pages/Authentication/Register";
 import { isEmpty } from "lodash";
@@ -183,7 +183,7 @@ function FlashDeals() {
                           }`}
                         >
                           <div className="absolute xsm:w-[60vw] cursor-pointer sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded">
-                            <ShoppingCartOutlined />
+                            <ShoppingCartCheckoutOutlinedIcon />
                             <div>Go to Cart</div>
                           </div>
                         </Link>
@@ -198,7 +198,7 @@ function FlashDeals() {
                             dispatch(addproduct({ ...data }));
                           }}
                         >
-                          <ShoppingCartOutlined />
+                          <ShoppingCartCheckoutOutlinedIcon />
                           <div>Add To Cart</div>
                         </div>
                       )}

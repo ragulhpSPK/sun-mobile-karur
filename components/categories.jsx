@@ -1,12 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/pagination";
-import { Grid, Pagination, Navigation, FreeMode, Autoplay } from "swiper";
-
+import { Pagination, FreeMode, Autoplay } from "swiper";
 import { useRouter } from "next/router";
 import { Image, notification } from "antd";
 import { getAllCatagory } from "../helper/utilities/apiHelper";
@@ -16,7 +14,6 @@ import { get } from "lodash";
 function Categories() {
   const router = useRouter();
   const [category, setCategory] = useState([]);
-
   const fetchData = async () => {
     try {
       const result = await getAllCatagory();
