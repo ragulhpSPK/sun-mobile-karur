@@ -46,6 +46,33 @@ function SideNavebar() {
     },
   ];
 
+  const sidenavDataMob = [
+    {
+      id: 1,
+      name: "Profile",
+      img: <AccountCircleIcon />,
+      goto: "/profiles/myaccount",
+    },
+    {
+      id: 2,
+      name: "Cart",
+      img: <ShoppingCartCheckoutIcon />,
+      goto: "/profiles/cart",
+    },
+    {
+      id: 3,
+      name: "Orders",
+      img: <StoreIcon />,
+      goto: "/profiles/Orders",
+    },
+    {
+      id: 4,
+      name: "Logout",
+      img: <LogoutIcon />,
+      goto: "/",
+    },
+  ];
+
   const handleLogout = () => {
     Cookies.remove("x-o-t-p");
     dispatch(changeUserValues({ user: [] }));
@@ -101,7 +128,7 @@ function SideNavebar() {
           </div>
         </div>
       </div>
-      <div className="mt-[10vh] sm:hidden pl-[5vw]">
+      {/* <div className="mt-[10vh] sm:hidden pl-[5vw]">
         {sidenavData.map((res, index) => {
           return (
             <div
@@ -131,6 +158,43 @@ function SideNavebar() {
             </div>
           );
         })}
+      </div> */}
+
+      <div className="flex justify-between w-[100vw] pt-[7vh]  flex-row-reverse sm:hidden">
+        <div className="!w-[100vw] h-[85vh] flex flex-col gap-y-3  pt-[10vh]  p-10 overflow-y-hidden">
+          {sidenavDataMob.map((res, index) => {
+            return (
+              <div key={index}>
+                <div
+                  onClick={() => {
+                    setProfileCurrent(res.id);
+                  }}
+                  key={index}
+                  className={`${
+                    current === res.id
+                      ? "bg-[--third-color] text-white "
+                      : "bg-white"
+                  } h-[6vh] rounded`}
+                >
+                  <Link
+                    href={`${res.goto}`}
+                    onClick={() => {
+                      res.id === 4 && handleLogout();
+                    }}
+                  >
+                    <div className="flex items-center justify-start   xl:gap-1 h-[100%]">
+                      <div className="p-3">{res.img}</div>
+                      <div className="md:text-lg xl:text-xl font-bold sm:!pr-[2vw] xxl:!pr-0">
+                        {res.name}
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+                <hr />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

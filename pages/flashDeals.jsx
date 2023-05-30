@@ -134,11 +134,25 @@ function FlashDeals() {
                       height={100}
                       src={data.image[0]}
                       alt="flash products"
-                      className="rounded-xl h-[15vh] !w-fit m-auto hover:scale-110 duration-1000"
+                      className="rounded-xl h-[15vh] !w-fit m-auto hover:scale-110 duration-1000 cursor-pointer"
+                      onClick={() =>
+                        router.push({
+                          pathname: `/product/${data._id}`,
+                          query: { id: data._id },
+                        })
+                      }
                     />
                   </figure>
                   <div className="card-body ">
-                    <h2 className="font-bold m-auto text-center">
+                    <h2
+                      className="font-bold m-auto text-center cursor-pointer"
+                      onClick={() =>
+                        router.push({
+                          pathname: `/product/${data._id}`,
+                          query: { id: data._id },
+                        })
+                      }
+                    >
                       {data.title}
                     </h2>
                     <Rate
@@ -156,7 +170,7 @@ function FlashDeals() {
                           )}
                         </p>
                       ) : (
-                        <p className="text-lg   font-medium">{data.price}</p>
+                        <p className="text-lg font-medium">{data.price}</p>
                       )}
                     </div>
                     <div className="absolute bottom-9 xsm:!left:[10%] md:right-[58%] xl:right-[50%] xxl:right-[40%]  w-[15vw] flex items-center justify-center  gap-x-2  text-white p-2 rounded">
@@ -168,14 +182,14 @@ function FlashDeals() {
                             goCart ? "/profiles/cart" : "/profiles/SideNavbar#2"
                           }`}
                         >
-                          <div className="absolute   xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded">
+                          <div className="absolute xsm:w-[60vw] cursor-pointer sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded">
                             <ShoppingCartOutlined />
                             <div>Go to Cart</div>
                           </div>
                         </Link>
                       ) : (
                         <div
-                          className="absolute top-2 xsm:left-[7vw]  sm:left-[1vw] md:left-[58%] lg:left-[50%] xl:left-[50%] xxl:left-[48%]   xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded "
+                          className="absolute top-2 xsm:left-[7vw] cursor-pointer sm:left-[1vw] md:left-[58%] lg:left-[50%] xl:left-[50%] xxl:left-[48%]   xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded "
                           onClick={() => {
                             isEmpty(getUser)
                               ? setLogin(true)

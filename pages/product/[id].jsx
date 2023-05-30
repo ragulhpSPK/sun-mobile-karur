@@ -89,8 +89,6 @@ export default function App() {
     );
   }, [product, router.query.id]);
 
-  console.log(go, "gi");
-
   useEffect(() => {
     filterData.map((img, i) => {
       setImgs(img.image[0]);
@@ -266,7 +264,7 @@ export default function App() {
                             goCart ? "/profiles/cart" : "/profiles/SideNavbar#2"
                           }`}
                         >
-                          <button className="bg-slate-300 text-[#000] shadow-2xl hover:bg-[--second-color] hover:scale-105 hover:font-medium hover:text-white duration-1000 text-sm rounded-md w-[150px] !h-[40px] px-2">
+                          <button className="bg-[--fifth-color] text-[#000] shadow-2xl hover:bg-[--second-color] hover:scale-105 hover:font-medium hover:text-white duration-1000 text-sm rounded-md w-[150px] !h-[40px] px-2">
                             Go to Cart
                           </button>
                         </Link>

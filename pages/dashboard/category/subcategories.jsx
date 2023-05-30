@@ -230,7 +230,6 @@ const Subcategories = (properties) => {
   // };
 
   const uploadImage = (imageList) => {
-    console.log(imageList.name);
     if (imageList == null) return;
 
     const imageRef = ref(
@@ -248,7 +247,7 @@ const Subcategories = (properties) => {
 
   return (
     <div className="flex flex-col gap-[4vh]">
-      <div className="relative xsm:pr-2 lg:pr-0 lg:w-[39vw]">
+      <div className="relative xsm:pr-2 lg:pr-0 lg:w-[39vw] mt-10">
         {/* <input
           type="search"
           placeholder="Type here"
@@ -307,7 +306,13 @@ const Subcategories = (properties) => {
                 />
               </div>
               <Modal footer={false} open={open} destroyOnClose>
-                <Form form={form} onFinish={handleFinish}>
+                <Form
+                  form={form}
+                  onFinish={(values) => {
+                    handleFinish(values);
+                    // setImageList(values.fileList[0]);
+                  }}
+                >
                   <div className="flex flex-col gap-y-2 items-center relative">
                     <Form.Item
                       className="!w-[100%]"

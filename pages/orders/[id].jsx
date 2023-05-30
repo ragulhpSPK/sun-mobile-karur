@@ -1,6 +1,6 @@
 import React from "react";
 import { ClockCircleOutlined, CodeSandboxOutlined } from "@ant-design/icons";
-import { Button, Timeline, Image, Steps, notification } from "antd";
+import { Button, Timeline, Image, Steps, notification, Badge } from "antd";
 import styles from "../../styles/Home.module.css";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import CheckIcon from "@mui/icons-material/Check";
@@ -17,6 +17,7 @@ import {
 } from "@/helper/utilities/apiHelper";
 import { useEffect } from "react";
 import { get } from "lodash";
+import moment from "moment";
 
 function Orders() {
   const router = useRouter();
@@ -80,8 +81,7 @@ function Orders() {
                 <div
                   className={`${
                     res.status === "Cancelled" ? "!hidden" : "!block"
-                  } pt-[3vh] lg:pr-[2vw] xsm:!w-[90vw] sm:!pt-[10vh] md:pt-0 md:py-[5vh]  xsm:self-center xsm:pl-[5vw] xl:pl-0 steps:!w-[100vw] xl:!w-[80vw] flex items-center justify-center xl:p-[4vw]`}
-                  id={styles.shadow3}
+                  } pt-[3vh] lg:pr-[2vw] xsm:!w-[90vw] lg:shadow-lg  sm:!pt-[10vh] md:pt-0 md:py-[5vh]  xsm:self-center xsm:pl-[5vw] xl:pl-0 steps:!w-[100vw] xl:!w-[80vw] flex items-center justify-center xl:p-[4vw]`}
                 >
                   <Steps
                     className={` xxl:pl-[3vw] `}
@@ -144,31 +144,29 @@ function Orders() {
                 </div>
               </div>
 
-              <div className="flex flex-col ">
-                <div
-                  className="flex flex-col xsm:!w-[90vw]  gap-[15px] bg-white p-[5vh] xsm:self-center  steps:!w-[100vw] xl:!w-[75vw]"
-                  id={styles.shadow3}
-                >
+              <div className="flex flex-col items-center">
+                <div className="flex flex-col xsm:!w-[90vw] px-[1vw] lg:shadow-lg  gap-[15px] bg-white p-1  xsm:self-center  steps:!w-[100vw] xl:!w-[75vw]">
                   <div className="flex xsm:flex-col  md:flex-row xsm:items-center  xsm:!justify-between">
-                    <h1 className="xsm:text-[16px] md:text-2xl p-4">
-                      Purchased Item
+                    <h1 className="xsm:text-[16px] md:text-3xl text-slate-600">
+                      Purchased Items
                     </h1>
                     {res.status === "Delivered" ? (
-                      <p className="lg:text-2xl text-slate-600 mt-10 pr-[4vw] flex items-center justify-center">
-                        <DoneIcon className="bg-[green] rounded-3xl xsm:!h-[20px] xsm:!w-[20px] lg:!h-[30px] lg:!w-[30px] text-white" />
-
-                        <span>Order Reached You SuccessFully!</span>
+                      <p className="xsm:text-[14px] xsm:!pt-1  lg:text-xl text-slate-600 lg:mt-10    flex items-center justify-center">
+                        <span>
+                          <DoneIcon className="bg-[green] rounded-3xl xsm:!h-[16px] xsm:!w-[16px] lg:!h-[26px] lg:!w-[26px] lg:!text-sm text-white" />
+                          Order Reached You SuccessFully!
+                        </span>
                       </p>
                     ) : res.status === "Cancelled" ? (
-                      <p className="text-3xl text-slate-600 mt-10 flex items-center justify-center">
-                        <span className="tracking-wider xsm:text-xl sm:text-2xl md:text-4xl pl-2 ">
-                          Order Cancelled
+                      <p className="xsm:text-[12px] lg:text-3xl   text-red-500    flex items-center justify-center">
+                        <span>
+                          <CancelIcon className="bg-red-500 rounded-3xl xsm:!h-[16px] xsm:!w-[16px] lg:!h-[26px] lg:!w-[26px] lg:!text-sm text-white" />
+                          <span className="">Order Cancelled</span>
                         </span>
-                        <CancelIcon className="bg-red-500 rounded-3xl md:h-[30px] md:w-[30px] text-white" />
                       </p>
                     ) : (
                       <button
-                        className="bg-red-600 !text-white p-[5px] xsm:mb-[8px] xl:mb-0 xsm:w-[40vw] xl:!h-[5vh] md:w-[20vw] xl:w-[9vw] lg:h-[7vh] rounded-md"
+                        className="bg-red-500 !text-white p-[5px] xsm:mb-[8px] xl:mb-0 xsm:w-[40vw] xl:!h-[5vh] md:w-[20vw] xl:w-[9vw] lg:h-[7vh] rounded-md"
                         onClick={() => {
                           handleClick(res._id, res);
                         }}
@@ -177,12 +175,11 @@ function Orders() {
                       </button>
                     )}
                   </div>
-
-                  <div className="flex  w-[70vw] flex-wrap xsm:gap-x-10 md:gap-x-6 xl:gap-x-10 gap-y-20 xsm:items-center xsm:justify-center">
+                  <div className="flex  w-[70vw] xsm:pl-[15vw] md:pl-0 flex-wrap xsm:gap-x-10 md:gap-x-6 xl:gap-x-10 gap-y-20 xsm:items-center xsm:justify-center">
                     {res.image.map((img, i) => {
                       return (
                         <div
-                          className="xxl:!w-[10vw] xsm:!w-[40vw] sm:!w-[20vw] md:w-[10vw] lg:min-h-[20vh]  flex  shadow-2xl rounded-box items-center justify-center flex-col h-[15vh]"
+                          className="xxl:!w-[13vw] xsm:!w-[40vw] sm:!w-[20vw] md:w-[10vw] lg:min-h-[20vh]  flex  shadow-2xl rounded-box items-center justify-center flex-col h-[15vh]"
                           key={i}
                         >
                           <div>
@@ -192,6 +189,7 @@ function Orders() {
                               width={70}
                               height={70}
                               preview={false}
+                              className="!w-fit m-auto"
                             />
                           </div>
                           <p className="text-2xl text-slate-600">
@@ -201,14 +199,22 @@ function Orders() {
                       );
                     })}
                   </div>
-
                   <h1
                     className={`xsm:text-md md:text-xl xl:text-3xl pt-[5px] text-slate-600 xsm:text-center ${
                       res.total === null ? "hidden" : "block"
                     }`}
                   >
-                    Total Price:{res.total}
+                    Total Price:&#8377;{res.total}
                   </h1>
+                  <div className="text-slate-600 xsm:text-[12px] lg:text-2xl flex items-center justify-center">
+                    <Badge
+                      dot
+                      color={`${res.status === "Cancelled" ? "red" : "green"}`}
+                      size="large"
+                      className="!text-2xl pr-1 xsm:pb-[1vh]"
+                    />
+                    {res.status} on {moment(res.updatedAt).format("LLLL")}
+                  </div>
                 </div>
               </div>
             </>

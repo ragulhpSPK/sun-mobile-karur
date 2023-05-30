@@ -111,8 +111,6 @@ function Buy({ id, address }) {
     setPayment(e.target.defaultValue);
   };
 
-  console.log(isLoading, "Loading");
-
   return (
     <div className="flex flex-col gap-[10vh]">
       {products &&
@@ -174,15 +172,27 @@ function Buy({ id, address }) {
         <Form.Item
           name="firstName"
           label="Name"
-          rules={[{ required: true, message: "Please Enter Your Name" }]}
+          rules={[
+            { required: true, message: "Please Enter Your Name" },
+            {
+              type: "text",
+              message: "Name must be atleast 2 characters",
+            },
+            { min: 2 },
+          ]}
+          className="!text-white"
         >
-          <Input placeholder="Enter Your Name" />
+          <Input placeholder="Enter Your Name" type="text" />
         </Form.Item>
         <Form.Item
           name="number"
           label="Mobile Number"
           rules={[
-            { required: true, message: "Please Enter Your Mobile Number" },
+            {
+              required: true,
+              message: "Please Enter Your Mobile Number",
+            },
+            { type: "number", message: "Enter valid number" },
           ]}
         >
           <Input placeholder="Enter Your  Mobile number" />
@@ -195,7 +205,10 @@ function Buy({ id, address }) {
               <span className="text-slate-400">(optional)</span>
             </span>
           }
-          rules={[{ message: "Please Enter Your Alternate Mobile number" }]}
+          rules={[
+            { message: "Please Enter Your Alternate Mobile number" },
+            { type: "number", message: "Enter valid number" },
+          ]}
         >
           <Input placeholder="Enter Your Alternate Mobile number" />
         </Form.Item>
@@ -203,19 +216,30 @@ function Buy({ id, address }) {
           name="email"
           label={
             <span>
-              Email Address <span className="text-slate-400">(optional)</span>
+              Email Address
+              <span className="text-slate-400">(optional)</span>
             </span>
           }
-          rules={[{ message: "Please Enter Your Email Address" }]}
+          rules={[
+            {
+              required: true,
+            },
+            { type: "email", message: "Enter valid email" },
+          ]}
         >
           <Input placeholder="Enter Your Alternate Mobile number" />
         </Form.Item>
         <Form.Item
           name="address"
           label={<span>Address</span>}
-          rules={[{ required: true, message: "Please Enter Your Address" }]}
+          rules={[
+            { required: true, message: "Please Enter Your Address" },
+            {
+              min: 15,
+            },
+          ]}
         >
-          <TextArea placeholder="Enter Your Address" value={address.address} />
+          <TextArea placeholder="Enter Your Address" />
         </Form.Item>
         <Form.Item name="Payment">
           <Checkbox onChange={onChangeHandler} defaultValue="Cash On Delivery">

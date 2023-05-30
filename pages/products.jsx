@@ -72,11 +72,13 @@ function AllProducts() {
                     height={100}
                     alt="logo"
                     src={data.image}
-                    className="h-[150px] !w-fit m-auto"
+                    className="h-[150px] !w-fit m-auto cursor-pointer"
                   />
                 </figure>
                 <div className="card-body">
-                  <h2 className="card-title m-auto w-fit">{data.name}</h2>
+                  <h2 className="card-title m-auto w-fit cursor-pointer">
+                    {data.name}
+                  </h2>
                 </div>
               </div>
             );

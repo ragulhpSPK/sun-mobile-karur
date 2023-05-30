@@ -6,7 +6,7 @@ import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/pagination";
 import { Grid, Pagination, Navigation, FreeMode, Autoplay } from "swiper";
-import { Category } from "@/helper/categories";
+
 import { useRouter } from "next/router";
 import { Image, notification } from "antd";
 import { getAllCatagory } from "../helper/utilities/apiHelper";

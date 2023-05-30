@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useMemo } from "react";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -70,6 +71,7 @@ function Navbar() {
     try {
       const getOneUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
       setActiveUser(get(getOneUser, "data.message[0]", []));
+      fetchData();
     } catch (err) {
       notification.error({ message: "Something went wrong!" });
     }
@@ -77,7 +79,7 @@ function Navbar() {
 
   useEffect(() => {
     avtivateNavbar();
-  }, [product, userDetails]);
+  }, [product, userDetails, cart.products.length]);
 
   useEffect(() => {
     setData(
@@ -125,7 +127,7 @@ function Navbar() {
       {/* step 2 */}
       <div className="flex justify-center items-center h-[10vh]">
         <div className="flex justify-between items-center w-[90vw] h-[10vh]  ">
-          <div>
+          <Link href="/">
             <Image
               src="/assets/sun2.png"
               width={90}
@@ -133,7 +135,7 @@ function Navbar() {
               alt="logo"
               className="pb-2 xsm:w-[12vw] sm:!w-[8vw] md:w-[8vw] lg:!w-[5vw]"
             />
-          </div>
+          </Link>
           <div>
             <div className="flex items-center justify-between  border border-slate-50  p-2 rounded">
               <input

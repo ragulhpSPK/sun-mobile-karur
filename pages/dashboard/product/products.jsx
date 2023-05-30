@@ -76,12 +76,11 @@ function Products({ content }) {
   const [catFil, setCategoryFil] = useState([]);
   const [highlight, setHighlights] = useState([]);
   const [subCatFilter, setSubCatFilter] = useState([]);
-
   const [checked, setChecked] = useState();
   const [tablechecked, setTablechecked] = useState(false);
   const [status, setStatus] = useState(false);
 
-  const [imageList, setImageList] = useState("");
+  const [imageList, setImageList] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const SunEditor = dynamic(() => import("suneditor-react"), {
@@ -91,13 +90,14 @@ function Products({ content }) {
   const [form] = Form.useForm();
 
   const editProducts = (value) => {
+    console.log(value);
     setUpdateId(value._id);
     setOpen(!open);
     setImageList(value.image);
     setValue(value.highlight);
     form.setFieldsValue(value);
     setHighlights(value.highlight);
-    setImageName(imageList);
+
     setChecked(checked);
     setStatus(value.status);
     setImageList(
@@ -157,13 +157,10 @@ function Products({ content }) {
   });
 
   const handleUpload = (file) => {
-    console.log(file.name, "fhjnmk");
-
     const imageRef = ref(storage, `imageList/${v4()}-${file && file.name}`);
 
     uploadBytes(imageRef, file).then((snaphsot) => {
       getDownloadURL(snaphsot.ref).then((url) => {
-        console.log(url);
         setImageList((prevList) => [...prevList, url]);
       });
       alert("image uploaded");
@@ -198,7 +195,7 @@ function Products({ content }) {
         fetchData();
         setLoading(false);
         setOpen(false);
-        setImageList("");
+        setImageList([]);
         setHighlights("");
       } catch (err) {
         setOpen(false);
@@ -213,14 +210,14 @@ function Products({ content }) {
             image: imageList.map((data) => {
               return data;
             }),
-
             categoryname: category.filter((data) => {
               return data._id === catFil;
             })[0].name,
             subcategoryname: subCategory.filter((data) => {
               return data._id === subCatFilter;
             })[0].subcategoryname,
-            highlight: highlight,
+            highlight:
+              highlight && ref.current?.toString().replace(/<[^>]+>/g, ""),
             _id: updateId,
             status: status,
           },
@@ -231,6 +228,7 @@ function Products({ content }) {
         setUpdateId("");
         fetchData();
         setImageName([]);
+        setImageList("");
         form.resetFields();
       } catch (err) {
         console.log(err);
@@ -245,7 +243,6 @@ function Products({ content }) {
 
     try {
       const result = await deleteProducts(value._id);
-
       if (get(result, "data.message", "") === "Product mapped with Banner") {
         Modal.warning({
           title: "this product is mapped with Banner",
@@ -464,14 +461,26 @@ function Products({ content }) {
       title: <h1 className="text-sm">Update</h1>,
       render: (value) => {
         return (
-          <div className="flex gap-x-5">
-            <EditNoteOutlinedIcon
-              className="text-green-500 !cursor-pointer "
-              onClick={() => {
-                editProducts(value);
-              }}
-            />
-          </div>
+          <>
+            <div className="flex gap-x-5 lg:hidden">
+              <EditNoteOutlinedIcon
+                className="text-green-500 !cursor-pointer "
+                onClick={() => {
+                  editProducts(value);
+                  setSize(250);
+                }}
+              />
+            </div>
+            <div className="flex gap-x-5 xsm:hidden lg:block">
+              <EditNoteOutlinedIcon
+                className="text-green-500 !cursor-pointer "
+                onClick={() => {
+                  editProducts(value);
+                  setSize(550);
+                }}
+              />
+            </div>
+          </>
         );
       },
     },
@@ -500,15 +509,6 @@ function Products({ content }) {
       })
     );
   };
-
-  const deleteFile = (image) => {
-    const filterimageList = imageList.filter((data) => {
-      return data !== image;
-    });
-    setImageList(filterimageList);
-  };
-
-  console.log(imageList[0]);
 
   const props = {
     defaultFileList: [
@@ -543,8 +543,6 @@ function Products({ content }) {
         value: data.title,
       });
     });
-
-  console.log(props, "searchers");
 
   return (
     <div className="flex flex-col">
@@ -614,7 +612,9 @@ function Products({ content }) {
               <Form
                 className="flex flex-col relative"
                 form={form}
-                onFinish={handleFinish}
+                onFinish={(values) => {
+                  handleFinish();
+                }}
                 // style={{
                 //   maxWidth: 600,
                 // }}
@@ -773,9 +773,12 @@ function Products({ content }) {
                   <div className="flex flex-col">
                     <Upload
                       multiple
-                      customRequest={({ file }) => handleUpload(file)}
+                      onChange={(e) => handleUpload(e.file.originFileObj)}
                       className="flex flex-col w-[100%] items-center justify-center"
                       listType="picture"
+                      onRemove={() => {
+                        setImageList("");
+                      }}
                     >
                       <Button
                         icon={<UploadOutlined />}
@@ -789,17 +792,16 @@ function Products({ content }) {
                   <div className="flex flex-col !w-[100%]">
                     <Upload
                       multiple
-                      customRequest={({ file }) => handleUpload(file)}
+                      maxCount="5"
+                      onChange={(e) => handleUpload(e.file.originFileObj)}
                       className="flex flex-col "
                       listType="picture-card"
+                      onRemove={() => {
+                        setImageList("");
+                      }}
                       {...props}
                     >
-                      <Button
-                        icon={<UploadOutlined />}
-                        className="!bg-[--third-color]"
-                      >
-                        Select Files
-                      </Button>
+                      <PlusOutlined />
                     </Upload>
                   </div>
                 )}

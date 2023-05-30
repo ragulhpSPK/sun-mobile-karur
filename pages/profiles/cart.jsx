@@ -44,7 +44,6 @@ function Cart() {
   const [price, setPrice] = useState(router.query.price);
   const [products, setProduts] = useState();
   const [draw, setDrawOpen] = useState(false);
-
   const dispatch = useDispatch();
   const [payment, setPayment] = useState("");
   const [form] = Form.useForm();
@@ -55,8 +54,6 @@ function Cart() {
   uuidv1();
 
   const handleCheck = () => {
-    setDrawOpen(false);
-
     var today = new Date();
     const v1options = {
       clockseq: 0x1234,
@@ -151,6 +148,7 @@ function Cart() {
       };
       await createOrder(formData);
       notification.success({ message: "order placed successfully" });
+      fetchData();
     } catch (err) {
       notification.failure({ message: "something went wrong" });
     }
@@ -164,6 +162,17 @@ function Cart() {
     <ReloadOutlined style={{ fontSize: 40 }} className="animate-spin" />
   );
 
+  const validateMessages = {
+    required: "${label} is required!",
+    types: {
+      email: "${label} is not a valid email!",
+      number: "${label} is not a valid number!",
+    },
+    number: {
+      range: "${label} must be between ${min} and ${max}",
+    },
+  };
+
   return (
     <Spin
       spinning={isLoading}
@@ -174,7 +183,7 @@ function Cart() {
       <div
         className={`${
           isLoading === true ? "invisible" : "visible"
-        } bg-[#ecf0f1] overflow-y-scroll xsm:!w-[100vw] xsm:p-[1vh] xsm:pt-[10vh] sm:pt-0 sm:p-0 sm:w-[80vw] sm:h-[100vh]`}
+        } bg-[#ecf0f1] overflow-y-scroll xsm:!w-[100vw] xsm:p-[1vh] xsm:pt-[10vh] sm:pt-0 sm:p-0 sm:w-[80vw] sm:h-[88vh]`}
       >
         {products && products.length === 0 ? (
           <div>
@@ -228,7 +237,7 @@ function Cart() {
                             width={100}
                             className="xsm:h-[4vh] xsm:w-fit lg:h-[6vh] xl:h-[6vh] rounded-full ml-[10px]"
                           />
-                          <p className="xsm:text-[8px] sm:text-[12px] lg:text-[16px] w-[25vw] font-semibold pl-[8px]">
+                          <p className="xsm:text-[10px] sm:text-[12px] lg:text-[16px] w-[25vw] font-semibold pl-[8px]">
                             {data.name}
                           </p>
                           <div
@@ -303,16 +312,22 @@ function Cart() {
                     address: address[0]?.address,
                     email: address[0]?.email,
                   }}
+                  validateMessages={validateMessages}
                 >
                   <Form.Item
                     name="firstName"
                     label="Name"
                     rules={[
                       { required: true, message: "Please Enter Your Name" },
+                      {
+                        type: "text",
+                        message: "Name must be atleast 2 characters",
+                      },
+                      { min: 2 },
                     ]}
                     className="!text-white"
                   >
-                    <Input placeholder="Enter Your Name" />
+                    <Input placeholder="Enter Your Name" type="text" />
                   </Form.Item>
                   <Form.Item
                     name="number"
@@ -322,6 +337,7 @@ function Cart() {
                         required: true,
                         message: "Please Enter Your Mobile Number",
                       },
+                      { type: "number", message: "Enter valid number" },
                     ]}
                   >
                     <Input placeholder="Enter Your  Mobile number" />
@@ -330,12 +346,13 @@ function Cart() {
                     name="alternateNumber"
                     label={
                       <span>
-                        Alternate Mobile number{" "}
+                        Alternate Mobile number
                         <span className="text-slate-400">(optional)</span>
                       </span>
                     }
                     rules={[
                       { message: "Please Enter Your Alternate Mobile number" },
+                      { type: "number", message: "Enter valid number" },
                     ]}
                   >
                     <Input placeholder="Enter Your Alternate Mobile number" />
@@ -348,7 +365,12 @@ function Cart() {
                         <span className="text-slate-400">(optional)</span>
                       </span>
                     }
-                    rules={[{ message: "Please Enter Your Email Address" }]}
+                    rules={[
+                      {
+                        required: true,
+                      },
+                      { type: "email", message: "Enter valid email" },
+                    ]}
                   >
                     <Input placeholder="Enter Your Alternate Mobile number" />
                   </Form.Item>
@@ -357,6 +379,9 @@ function Cart() {
                     label={<span>Address</span>}
                     rules={[
                       { required: true, message: "Please Enter Your Address" },
+                      {
+                        min: 15,
+                      },
                     ]}
                   >
                     <TextArea placeholder="Enter Your Address" />

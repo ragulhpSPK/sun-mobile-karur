@@ -34,6 +34,7 @@ function Allbestdeals() {
   const [cart, setCart] = useState([]);
   const [getUser, setGetUser] = useState([]);
   const [login, setLogin] = useState(false);
+  const router = useRouter();
 
   const fetchData = async () => {
     try {
@@ -46,7 +47,6 @@ function Allbestdeals() {
       const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
       setGetUser(get(getUser, "data.message[0]", []));
 
-      console.log(result);
       setProducts(get(result, "[0].data.data"));
       setCart(get(result, "[1].data.message"));
       setBanner(get(result, "[2].data.data", []));
@@ -126,7 +126,7 @@ function Allbestdeals() {
                       alt="bestDeas"
                       width={100}
                       height={100}
-                      className="xsm:w-[90vw] xsm:h-[18vh] sm:h-[24vh] md:h-[26vh] xl:w-[80vw] xl:!h-[35vh]"
+                      className="xsm:w-[90vw] xsm:h-[15vh] sm:h-[24vh] md:h-[26vh] xl:w-[80vw] xl:!h-[35vh] cursor-pointer"
                     />
                   </div>
                 </>
@@ -134,7 +134,7 @@ function Allbestdeals() {
             })}
         </div>
 
-        <div className="grid xsm:grid-cols-1 xl:!grid-cols-4  sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xsm:gap-10 xl:gap-14 ">
+        <div className="grid xsm:grid-cols-1 xl:!grid-cols-4 mt-[3vh] sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xsm:gap-10 xl:gap-14 ">
           {bestProducts.map((data, index) => {
             return (
               <div
@@ -147,11 +147,27 @@ function Allbestdeals() {
                     height={100}
                     src={data.image[0]}
                     alt="Shoes"
-                    className="rounded-xl h-[15vh] !w-fit m-auto hover:scale-110 duration-1000"
+                    className="rounded-xl h-[15vh] !w-fit m-auto hover:scale-110 duration-1000 cursor-pointer"
+                    onClick={() =>
+                      router.push({
+                        pathname: `/product/${data._id}`,
+                        query: { id: data._id },
+                      })
+                    }
                   />
                 </figure>
                 <div className="card-body ">
-                  <h2 className="font-bold m-auto text-center">{data.title}</h2>
+                  <h2
+                    className="font-bold m-auto text-center cursor-pointer"
+                    onClick={() =>
+                      router.push({
+                        pathname: `/product/${data._id}`,
+                        query: { id: data._id },
+                      })
+                    }
+                  >
+                    {data.title}
+                  </h2>
                   <Rate
                     allowHalf
                     defaultValue={2.5}
@@ -183,7 +199,7 @@ function Allbestdeals() {
                         }`}
                       >
                         <div
-                          className="absolute   xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
+                          className="absolute  cursor-pointer xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
                   "
                         >
                           <ShoppingCartOutlined />
@@ -192,7 +208,7 @@ function Allbestdeals() {
                       </Link>
                     ) : (
                       <div
-                        className="absolute top-2 xsm:left-[7vw]  sm:left-[1vw] md:left-[58%] lg:left-[50%] xl:left-[50%] xxl:left-[48%]   xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
+                        className="absolute top-2 xsm:left-[7vw] cursor-pointer sm:left-[1vw] md:left-[58%] lg:left-[50%] xl:left-[50%] xxl:left-[48%]   xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                         onClick={() => {
                           isEmpty(getUser)

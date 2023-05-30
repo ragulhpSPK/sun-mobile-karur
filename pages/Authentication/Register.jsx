@@ -22,7 +22,6 @@ import CloseIcon from "@mui/icons-material/Close";
 function Register({ setLogin }) {
   const [form] = Form.useForm();
   const { TextArea } = Input;
-  const [open, setOpen] = useState(false);
   const [otp, setOtp] = useState("");
   const [phoneNumber, setPhoneNumber] = useState();
   const [expandForm, setExpandForm] = useState(false);
@@ -64,7 +63,6 @@ function Register({ setLogin }) {
           appVerfier
         ).then((confirmationResult) => {
           window.confirmationResult = confirmationResult;
-          console.log("trigered");
         });
       }
     } catch (err) {
@@ -74,7 +72,6 @@ function Register({ setLogin }) {
 
   const verifyOtp = async () => {
     try {
-      console.log("trigger");
       if (otp.length === 6) {
         let confirmationResult = window.confirmationResult;
         const res = await confirmationResult.confirm(otp);
@@ -85,19 +82,17 @@ function Register({ setLogin }) {
 
         setExpandForm(false);
         setOtp("");
-        console.log(result, "res");
+
         if (isEmpty(result.data.message)) {
           setFormModal(true);
-          console.log("trigger1234");
         } else {
           const result = await authHandler({
             number: get(res, "user.phoneNumber", ""),
           });
-          console.log("triggered746");
 
           // const result = await authHandler({ number: phoneNumber });
-          console.log(result, "erihujn");
-          Cookies.set("x-o-t-p", result.data.data);
+
+          Cookies.set("x-o-t-p", result.data.data, { expires: 20 });
           form.resetFields();
           dispatch(changeUserValues({ user: result.data.data }));
           notification.success({ message: "Continue to shop" });
@@ -189,7 +184,6 @@ function Register({ setLogin }) {
                     type="number"
                     onChange={(e) => setPhoneNumber(e.target.value)}
                   />
-                  {console.log(phoneNumber, "phoneNumber")}
                 </Form.Item>
                 <p className=" lg:!w-[25vw] xsm:text-[14px] md:text-[20px] sm:text-[12px]  xsm:w-[80vw] lg:text-base font-medium">
                   Secure access to our e-commerce platform by

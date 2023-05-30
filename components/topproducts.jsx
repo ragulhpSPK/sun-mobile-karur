@@ -29,6 +29,7 @@ function Topproducts() {
   const [getUser, setGetUser] = useState([]);
   const dispatch = useDispatch();
   const router = useRouter();
+  const [goCart, setGoGart] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -68,6 +69,13 @@ function Topproducts() {
   let topProducts = products.filter((data) => {
     return data.status === true;
   });
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      window.innerWidth < 640 ? setGoGart(true) : setGoGart(false);
+    });
+    window.innerWidth < 640 ? setGoGart(true) : setGoGart(false);
+  }, [goCart]);
 
   return (
     <div className="mt-[4vh]">
@@ -129,7 +137,11 @@ function Topproducts() {
                   {cart.find((data) => {
                     return data.productId === res._id;
                   }) ? (
-                    <Link href="/profiles/SideNavbar#2">
+                    <Link
+                      href={`${
+                        goCart ? "/profiles/cart" : "/profiles/SideNavbar#2"
+                      }`}
+                    >
                       <div
                         className="absolute bottom-5 cursor-pointer xsm:left-[10%] xsm:!w-[80%] xl:w-[15vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
                   "

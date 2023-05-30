@@ -30,7 +30,7 @@ const CategoryHome = () => {
       console.log(err);
     }
   };
-  // console.log(categoryData, subCat, "trytrrffbbf");
+
   useEffect(() => {
     fetchData();
   }, []);

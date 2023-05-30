@@ -253,7 +253,7 @@ const Categories = (properties) => {
         }}
       /> */}
 
-      <div className="relative  lg:w-[39vw]">
+      <div className="relative  lg:w-[39vw] mt-10">
         {/* <input
           type="search"
           placeholder="Type here"
