@@ -143,9 +143,10 @@ const Subcategories = (properties) => {
 
   const searchers = [];
 
-  subcategory.map((data) => {
-    return searchers.push({ value: data.subcategoryname });
-  });
+  subcategory &&
+    subcategory.map((data) => {
+      return searchers.push({ value: data.subcategoryname });
+    });
 
   const columns = [
     {

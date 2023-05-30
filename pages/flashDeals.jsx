@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 import { get } from "lodash";
 import { Spin, Pagination, Drawer, Modal } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-import Buy from "./buy";
+import Buy from "../components/buy";
 import { Rate } from "antd";
 import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
 import { useDispatch, useSelector } from "react-redux";

@@ -238,9 +238,10 @@ const Categories = (properties) => {
 
   const searchers = [];
 
-  category.map((data) => {
-    return searchers.push({ value: data.name });
-  });
+  category &&
+    category.map((data) => {
+      return searchers.push({ value: data.name });
+    });
 
   return (
     <div className="flex flex-col gap-[4vh]">

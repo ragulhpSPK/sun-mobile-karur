@@ -143,8 +143,6 @@ function Products({ content }) {
 
   useEffect(() => {
     fetchData();
-    //  setValue();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   let result = products.filter((res) => {
@@ -516,42 +514,43 @@ function Products({ content }) {
     defaultFileList: [
       {
         uid: "1",
-        url: imageList[0],
+        url: imageList[0] && imageList[0],
       },
       {
         uid: "2",
-        url: imageList[1],
+        url: imageList[1] && imageList[1],
       },
       {
         uid: "3",
-        url: imageList[2],
+        url: imageList[2] && imageList[2],
       },
       {
         uid: "4",
-        url: imageList[3],
+        url: imageList[3] && imageList[3],
       },
       {
         uid: "5",
-        url: imageList[4],
+        url: imageList[4] && imageList[4],
       },
     ],
   };
 
   const searchers = [];
 
-  products.map((data) => {
-    return searchers.push({
-      value: data.title,
+  products &&
+    products.map((data) => {
+      return searchers.push({
+        value: data.title,
+      });
     });
-  });
 
   console.log(props, "searchers");
 
   return (
     <div className="flex flex-col">
-      <div>
+      {/* <div>
         <AdminNavbar />
-      </div>
+      </div> */}
       <div className="flex">
         <div>
           <Sidenavbar />

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { Category } from "../helper/categories";
 import styles from "../styles/Home.module.css";

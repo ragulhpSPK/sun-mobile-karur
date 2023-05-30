@@ -23,7 +23,7 @@ function Register({ setLogin }) {
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const [open, setOpen] = useState(false);
-  const [otp, setOtp] = useState([]);
+  const [otp, setOtp] = useState("");
   const [phoneNumber, setPhoneNumber] = useState();
   const [expandForm, setExpandForm] = useState(false);
 
@@ -84,6 +84,7 @@ function Register({ setLogin }) {
         );
 
         setExpandForm(false);
+        setOtp("");
         console.log(result, "res");
         if (isEmpty(result.data.message)) {
           setFormModal(true);
@@ -97,6 +98,7 @@ function Register({ setLogin }) {
           // const result = await authHandler({ number: phoneNumber });
           console.log(result, "erihujn");
           Cookies.set("x-o-t-p", result.data.data);
+          form.resetFields();
           dispatch(changeUserValues({ user: result.data.data }));
           notification.success({ message: "Continue to shop" });
         }
@@ -135,6 +137,8 @@ function Register({ setLogin }) {
       dispatch(changeUserValues({ user: result.data.data }));
       Cookies.set("x-o-t-p", result.data.data);
       setFormModal(false);
+      form.resetFields();
+      setOtp("");
       notification.success({ message: "Continue to shop" });
     } catch (err) {
       notification.error({ message: "something went wrong" });

@@ -17,7 +17,7 @@ import {
 import { Drawer, Modal, Spin, notification } from "antd";
 import { get, isEmpty, set } from "lodash";
 import { ReloadOutlined } from "@ant-design/icons";
-import Buy from "../buy";
+import Buy from "../../components/buy";
 import Categories from "@/components/categories";
 import TopRated from "@/components/flashdeals";
 import Bestdeals from "@/components/bestdeals";
