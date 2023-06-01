@@ -329,3 +329,8 @@ button,
 }
 }
 
+
+/* hide antd :increment behavior */
+.hide-increment-decrement .ant-input-number-handler-wrap {
+  display: none !important;
+}

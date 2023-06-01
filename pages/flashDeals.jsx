@@ -11,7 +11,7 @@ import {
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { get } from "lodash";
-import { Spin, Pagination, Drawer, Modal } from "antd";
+import { Spin, Pagination, Drawer, Modal, notification } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import Buy from "../components/buy";
 import { Rate } from "antd";
@@ -28,6 +28,7 @@ import { showLoader, hideLoader } from "@/redux/loadingSlice";
 function FlashDeals() {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.loader.isLoading);
+  const cartSlice = useSelector((state) => state.cart);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [product, setProducts] = useState([]);
   const [goCart, setGoGart] = useState([]);
@@ -85,7 +86,7 @@ function FlashDeals() {
       fetchData();
       notification.success({ message: "added to cart successfully" });
     } catch (err) {
-      notification.failure({ message: "something went wrong" });
+      notification.error({ message: "something went wrong" });
     }
   };
 
@@ -195,7 +196,9 @@ function FlashDeals() {
                               ? setLogin(true)
                               : handleClick(data._id, data);
 
-                            dispatch(addproduct({ ...data }));
+                            dispatch(
+                              addproduct(!get(cartSlice, "products", false))
+                            );
                           }}
                         >
                           <ShoppingCartCheckoutOutlinedIcon />

@@ -240,7 +240,7 @@ function Register({ setLogin }) {
             )}
           ></OtpInput>
           <CloseIcon
-            className="absolute top-0 right-0 !text-black text-lg"
+            className="absolute top-0 right-2 !text-black text-lg"
             onClick={() => {
               setExpandForm(false);
             }}

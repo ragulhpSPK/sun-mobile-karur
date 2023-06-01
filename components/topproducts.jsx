@@ -14,7 +14,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { Modal, notification, Rate } from "antd";
 import { addproduct } from "@/redux/cartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
 import Link from "next/link";
 
@@ -22,6 +22,7 @@ import Cookies from "js-cookie";
 import Login from "@/pages/Authentication/Register";
 
 function Topproducts() {
+  const cartSlice = useSelector((state) => state.cart);
   const [products, setProducts] = useState([]);
   // const [topProducts,setTopProducts] = useState([])
   const [cart, setCart] = useState([]);
@@ -159,7 +160,9 @@ function Topproducts() {
                           ? setLogin(true)
                           : handleClick(res._id, res);
 
-                        dispatch(addproduct({ ...res }));
+                        dispatch(
+                          addproduct(!get(cartSlice, "products", false))
+                        );
                       }}
                     >
                       <ShoppingCartCheckoutOutlinedIcon />

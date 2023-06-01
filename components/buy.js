@@ -184,17 +184,7 @@ function Buy({ id, address }) {
         >
           <Input placeholder="Enter Your Name" type="text" />
         </Form.Item>
-        <Form.Item
-          name="number"
-          label="Mobile Number"
-          rules={[
-            {
-              required: true,
-              message: "Please Enter Your Mobile Number",
-            },
-            { type: "number", message: "Enter valid number" },
-          ]}
-        >
+        <Form.Item name="number" label="Mobile Number">
           <Input placeholder="Enter Your  Mobile number" />
         </Form.Item>
         <Form.Item
@@ -205,10 +195,6 @@ function Buy({ id, address }) {
               <span className="text-slate-400">(optional)</span>
             </span>
           }
-          rules={[
-            { message: "Please Enter Your Alternate Mobile number" },
-            { type: "number", message: "Enter valid number" },
-          ]}
         >
           <Input placeholder="Enter Your Alternate Mobile number" />
         </Form.Item>

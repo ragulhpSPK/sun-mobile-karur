@@ -28,7 +28,6 @@ import {
   getOneUerforNav,
 } from "../../helper/utilities/apiHelper";
 import { get } from "lodash";
-
 import { v1 as uuidv1 } from "uuid";
 import { addproduct } from "@/redux/cartSlice";
 import CloseIcon from "@mui/icons-material/Close";
@@ -37,7 +36,8 @@ import { showLoader, hideLoader } from "@/redux/loadingSlice";
 function Cart() {
   const [check, setCheck] = useState(false);
   const isLoading = useSelector((state) => state.loader.isLoading);
-  const [Qty, setQty] = useState(1);
+  const cart = useSelector((state) => state.cart);
+  const [Qty, setQty] = useState("");
   const [bqty, setBqty] = useState(1);
   const [UID, setUID] = useState("");
   const router = useRouter();
@@ -49,9 +49,10 @@ function Cart() {
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const [address, setAddress] = useState([]);
-
   const [size, setSize] = useState();
   uuidv1();
+
+  console.log(cart, "erbjh");
 
   const handleCheck = () => {
     var today = new Date();
@@ -104,8 +105,48 @@ function Cart() {
 
   const handleChange = async (data, e) => {
     try {
+      // const formData = {
+      //   quantity: e,
+      //   id: data,
+      // };
+      // await updateCart(formData);
+      // fetchData();
+      notification.success({ message: "cart updated successfully" });
+    } catch (err) {
+      notification.error({ message: "Something went wrong" });
+    }
+  };
+
+  const IncrementQty = async (data) => {
+    console.log(
+      products.find((item) => {
+        return item._id === data;
+      }).quantity
+    );
+
+    try {
       const formData = {
-        quantity: e,
+        quantity:
+          products.find((item) => {
+            return item._id === data;
+          }).quantity + 1,
+        id: data,
+      };
+      await updateCart(formData);
+      fetchData();
+      notification.success({ message: "cart updated successfully" });
+    } catch (err) {
+      notification.error({ message: "Something went wrong" });
+    }
+  };
+
+  const DecrementQty = async (data) => {
+    try {
+      const formData = {
+        quantity:
+          products.find((item) => {
+            return item._id === data;
+          }).quantity - 1,
         id: data,
       };
       await updateCart(formData);
@@ -144,6 +185,8 @@ function Cart() {
             return data.price;
           }),
           paymentMethod: payment,
+          number: e.number,
+          alternateNumber: e.alternateNumber,
         },
       };
       await createOrder(formData);
@@ -245,24 +288,49 @@ function Cart() {
                             onClick={() => {
                               // setDeleteId(data._id);
                               deleteHandler(data._id);
-                              dispatch(addproduct({ ...data }));
                             }}
                           >
-                            <CloseIcon className="text-[20px]" />
+                            <CloseIcon
+                              className="text-[20px]"
+                              onClick={() => {
+                                dispatch(
+                                  addproduct(!get(cart, "products", false))
+                                );
+                              }}
+                            />
                           </div>
                           <div className="pt-[10px] pr-[3vw]">
                             <p>&#8377;{data.price}</p>
                             <div className="flex justify-center items-center">
-                              <InputNumber
+                              {/* <InputNumber
                                 min={1}
                                 max={5}
                                 defaultValue={data.quantity}
                                 onChange={(e) => {
-                                  // setQty(e);
                                   handleChange(data._id, e);
                                 }}
                                 className="xsm:w-[15vw] md:w-[4vw]"
-                              />
+                              /> */}
+
+                              <div className="md:!w-[4vw] border-2 md:bg-white flex xsm:flex-col md:flex-row items-center justify-center gap-x-4">
+                                <button
+                                  onClick={() => {
+                                    DecrementQty(data._id);
+                                  }}
+                                  className="text-black xsm:text-md md:text-2xl bg-[--third-color] xsm:px-[11px] md:!px-[11px]"
+                                >
+                                  -
+                                </button>
+                                <span>{data.quantity}</span>
+                                <button
+                                  onClick={() => {
+                                    IncrementQty(data._id);
+                                  }}
+                                  className="text-black xsm:text-md xsm:!px-[9px] md:text-2xl bg-[--third-color]  md:!px-[8px]"
+                                >
+                                  +
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -337,7 +405,6 @@ function Cart() {
                         required: true,
                         message: "Please Enter Your Mobile Number",
                       },
-                      { type: "number", message: "Enter valid number" },
                     ]}
                   >
                     <Input placeholder="Enter Your  Mobile number" />
@@ -350,12 +417,11 @@ function Cart() {
                         <span className="text-slate-400">(optional)</span>
                       </span>
                     }
-                    rules={[
-                      { message: "Please Enter Your Alternate Mobile number" },
-                      { type: "number", message: "Enter valid number" },
-                    ]}
                   >
-                    <Input placeholder="Enter Your Alternate Mobile number" />
+                    <Input
+                      placeholder="Enter Your Alternate Mobile number"
+                      defaultValue={91}
+                    />
                   </Form.Item>
                   <Form.Item
                     name="email"

@@ -100,7 +100,6 @@ const Categories = (properties) => {
   };
 
   const uploadImage = (imagename) => {
-    console.log(imagename.name);
     if (imagename == null) return;
 
     const imageRef = ref(
@@ -127,7 +126,6 @@ const Categories = (properties) => {
   // }, []);
 
   const handleEdit = (value) => {
-    console.log(value);
     setUpdateId(value._id);
     setImageList(value.image);
     setOpen(true);

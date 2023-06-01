@@ -42,10 +42,10 @@ function Profile() {
     try {
       const formData = {
         address: value.address,
-        alternateNumber: value.alternateNumber,
+        alternateNumber: `91${value.alternateNumber}`,
         email: value.email,
         firstName: value.firstName,
-        number: value.number,
+        number: `91${value.number}`,
         id: value._id,
       };
       await userProfile(formData);
@@ -152,7 +152,7 @@ function Profile() {
                   required: true,
                   message: "Please Enter Your Mobile Number",
                 },
-                { type: "number", message: "Enter valid number" },
+                { message: "Enter valid number" },
               ]}
             >
               <Input placeholder="Enter Your  Mobile number" />
@@ -165,12 +165,12 @@ function Profile() {
                   <span className="text-slate-400">(optional)</span>
                 </span>
               }
-              rules={[
-                { message: "Please Enter Your Alternate Mobile number" },
-                { type: "number", message: "Enter valid number" },
-              ]}
+              rules={[{ message: "Enter valid number" }]}
             >
-              <Input placeholder="Enter Your Alternate Mobile number" />
+              <Input
+                placeholder="Enter Your Alternate Mobile number"
+                defaultValue={91}
+              />
             </Form.Item>
             <Form.Item
               name="email"

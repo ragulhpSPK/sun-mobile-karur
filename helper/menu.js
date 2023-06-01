@@ -57,4 +57,12 @@ export const Items = [
     // <ViewCarouselOutlinedIcon className="!text-xl" />
     <Image src="/assets/order.png" alt="no" width={28} height={28} />
   ),
+  getItem(
+    <Link href="/dashboard/setting/Settings">
+      <h1 className="!text-xl">Settings</h1>
+    </Link>,
+    "setting",
+    // <ViewCarouselOutlinedIcon className="!text-xl" />
+    <Image src="/assets/settngs.png" alt="no" width={28} height={28} />
+  ),
 ];

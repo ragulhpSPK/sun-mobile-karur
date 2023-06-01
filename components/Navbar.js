@@ -65,7 +65,7 @@ function Navbar() {
 
   useEffect(() => {
     fetchData();
-  }, [cart.products.length, userDetails]);
+  }, [cart.products, userDetails]);
 
   const avtivateNavbar = async () => {
     try {
@@ -79,7 +79,7 @@ function Navbar() {
 
   useEffect(() => {
     avtivateNavbar();
-  }, [product, userDetails, cart.products.length]);
+  }, [userDetails, cart.products.length]);
 
   useEffect(() => {
     setData(
@@ -92,16 +92,21 @@ function Navbar() {
   return (
     <div className="flex flex-col justify-center  fixed top-0 w-screen z-50 bg-white">
       {/* step 1 */}
-      <div className="flex justify-between p-2 xsm:hidden lg:flex items-center !font-bold  hover:font-bold ">
-        <div className="flex gap-x-2 text-sm capitalize hover:cursor-pointer hover:text-[--second-color] items-center pl-[5vw]">
-          <div>About Us</div>
-          <Divider type="vertical" />
-          <div>My Account</div>
-          <Divider type="vertical" />
-          <div>Wishlist</div>
-          <Divider type="vertical" />
-          <div>Order Tracking</div>
-        </div>
+      <div className="flex pl-[2vw] justify-between p-2 xsm:hidden lg:flex items-center !font-bold  hover:font-bold ">
+        {isEmpty(activeUser) ? (
+          ""
+        ) : (
+          <div className="flex gap-x-2 text-sm capitalize hover:cursor-pointer hover:text-[--second-color] items-center pl-[5vw]">
+            <div>About Us</div>
+            <Divider type="vertical" />
+            <Link href="/profiles/SideNavbar#1">My Account</Link>
+            <Divider type="vertical" />
+            <div>Wishlist</div>
+            <Divider type="vertical" />
+            <Link href="/profiles/SideNavbar#3">Order Tracking</Link>
+          </div>
+        )}
+
         <div>
           <div className="hover:!cursor-pointer hover:!text-[--second-color]">
             free delivery for all orders
@@ -150,7 +155,7 @@ function Navbar() {
               </div>
             </div>
           </div>
-
+          {}
           <div className="flex gap-x-2 text-sm capitalize  items-center">
             {isEmpty(activeUser) ? (
               ""

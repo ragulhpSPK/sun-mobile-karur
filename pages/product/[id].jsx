@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import React from "react";
 import styles from "../../styles/zoom.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { addproduct } from "@/redux/cartSlice";
+import cartSlice, { addproduct } from "@/redux/cartSlice";
 import { useRouter } from "next/router";
 import { AddCart } from "@/helper/Addcart";
 import Link from "next/link";
@@ -33,6 +33,7 @@ import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCh
 
 export default function App() {
   const isLoading = useSelector((state) => state.loader.isLoading);
+  const cartSlice = useSelector((state) => state.cart);
   const [current, setCurrentImage] = useState();
   const router = useRouter();
   const [imgs, setImgs] = useState([]);
@@ -95,8 +96,6 @@ export default function App() {
       setImgs(img.image[0]);
     });
   }, [filterData]);
-
-  console.log(go, "erugybhnjkpojihbgvbhjiojb v");
 
   const handleClick = async (data) => {
     try {
@@ -281,7 +280,9 @@ export default function App() {
                               ? setLogin(true)
                               : handleClick(data._id, data);
 
-                            dispatch(addproduct({ ...data }));
+                            dispatch(
+                              addproduct(!get(cartSlice, "products", false))
+                            );
                           }}
                         >
                           <ShoppingCartCheckoutOutlinedIcon />

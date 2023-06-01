@@ -26,6 +26,7 @@ import { addproduct } from "@/redux/cartSlice";
 
 function Bestdeals() {
   const isLoading = useSelector((state) => state.loader.isLoading);
+  const cartSlice = useSelector((state) => state.cart);
   const [product, setProducts] = useState([]);
   const [getUser, setGetUser] = useState([]);
   const [bestProducts, setbestProducts] = useState([]);
@@ -211,7 +212,9 @@ function Bestdeals() {
                               ? setLogin(true)
                               : handleClick(res._id, res);
 
-                            dispatch(addproduct({ ...res }));
+                            dispatch(
+                              addproduct(!get(cartSlice, "products", false))
+                            );
                           }}
                         >
                           <ShoppingCartCheckoutOutlinedIcon />

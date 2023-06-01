@@ -23,7 +23,6 @@ function Order() {
   const fetchData = async () => {
     try {
       const result = await getDashBoardOrder();
-      console.log(result);
       setOrder(get(result, "data.data", []));
     } catch (err) {
       console.log(err);
@@ -35,13 +34,6 @@ function Order() {
   }, []);
 
   const handleChangeStatus = async (e, id) => {
-    console.log(e);
-    // console.log(
-    //   order.filter((data) => {
-    //     return data._id === e;
-    //   })[0]
-    // );
-
     try {
       const formData = {
         status: e,
@@ -81,6 +73,22 @@ function Order() {
       },
     },
     {
+      title: "number",
+      dataindex: "number",
+      key: "number",
+      render: (name) => {
+        return <p className="text-[16px]">{name.number}</p>;
+      },
+    },
+    {
+      title: "alternateNumber",
+      dataindex: "alternateNumber",
+      key: "alternateNumber",
+      render: (name) => {
+        return <p className="text-[16px]">{name.alternateNumber}</p>;
+      },
+    },
+    {
       title: "Total Price",
       dataindex: "total",
       key: "total",
@@ -96,7 +104,7 @@ function Order() {
       render: (name, id) => {
         if (name === "Cancelled") {
           return (
-            <div className="bg-red-500 w-[8vw] text-center p-3 text-white rounded">
+            <div className="bg-red-500 xl:w-[8vw] text-center p-3 text-white rounded">
               {name}
             </div>
           );

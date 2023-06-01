@@ -35,6 +35,12 @@ const orderSchema = new mongoose.Schema(
     paymentMethod: {
       type: String,
     },
+    number: {
+      type: Number,
+    },
+    alternateNumber: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );

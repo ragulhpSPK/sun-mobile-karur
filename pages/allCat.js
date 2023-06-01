@@ -31,6 +31,7 @@ import Login from "@/pages/Authentication/Register";
 import { showLoader, hideLoader } from "@/redux/loadingSlice";
 function AllCat() {
   const isLoading = useSelector((state) => state.loader.isLoading);
+  const cartSlice = useSelector((state) => state.cart);
   const [active, setActive] = useState(false);
   const [id, setId] = useState();
   const [more, setMore] = useState(false);
@@ -484,7 +485,11 @@ function AllCat() {
                                       ? setLogin(true)
                                       : handleClick(data._id, data);
 
-                                    dispatch(addproduct({ ...data }));
+                                    dispatch(
+                                      addproduct(
+                                        !get(cartSlice, "products", false)
+                                      )
+                                    );
                                   }}
                                 >
                                   <ShoppingCartCheckoutOutlinedIcon />
@@ -774,7 +779,9 @@ function AllCat() {
                                   ? setLogin(true)
                                   : handleClick(data._id, data);
 
-                                dispatch(addproduct({ ...data }));
+                                dispatch(
+                                  addproduct(!get(cartSlice, "products", false))
+                                );
                               }}
                             >
                               <ShoppingCartCheckoutOutlinedIcon />

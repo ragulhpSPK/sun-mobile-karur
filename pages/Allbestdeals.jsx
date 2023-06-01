@@ -26,6 +26,7 @@ import { showLoader, hideLoader } from "@/redux/loadingSlice";
 
 function Allbestdeals() {
   const [product, setProducts] = useState([]);
+  const cartSlice = useSelector((state) => state.cart);
   const [banner, setBanner] = useState([]);
   const [bestProducts, setbestProducts] = useState([]);
   const [goCart, setGoGart] = useState([]);
@@ -198,10 +199,7 @@ function Allbestdeals() {
                           goCart ? "/profiles/cart" : "/profiles/SideNavbar#2"
                         }`}
                       >
-                        <div
-                          className="absolute  cursor-pointer xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
-                  "
-                        >
+                        <div className="absolute  cursor-pointer xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded">
                           <ShoppingCartCheckoutOutlinedIcon />
                           <div>Go to Cart</div>
                         </div>
@@ -215,7 +213,9 @@ function Allbestdeals() {
                             ? setLogin(true)
                             : handleClick(data._id, data);
 
-                          dispatch(addproduct({ ...data }));
+                          dispatch(
+                            addproduct(!get(cartSlice, "products", false))
+                          );
                         }}
                       >
                         <ShoppingCartCheckoutOutlinedIcon />

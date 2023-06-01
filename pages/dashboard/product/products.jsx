@@ -76,11 +76,12 @@ function Products({ content }) {
   const [catFil, setCategoryFil] = useState([]);
   const [highlight, setHighlights] = useState([]);
   const [subCatFilter, setSubCatFilter] = useState([]);
+
   const [checked, setChecked] = useState();
   const [tablechecked, setTablechecked] = useState(false);
   const [status, setStatus] = useState(false);
 
-  const [imageList, setImageList] = useState([]);
+  const [imageList, setImageList] = useState("");
   const [loading, setLoading] = useState(false);
 
   const SunEditor = dynamic(() => import("suneditor-react"), {
@@ -90,7 +91,6 @@ function Products({ content }) {
   const [form] = Form.useForm();
 
   const editProducts = (value) => {
-    console.log(value);
     setUpdateId(value._id);
     setOpen(!open);
     setImageList(value.image);
@@ -143,6 +143,8 @@ function Products({ content }) {
 
   useEffect(() => {
     fetchData();
+    //  setValue();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   let result = products.filter((res) => {
@@ -157,13 +159,16 @@ function Products({ content }) {
   });
 
   const handleUpload = (file) => {
+    console.log(file.name, "fhjnmk");
+
     const imageRef = ref(storage, `imageList/${v4()}-${file && file.name}`);
 
     uploadBytes(imageRef, file).then((snaphsot) => {
       getDownloadURL(snaphsot.ref).then((url) => {
+        console.log(url);
         setImageList((prevList) => [...prevList, url]);
       });
-      alert("image uploaded");
+      notification.success({ message: "image uploaded successfully" });
     });
   };
 
@@ -210,6 +215,7 @@ function Products({ content }) {
             image: imageList.map((data) => {
               return data;
             }),
+
             categoryname: category.filter((data) => {
               return data._id === catFil;
             })[0].name,
@@ -228,7 +234,6 @@ function Products({ content }) {
         setUpdateId("");
         fetchData();
         setImageName([]);
-        setImageList("");
         form.resetFields();
       } catch (err) {
         console.log(err);
@@ -243,6 +248,7 @@ function Products({ content }) {
 
     try {
       const result = await deleteProducts(value._id);
+
       if (get(result, "data.message", "") === "Product mapped with Banner") {
         Modal.warning({
           title: "this product is mapped with Banner",
@@ -514,41 +520,42 @@ function Products({ content }) {
     defaultFileList: [
       {
         uid: "1",
-        url: imageList[0] && imageList[0],
+        url: imageList[0],
       },
       {
         uid: "2",
-        url: imageList[1] && imageList[1],
+        url: imageList[1],
       },
       {
         uid: "3",
-        url: imageList[2] && imageList[2],
+        url: imageList[2],
       },
       {
         uid: "4",
-        url: imageList[3] && imageList[3],
+        url: imageList[3],
       },
       {
         uid: "5",
-        url: imageList[4] && imageList[4],
+        url: imageList[4],
       },
     ],
   };
 
   const searchers = [];
 
-  products &&
-    products.map((data) => {
-      return searchers.push({
-        value: data.title,
-      });
+  products.map((data) => {
+    return searchers.push({
+      value: data.title,
     });
+  });
+
+  console.log(props, "searchers");
 
   return (
     <div className="flex flex-col">
-      {/* <div>
+      <div>
         <AdminNavbar />
-      </div> */}
+      </div>
       <div className="flex">
         <div>
           <Sidenavbar />

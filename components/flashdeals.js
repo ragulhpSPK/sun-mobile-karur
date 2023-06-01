@@ -12,13 +12,14 @@ import {
   getOneUerforNav,
 } from "@/helper/utilities/apiHelper";
 import { get, isEmpty } from "lodash";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addproduct } from "@/redux/cartSlice";
 import { useRouter } from "next/router";
 import Login from "@/pages/Authentication/Register";
 import Cookies from "js-cookie";
 
 const TopRated = () => {
+  const cartSlice = useSelector((state) => state.cart);
   const [product, setProducts] = useState([]);
   const [getUser, setGetUser] = useState([]);
   const [cart, setCart] = useState([]);
@@ -197,7 +198,7 @@ const TopRated = () => {
                             isEmpty(getUser)
                               ? setLogin(true)
                               : handleClick(res._id, res);
-                            dispatch(addproduct({ ...res }));
+                            dispatch();
                           }}
                         >
                           <ShoppingCartCheckoutOutlinedIcon />
