@@ -10,10 +10,10 @@ function Sidenavbar() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   return (
-    <div className="!h-[100vh] ">
+    <div className="!h-[100vh] w-[10vw]">
       <div>
         <MenuIcon
-          className="lg:hidden !mt-[6vh]"
+          className="lg:hidden"
           onClick={() => {
             setOpen(true);
           }}
@@ -57,23 +57,15 @@ function Sidenavbar() {
           />
         </div>
       </Drawer>
-      <div className="shadow pt-[30%] xsm:hidden lg:block">
-        <div className="flex flex-col items-center justify-center">
-          <Avatar
-            size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
-            style={{ backgroundColor: "white" }}
-            className="!shadow-inner !shadow-slate-200"
-          >
-            <Image
-              src="/assets/sun2.png"
-              alt="no"
-              width={40}
-              height={40}
-              className="!h-[6vh] !w-[8vw]"
-            />
-          </Avatar>
-          <p className="font-bold pt-2">Sun Mobiles</p>
-          <p className="font-bold pt-2">sunmob123@gmail.com</p>
+      <div className="shadow h-[100vh] xsm:hidden lg:block w-[10vw]">
+        <div className="flex flex-col items-center justify-center !pt-[2vh]">
+          <Image
+            src="/assets/sun2.png"
+            alt="no"
+            width={40}
+            height={40}
+            className="!h-[100%] !w-[100%] "
+          />
         </div>
 
         <Menu
@@ -81,7 +73,7 @@ function Sidenavbar() {
             router.route.split("/")[router.route.split("/").length - 1]
           }
           mode="inline"
-          className="!h-[60vh] !w-[14vw] pt-[5vh] pl-[2vw]"
+          className=" !w-[10vw] pt-[5vh] "
           items={Items}
         />
       </div>

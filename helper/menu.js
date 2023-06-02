@@ -23,7 +23,7 @@ export const Items = [
     </Link>,
     "dashboard",
     // <FundOutlined className="!text-xl" />
-    <Image src="/assets/dash.png" alt="no" width={28} height={28} />
+    <Image src="/assets/dash.png" alt="no" width={10} height={10} />
   ),
   getItem(
     <Link href="/dashboard/product/products">
@@ -31,7 +31,7 @@ export const Items = [
     </Link>,
     "products",
     // <StayCurrentPortraitOutlinedIcon className="!text-xl" />
-    <Image src="/assets/products.png" alt="no" width={28} height={28} />
+    <Image src="/assets/products.png" alt="no" width={10} height={10} />
   ),
   getItem(
     <Link href="/dashboard/category">
@@ -39,7 +39,7 @@ export const Items = [
     </Link>,
     "category",
     // <AppsOutlinedIcon className="!text-xl" />
-    <Image src="/assets/category.png" alt="no" width={28} height={28} />
+    <Image src="/assets/category.png" alt="no" width={10} height={10} />
   ),
   getItem(
     <Link href="/dashboard/Banner/Banners">
@@ -47,7 +47,7 @@ export const Items = [
     </Link>,
     "Banners",
     // <ViewCarouselOutlinedIcon className="!text-xl" />
-    <Image src="/assets/banner2.png" alt="no" width={28} height={28} />
+    <Image src="/assets/banner2.png" alt="no" width={10} height={10} />
   ),
   getItem(
     <Link href="/dashboard/order/order">
@@ -55,14 +55,13 @@ export const Items = [
     </Link>,
     "order",
     // <ViewCarouselOutlinedIcon className="!text-xl" />
-    <Image src="/assets/order.png" alt="no" width={28} height={28} />
+    <Image src="/assets/order.png" alt="no" width={10} height={10} />
   ),
   getItem(
     <Link href="/dashboard/setting/Settings">
       <h1 className="!text-xl">Settings</h1>
     </Link>,
-    "setting",
-    // <ViewCarouselOutlinedIcon className="!text-xl" />
-    <Image src="/assets/settngs.png" alt="no" width={28} height={28} />
+    "Settings",
+    <SettingOutlined />
   ),
 ];

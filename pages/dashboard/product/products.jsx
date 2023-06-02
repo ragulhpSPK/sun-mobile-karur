@@ -76,7 +76,6 @@ function Products({ content }) {
   const [catFil, setCategoryFil] = useState([]);
   const [highlight, setHighlights] = useState([]);
   const [subCatFilter, setSubCatFilter] = useState([]);
-
   const [checked, setChecked] = useState();
   const [tablechecked, setTablechecked] = useState(false);
   const [status, setStatus] = useState(false);
@@ -553,206 +552,209 @@ function Products({ content }) {
 
   return (
     <div className="flex flex-col">
-      <div>
-        <AdminNavbar />
-      </div>
-      <div className="flex">
+      <div className="flex flex-row">
+        <Sidenavbar />
         <div>
-          <Sidenavbar />
-        </div>
-        <div className="flex flex-col">
-          <div className="relative lg:w-[60vw] h-[10vh] pl-[20vw] xsm:pr-2 mt-10">
-            {/* <input
+          <AdminNavbar currentPage={"products"} />
+          <div className="flex">
+            <div className="flex flex-col">
+              <div className="relative lg:w-[60vw] h-[10vh] pl-[20vw] xsm:pr-2 mt-10">
+                {/* <input
               type="search"
               placeholder="Type here"
               className="input input-bordered  !w-[100%] "
               onChange={(e) => setData(e.target.value)}
             />
             <SearchIcon className="absolute top-[8px] right-1 text-3xl" />*/}
-            <Select
-              mode="tags"
-              style={{
-                width: "100%",
-              }}
-              placeholder="Type here for Products"
-              options={searchers}
-              onChange={(data) => {
-                setData(data);
-              }}
-              size="large"
-            />
-          </div>
-          <div className="relative flex flex-col gap-[2px] ">
-            <div
-              className="w-[82vw] !bg-white lg:hidden"
-              onClick={() => {
-                setOpen(!open);
-                setSize(250);
-              }}
-            >
-              <FileAddOutlined className="!text-[#943074] !bg-white !text-2xl float-right mr-[1vw] cursor-pointer" />
-            </div>
-            <div
-              className="w-[82vw] !bg-white hidden lg:block"
-              onClick={() => {
-                setOpen(!open);
-                setSize(550);
-              }}
-            >
-              <FileAddOutlined className="!text-[#943074] !bg-white !text-2xl float-right mr-[1vw] cursor-pointer" />
-            </div>
-            <div className="pl-10">
-              <div className="overflow-x-auto ">
-                <Table
-                  className="w-[80vw] "
-                  columns={columns}
-                  dataSource={result}
-                  loading={loading}
-                  pagination={{
-                    pageSize: 5,
+                <Select
+                  mode="tags"
+                  style={{
+                    width: "100%",
                   }}
-                  // rowSelection={rowSelection}
+                  placeholder="Type here for Products"
+                  options={searchers}
+                  onChange={(data) => {
+                    setData(data);
+                  }}
+                  size="large"
                 />
               </div>
-            </div>
-            <Drawer width={size} open={open} destroyOnClose placement="right">
-              <Form
-                className="flex flex-col relative"
-                form={form}
-                onFinish={(values) => {
-                  handleFinish();
-                }}
-                // style={{
-                //   maxWidth: 600,
-                // }}
-              >
-                <Form.Item
-                  name="title"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
+              <div className="relative flex flex-col gap-[2px] ">
+                <div
+                  className="w-[82vw] !bg-white lg:hidden"
+                  onClick={() => {
+                    setOpen(!open);
+                    setSize(250);
+                  }}
                 >
-                  <Input
-                    size="large"
-                    placeholder="Enter product Name"
-                    className="lg:w-[35vw]"
-                  />
-                </Form.Item>
-                <Form.Item
-                  name="price"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
+                  <FileAddOutlined className="!text-[#943074] !bg-white !text-2xl float-right mr-[1vw] cursor-pointer" />
+                </div>
+                <div
+                  className="w-[82vw] !bg-white hidden lg:block"
+                  onClick={() => {
+                    setOpen(!open);
+                    setSize(550);
+                  }}
                 >
-                  <Input
-                    size="large"
-                    placeholder="Enter product Price"
-                    className="lg:w-[35vw]"
-                  />
-                </Form.Item>
-                <Form.Item
-                  name="offer"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
+                  <FileAddOutlined className="!text-[#943074] !bg-white !text-2xl float-right mr-[1vw] cursor-pointer" />
+                </div>
+                <div className="pl-10">
+                  <div className="overflow-x-auto ">
+                    <Table
+                      className="w-[80vw] "
+                      columns={columns}
+                      dataSource={result}
+                      loading={loading}
+                      pagination={{
+                        pageSize: 5,
+                      }}
+                      // rowSelection={rowSelection}
+                    />
+                  </div>
+                </div>
+                <Drawer
+                  width={size}
+                  open={open}
+                  destroyOnClose
+                  placement="right"
                 >
-                  <Input
-                    size="large"
-                    placeholder="Enter product Offer"
-                    className="lg:w-[35vw]"
-                  />
-                </Form.Item>
-                <Form.Item
-                  name="categoryId"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
-                >
-                  <Select
-                    placeholder="Select Category"
-                    size="large"
-                    onChange={(e) => {
-                      handleChange(e);
-                      setCategoryFil(e);
+                  <Form
+                    className="flex flex-col relative"
+                    form={form}
+                    onFinish={(values) => {
+                      handleFinish();
                     }}
-                    className="lg:!w-[35vw]"
+                    // style={{
+                    //   maxWidth: 600,
+                    // }}
                   >
-                    {category.map((res) => {
-                      return (
-                        <Option value={res._id} key={res._id}>
-                          {res.name}
-                        </Option>
-                      );
-                    })}
-                  </Select>
-                </Form.Item>
-                <Form.Item
-                  name="SubCategoryId"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
-                >
-                  <Select
-                    placeholder="Select SubCategory"
-                    size="large"
-                    onChange={(e) => setSubCatFilter(e)}
-                    className="!w-[35vw]"
-                  >
-                    {catFilter.map((res) => {
-                      return (
-                        <Option value={res._id} key={res._id}>
-                          {res.subcategoryname}
-                        </Option>
-                      );
-                    })}
-                  </Select>
-                </Form.Item>
-                <Form.Item className="h-[5px] pb-8 relative" name="status">
-                  <label className="text-4xl font-bold">
-                    Switch to top Products
-                  </label>
+                    <Form.Item
+                      name="title"
+                      rules={[
+                        {
+                          required: true,
+                        },
+                      ]}
+                    >
+                      <Input
+                        size="large"
+                        placeholder="Enter product Name"
+                        className="lg:w-[35vw]"
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      name="price"
+                      rules={[
+                        {
+                          required: true,
+                        },
+                      ]}
+                    >
+                      <Input
+                        size="large"
+                        placeholder="Enter product Price"
+                        className="lg:w-[35vw]"
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      name="offer"
+                      rules={[
+                        {
+                          required: true,
+                        },
+                      ]}
+                    >
+                      <Input
+                        size="large"
+                        placeholder="Enter product Offer"
+                        className="lg:w-[35vw]"
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      name="categoryId"
+                      rules={[
+                        {
+                          required: true,
+                        },
+                      ]}
+                    >
+                      <Select
+                        placeholder="Select Category"
+                        size="large"
+                        onChange={(e) => {
+                          handleChange(e);
+                          setCategoryFil(e);
+                        }}
+                        className="lg:!w-[35vw]"
+                      >
+                        {category.map((res) => {
+                          return (
+                            <Option value={res._id} key={res._id}>
+                              {res.name}
+                            </Option>
+                          );
+                        })}
+                      </Select>
+                    </Form.Item>
+                    <Form.Item
+                      name="SubCategoryId"
+                      rules={[
+                        {
+                          required: true,
+                        },
+                      ]}
+                    >
+                      <Select
+                        placeholder="Select SubCategory"
+                        size="large"
+                        onChange={(e) => setSubCatFilter(e)}
+                        className="!w-[35vw]"
+                      >
+                        {catFilter.map((res) => {
+                          return (
+                            <Option value={res._id} key={res._id}>
+                              {res.subcategoryname}
+                            </Option>
+                          );
+                        })}
+                      </Select>
+                    </Form.Item>
+                    <Form.Item className="h-[5px] pb-8 relative" name="status">
+                      <label className="text-4xl font-bold">
+                        Switch to top Products
+                      </label>
 
-                  <Switch
-                    className="ml-3 bg-slate-400 shadow-lg"
-                    checked={updateId == "" ? tablechecked : status}
-                    onChange={(check) => setTablechecked(check)}
-                  />
-                </Form.Item>
+                      <Switch
+                        className="ml-3 bg-slate-400 shadow-lg"
+                        checked={updateId == "" ? tablechecked : status}
+                        onChange={(check) => setTablechecked(check)}
+                      />
+                    </Form.Item>
 
-                <Form.Item name="highlight">
-                  <SunEditor
-                    onChange={handleEditorChange}
-                    setOptions={{
-                      buttonList: [
-                        [
-                          "bold",
-                          "underline",
-                          "italic",
-                          "strike",
-                          "list",
-                          "align",
-                          "fontSize",
-                          "formatBlock",
-                          "table",
-                          "image",
-                        ],
-                      ],
-                      formats: ["h1", "h2", "h3", "h4", "h5", "h6"],
-                    }}
-                    defaultValue={highlight}
-                  />
-                </Form.Item>
-                {/* 
+                    <Form.Item name="highlight">
+                      <SunEditor
+                        onChange={handleEditorChange}
+                        setOptions={{
+                          buttonList: [
+                            [
+                              "bold",
+                              "underline",
+                              "italic",
+                              "strike",
+                              "list",
+                              "align",
+                              "fontSize",
+                              "formatBlock",
+                              "table",
+                              "image",
+                            ],
+                          ],
+                          formats: ["h1", "h2", "h3", "h4", "h5", "h6"],
+                        }}
+                        defaultValue={highlight}
+                      />
+                    </Form.Item>
+                    {/* 
                 <Upload
                   {...props}
                   // listType="picture"
@@ -776,61 +778,63 @@ function Products({ content }) {
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
                 </Upload> */}
-                {props.defaultFileList[0].url === undefined ? (
-                  <div className="flex flex-col">
-                    <Upload
-                      multiple
-                      onChange={(e) => handleUpload(e.file.originFileObj)}
-                      className="flex flex-col w-[100%] items-center justify-center"
-                      listType="picture"
-                      onRemove={() => {
-                        setImageList("");
-                      }}
-                    >
-                      <Button
-                        icon={<UploadOutlined />}
-                        className="!bg-[--third-color]"
-                      >
-                        Select Files
-                      </Button>
-                    </Upload>
-                  </div>
-                ) : (
-                  <div className="flex flex-col !w-[100%]">
-                    <Upload
-                      multiple
-                      maxCount="5"
-                      onChange={(e) => handleUpload(e.file.originFileObj)}
-                      className="flex flex-col "
-                      listType="picture-card"
-                      onRemove={() => {
-                        setImageList("");
-                      }}
-                      {...props}
-                    >
-                      <PlusOutlined />
-                    </Upload>
-                  </div>
-                )}
+                    {props.defaultFileList[0].url === undefined ? (
+                      <div className="flex flex-col">
+                        <Upload
+                          multiple
+                          onChange={(e) => handleUpload(e.file.originFileObj)}
+                          className="flex flex-col w-[100%] items-center justify-center"
+                          listType="picture"
+                          onRemove={() => {
+                            setImageList("");
+                          }}
+                        >
+                          <Button
+                            icon={<UploadOutlined />}
+                            className="!bg-[--third-color]"
+                          >
+                            Select Files
+                          </Button>
+                        </Upload>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col !w-[100%]">
+                        <Upload
+                          multiple
+                          maxCount="5"
+                          onChange={(e) => handleUpload(e.file.originFileObj)}
+                          className="flex flex-col "
+                          listType="picture-card"
+                          onRemove={() => {
+                            setImageList("");
+                          }}
+                          {...props}
+                        >
+                          <PlusOutlined />
+                        </Upload>
+                      </div>
+                    )}
 
-                <div className="flex gap-5 justify-end ">
-                  <Button
-                    type="Primary"
-                    className="bg-[--third-color] shadow-xl  !text-black"
-                    onClick={handleCancel}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    type="Primary"
-                    className="bg-[--third-color] shadow-xl !text-black"
-                    htmlType="submit"
-                  >
-                    {updateId == "" ? "Save" : "Update"}
-                  </Button>
-                </div>
-              </Form>
-            </Drawer>
+                    <div className="flex gap-5 justify-end ">
+                      <Button
+                        type="Primary"
+                        className="bg-[--third-color] shadow-xl  !text-black"
+                        onClick={handleCancel}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        type="Primary"
+                        className="bg-[--third-color] shadow-xl !text-black"
+                        htmlType="submit"
+                      >
+                        {updateId == "" ? "Save" : "Update"}
+                      </Button>
+                    </div>
+                  </Form>
+                </Drawer>
+              </div>
+            </div>
           </div>
         </div>
       </div>

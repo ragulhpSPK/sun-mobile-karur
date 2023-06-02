@@ -166,3 +166,16 @@ export const getOneUerforNav = () => {
 export const userProfile = (formData) => {
   return axios.put(`/api/auth/raw`, formData);
 };
+
+// authentication ended
+
+// dasprofile started
+
+export const getDashProfile = () => {
+  return axios.get("/api/dasProfile");
+};
+
+export const createDasProfile = (formData) => {
+  console.log(formData, "dfnjn");
+  return axios.post("/api/dasProfile", formData);
+};
