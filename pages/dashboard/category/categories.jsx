@@ -298,7 +298,7 @@ const Categories = (properties) => {
         >
           <div className="flex flex-col ">
             <div className="flex flex-col gap-y-2">
-              <div className="p-2">
+              <div className="p-2 ">
                 <Table
                   key="id"
                   loading={loading}

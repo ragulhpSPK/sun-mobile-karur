@@ -555,7 +555,10 @@ function Products({ content }) {
       <div className="flex flex-row">
         <Sidenavbar />
         <div>
-          <AdminNavbar currentPage={"products"} />
+          <div className="!hidden lg:!block">
+            <AdminNavbar currentPage={"products"} />
+          </div>
+
           <div className="flex">
             <div className="flex flex-col">
               <div className="relative lg:w-[60vw] h-[10vh] pl-[20vw] xsm:pr-2 mt-10">

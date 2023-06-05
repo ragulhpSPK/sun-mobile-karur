@@ -152,9 +152,9 @@ function Order() {
           <Sidenavbar />
         </div>
 
-        <div className="xl:w-[80vw] p-5 !pt-[12vh]">
+        <div className="xsm:w-[90vw] xl:w-[80vw] xl:p-5 xl:!pt-[12vh]">
           <Table
-            className="m-auto xl:w-[80vw]"
+            className="xl:m-auto xl:w-[80vw]"
             columns={columns}
             dataSource={order}
             pagination={{

@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import { Button, Form, Input, InputNumber, Upload, notification } from "antd";
-import {
-  createDasProfile,
-  getDashProfile,
-} from "../../../helper/utilities/apiHelper";
+import { createDasProfile } from "../../../helper/utilities/apiHelper";
 import { isEmpty } from "lodash";
 
 function FooterSettings({ data, fetchData }) {

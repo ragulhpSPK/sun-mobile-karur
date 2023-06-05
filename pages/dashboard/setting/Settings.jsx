@@ -4,7 +4,7 @@ import SideNavebar from "../shared/Sidenavbar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Image from "next/image";
 import { Avatar, Modal, Tabs, notification, Result } from "antd";
-import { Button, Form, Input, InputNumber, Upload } from "antd";
+import { Button, Form, Input, InputNumber, Upload, Skeleton } from "antd";
 import { useState } from "react";
 import { PlusOutlined, CameraOutlined } from "@ant-design/icons";
 import {
@@ -42,6 +42,7 @@ function Settings() {
   const [form] = Form.useForm();
   const router = useRouter();
   const [imageList, setImageList] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const uploadImage = (imagename) => {
     if (imagename == null) return;
@@ -63,12 +64,15 @@ function Settings() {
 
   const fetchData = async () => {
     try {
+      setLoading(true);
       const result = await getDashProfile();
       console.log(result);
       setdashProfileData(get(result, "data.data"));
       form.setFieldsValue(get(result, "data.data")[0]);
     } catch (e) {
       console.log(e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -119,82 +123,93 @@ function Settings() {
             </div>
             <div className="flex items-center justify-center gap-10 !z-20 !opacity-100">
               <div className="h-[60vh] w-[25vw] bg-white shadow-2xl rounded-lg">
-                {dashProfileData.map((data, i) => {
-                  return (
-                    <Result
-                      icon={
-                        <div className="  rounded-md shadow-inner w-[120px] h-[80px] flex items-center justify-center shadow-slate-300  m-auto">
-                          <Image
-                            src={data.image}
-                            alt="no"
-                            width={80}
-                            height={80}
-                            className=" m-auto   "
-                          />
-                        </div>
-                      }
-                      title={
-                        <div>
-                          <h2 className="text-xl font-medium text-slate-500">
-                            {data.name}
-                          </h2>
-                          <h2 className="text-xl font-medium text-slate-500">
-                            {data.email}
-                          </h2>
-                        </div>
-                      }
-                      subTitle={
-                        <div className="flex flex-col text-justify gap-4 !text-slate-600 ">
-                          <p className="text-lg flex flex-col gap-1">
-                            <span className="font-semibold">Address:</span>
-                            {data.address}
-                          </p>
-                          <p className="text-lg flex flex-col gap-1">
-                            <span className="font-semibold">Phone Number:</span>
-                            {data.number},{data.alternatenumber}
-                          </p>
-                          <p className="text-lg flex flex-col gap-1">
-                            <span className="font-semibold">
-                              Working hours:
-                            </span>
-                            {data.workinghours}
-                          </p>
-                          <p className="text-lg flex items-center gap-1 ">
-                            <div className="font-semibold">Primary Color:</div>
-                            <div
-                              className="w-[30%]"
-                              style={{
-                                backgroundColor: get(data, "primary", ""),
-                                width: "25px",
-                                height: "25px",
-                                borderRadius: "50%  ",
-                              }}
-                            ></div>
-                          </p>
-
-                          <div className="group hover:font-semibold cursor-pointer flex flex-row items-center justify-center gap-x-3">
-                            <a href={dashProfileData[0]?.fblink}>
-                              <FacebookOutlined className="group-hover:text-[#1673eb] !text-xl" />
-                            </a>
-                            <a href={dashProfileData[0]?.inlink}>
-                              <InstagramOutlined className="group-hover:text-[#f40873] !text-xl" />
-                            </a>
-                            <a href={dashProfileData[0].twlink}>
-                              <TwitterOutlined className="group-hover:text-[#1c96e8] !text-xl" />
-                            </a>
-                            <a href={dashProfileData[0].wplink}>
-                              <WhatsAppOutlined className="group-hover:text-[#1ad03f] !text-xl" />
-                            </a>
+                <Skeleton loading={loading} className="!h-[60vh] !w-[25vw]">
+                  {dashProfileData.map((data, i) => {
+                    return (
+                      <Result
+                        icon={
+                          <div className="  rounded-md shadow-inner w-[120px] h-[80px] flex items-center justify-center shadow-slate-300  m-auto">
+                            <Image
+                              src={data.image}
+                              alt="no"
+                              width={80}
+                              height={80}
+                              className=" m-auto   "
+                            />
                           </div>
-                        </div>
-                      }
-                      key={i}
-                    />
-                  );
-                })}
+                        }
+                        title={
+                          <div>
+                            <h2 className="text-xl font-medium text-slate-500">
+                              {data.name}
+                            </h2>
+                            <h2 className="text-xl font-medium text-slate-500">
+                              {data.email}
+                            </h2>
+                          </div>
+                        }
+                        subTitle={
+                          <div className="flex flex-col text-justify gap-4 !text-slate-600 ">
+                            <p className="text-lg flex flex-col gap-1">
+                              <span className="font-semibold">Address:</span>
+                              {data.address}
+                            </p>
+                            <p className="text-lg flex flex-col gap-1">
+                              <span className="font-semibold">
+                                Phone Number:
+                              </span>
+                              {data.number},{data.alternatenumber}
+                            </p>
+                            <p className="text-lg flex flex-col gap-1">
+                              <span className="font-semibold">
+                                Working hours:
+                              </span>
+                              {data.workinghours}
+                            </p>
+                            <p className="text-lg flex items-center gap-1 ">
+                              <div className="font-semibold">
+                                Primary Color:
+                              </div>
+                              <div
+                                className="w-[30%]"
+                                style={{
+                                  backgroundColor: get(data, "primary", ""),
+                                  width: "25px",
+                                  height: "25px",
+                                  borderRadius: "50%  ",
+                                }}
+                              ></div>
+                            </p>
+
+                            <div className="group hover:font-semibold cursor-pointer flex flex-row items-center justify-center gap-x-3">
+                              <a href={dashProfileData[0]?.fblink}>
+                                <FacebookOutlined className="group-hover:text-[#1673eb] !text-xl" />
+                              </a>
+                              <a href={dashProfileData[0]?.inlink}>
+                                <InstagramOutlined className="group-hover:text-[#f40873] !text-xl" />
+                              </a>
+                              <a href={dashProfileData[0].twlink}>
+                                <TwitterOutlined className="group-hover:text-[#1c96e8] !text-xl" />
+                              </a>
+                              <a href={dashProfileData[0].wplink}>
+                                <WhatsAppOutlined className="group-hover:text-[#1ad03f] !text-xl" />
+                              </a>
+                            </div>
+                          </div>
+                        }
+                        key={i}
+                      />
+                    );
+                  })}
+                </Skeleton>
               </div>
+
               <div>
-                <Profile data={dashProfileData[0]} fetchData={fetchData} />
+                <Profile
+                  data={dashProfileData[0]}
+                  fetchData={fetchData}
+                  loading={loading}
+                />
               </div>
             </div>
           </div>

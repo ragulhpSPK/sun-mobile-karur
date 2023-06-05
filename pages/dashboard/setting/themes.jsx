@@ -39,7 +39,7 @@ function Themes({ data, fetchData }) {
 
       <Form.Item className="flex items-center justify-center">
         <Button type="primary" htmlType="submit" className="!w-[15vw]">
-          {isEmpty(data.primary) ? "Save" : "Update"}
+          {isEmpty(data?.primary) ? "Save" : "Update"}
         </Button>
       </Form.Item>
     </Form>

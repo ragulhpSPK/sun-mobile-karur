@@ -1,14 +1,36 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import DashboardCustomizeOutlinedIcon from "@mui/icons-material/DashboardCustomizeOutlined";
-import { Avatar, Drawer, Image, Menu } from "antd";
+import { Avatar, Drawer, Image, Menu, Skeleton } from "antd";
 import { Items } from "../../../helper/menu";
 import { useRouter } from "next/router";
 import MenuIcon from "@mui/icons-material/Menu";
+import { getDashProfile } from "../../../helper/utilities/apiHelper";
+import { useEffect } from "react";
+import { get } from "lodash";
 
 function Sidenavbar() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const result = await getDashProfile();
+      setData(get(result, "data.data[0]"));
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div className="!h-[100vh] w-[10vw]">
       <div>
@@ -59,13 +81,15 @@ function Sidenavbar() {
       </Drawer>
       <div className="shadow h-[100vh] xsm:hidden lg:block w-[10vw]">
         <div className="flex flex-col items-center justify-center !pt-[2vh]">
-          <Image
-            src="/assets/sun2.png"
-            alt="no"
-            width={40}
-            height={40}
-            className="!h-[100%] !w-[100%] "
-          />
+          <Skeleton loading={loading} style={{ height: "50px", width: "80px" }}>
+            <Image
+              src={data.image}
+              alt="no"
+              width={60}
+              height={40}
+              className="!h-[100%] !w-[100%] "
+            />
+          </Skeleton>
         </div>
 
         <Menu

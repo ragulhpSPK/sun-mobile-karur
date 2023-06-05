@@ -3,7 +3,7 @@ import React, { use, useEffect } from "react";
 import SideNavebar from "../shared/Sidenavbar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Image from "next/image";
-import { Avatar, Modal, Tabs, notification, Result } from "antd";
+import { Avatar, Modal, Tabs, notification, Result, Skeleton } from "antd";
 import { Button, Form, Input, InputNumber, Upload } from "antd";
 import { useState } from "react";
 import { PlusOutlined, CameraOutlined } from "@ant-design/icons";
@@ -35,7 +35,7 @@ import Themes from "./themes";
 import { primary } from "daisyui/colors/colorNames";
 import SocialSettings from "./socialSettings";
 
-function Profile({ data, fetchData }) {
+function Profile({ data, fetchData, loading }) {
   const [open, setOpen] = useState(false);
   const [imageList, setImageList] = useState("");
 
@@ -88,60 +88,62 @@ function Profile({ data, fetchData }) {
       label: <div className="font-bold">Profile Settings</div>,
       children: (
         <div>
-          <Result
-            icon={
-              <Form>
-                <Form.Item rules={[{ required: true }]}>
-                  <Upload
-                    listType="picture-card"
-                    onRemove={(e) => {
-                      setImageList("");
-                    }}
-                    fileList={[
-                      {
-                        url: data?.image,
-                      },
-                    ]}
-                    maxCount={1}
-                    onChange={(e) => uploadImage(e.file.originFileObj)}
-                  >
-                    <div>
-                      <PlusOutlined />
-                      <div style={{ marginTop: 8 }}>Upload</div>
-                    </div>
-                  </Upload>
-                </Form.Item>
-              </Form>
-            }
-            title={
-              <Form
-                layout="vertical"
-                form={form}
-                // initialValues={{
-                //   name: dashProfileData[0]?.name,
-                //   email: dashProfileData[0]?.email,
-                // }}
-                onFinish={(e) => handleProfileFinish(e)}
-              >
-                <Form.Item name="name" label="Name">
-                  <Input placeholder="Enter  Name" type="text" />
-                </Form.Item>
+          <Skeleton loading={loading}>
+            <Result
+              icon={
+                <Form>
+                  <Form.Item rules={[{ required: true }]}>
+                    <Upload
+                      listType="picture-card"
+                      onRemove={(e) => {
+                        setImageList("");
+                      }}
+                      fileList={[
+                        {
+                          url: data?.image,
+                        },
+                      ]}
+                      maxCount={1}
+                      onChange={(e) => uploadImage(e.file.originFileObj)}
+                    >
+                      <div>
+                        <PlusOutlined />
+                        <div style={{ marginTop: 8 }}>Upload</div>
+                      </div>
+                    </Upload>
+                  </Form.Item>
+                </Form>
+              }
+              title={
+                <Form
+                  layout="vertical"
+                  form={form}
+                  // initialValues={{
+                  //   name: dashProfileData[0]?.name,
+                  //   email: dashProfileData[0]?.email,
+                  // }}
+                  onFinish={(e) => handleProfileFinish(e)}
+                >
+                  <Form.Item name="name" label="Name">
+                    <Input placeholder="Enter  Name" type="text" />
+                  </Form.Item>
 
-                <Form.Item name="email" label="Email">
-                  <Input placeholder="Enter Email" />
-                </Form.Item>
-                <Form.Item>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    className="w-[15vw] h-[5vh]"
-                  >
-                    {isEmpty(data?.image) ? "Save" : "Update"}
-                  </Button>
-                </Form.Item>
-              </Form>
-            }
-          />
+                  <Form.Item name="email" label="Email">
+                    <Input placeholder="Enter Email" />
+                  </Form.Item>
+                  <Form.Item>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      className="w-[15vw] h-[5vh]"
+                    >
+                      {isEmpty(data?.image) ? "Save" : "Update"}
+                    </Button>
+                  </Form.Item>
+                </Form>
+              }
+            />
+          </Skeleton>
         </div>
       ),
     },

@@ -44,7 +44,7 @@ const CategoryHome = () => {
         <div>
           <Sidenavbar />
         </div>
-        <div className="pt-[5vh] flex flex-col lg:flex-row gap-y-10 items-start gap-x-10 justify-start">
+        <div className="pt-[5vh]  flex flex-col items-center justify-center lg:flex-row gap-y-10 lg:items-start gap-x-10 lg:justify-start">
           <Categories
             loading={loading}
             setLoading={setLoading}

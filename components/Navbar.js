@@ -16,6 +16,7 @@ import {
   Form,
   Divider,
   notification,
+  Skeleton,
 } from "antd";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
@@ -49,6 +50,7 @@ function Navbar() {
   const [dashsettings, setDashSettings] = useState([]);
   const [form] = Form.useForm();
   const { TextArea } = Input;
+  const [loading, setLoading] = useState(false);
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
@@ -61,12 +63,14 @@ function Navbar() {
 
   const fetchData = async () => {
     try {
+      setLoading(true);
       const result = [await getAllCart(), await getDashProfile()];
-
       setProduct(get(result[0], "data.message"));
       setDashSettings(get(result[1], "data.data"));
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -142,13 +146,15 @@ function Navbar() {
       <div className="flex justify-center items-center h-[10vh]">
         <div className="flex justify-between items-center w-[90vw] h-[10vh]  ">
           <Link href="/">
-            <Image
-              src={dashsettings[0]?.image}
-              width={90}
-              height={90}
-              alt="logo"
-              className="pb-2 xsm:w-[12vw] sm:!w-[8vw] md:w-[8vw] lg:!w-[5vw]"
-            />
+            <Skeleton loading={loading}>
+              <Image
+                src={dashsettings[0]?.image}
+                width={90}
+                height={90}
+                alt="logo"
+                className="pb-2 xsm:w-[12vw] sm:!w-[8vw] md:w-[8vw] lg:!w-[5vw]"
+              />
+            </Skeleton>
           </Link>
           <div>
             <div className="flex items-center justify-between  border border-slate-50  p-2 rounded">
