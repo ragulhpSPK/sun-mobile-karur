@@ -43,7 +43,6 @@ function Profile({ data, fetchData, loading }) {
   const router = useRouter();
 
   const handleProfileFinish = async (value) => {
-    console.log("clicked");
     try {
       const formData = {
         name: value.name,
@@ -135,7 +134,7 @@ function Profile({ data, fetchData, loading }) {
                     <Button
                       type="primary"
                       htmlType="submit"
-                      className="w-[15vw] h-[5vh]"
+                      className="xl:w-[15vw] xl:h-[5vh]"
                     >
                       {isEmpty(data?.image) ? "Save" : "Update"}
                     </Button>
@@ -165,7 +164,7 @@ function Profile({ data, fetchData, loading }) {
   ];
 
   return (
-    <div className="h-[60vh] w-[50vw] bg-white pl-2 shadow-2xl rounded-lg">
+    <div className="xl:h-[60vh] xl:w-[50vw] bg-white pl-2 shadow-2xl rounded-lg">
       <Tabs defaultActiveKey="1" items={items} />
     </div>
   );

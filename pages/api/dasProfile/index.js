@@ -18,14 +18,14 @@ export default async function dasboardProfileController(req, res) {
     case "POST":
       try {
         const result = await DasProfile.findOne();
-        console.log("tri");
+
         if (isEmpty(result)) {
           const result = new DasProfile({ ...req.body });
-          console.log("trig");
+
           await result.save();
         } else {
           let targetId = result._id;
-          console.log(targetId, req.body, "dfbhb");
+
           await DasProfile.findByIdAndUpdate({ _id: targetId }, req.body);
         }
         return res.status(200).send({ data: "success" });

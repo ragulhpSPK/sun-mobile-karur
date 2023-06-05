@@ -1,6 +1,5 @@
 import dbconnect from "@/connection/conn";
 import User from "@/models/user";
-import { notification } from "antd";
 import { isEmpty } from "lodash";
 import Jwt from "jsonwebtoken";
 import { encrypt } from "../../../helper/utilities/crypt";

@@ -14,5 +14,21 @@ module.exports = {
       xxl: "1580px",
     },
   },
+  daisyui: {
+    themes: [
+      {
+        lightmode: {
+          primary: "#D0021B",
+          secondary: "#ffff",
+          accent: "#1c2c52",
+        },
+        darkmode: {
+          primary: "#ffff",
+          secondary: "#0e0250",
+          accent: "#fafafa",
+        },
+      },
+    ],
+  },
   plugins: [require("daisyui")],
 };

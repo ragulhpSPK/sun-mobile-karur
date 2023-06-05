@@ -4,7 +4,6 @@ import { isEmpty } from "lodash";
 import React, { useEffect } from "react";
 
 function SocialSettings({ data, fetchData }) {
-  console.log(data, "gv bhjinijn ");
   const { form } = Form.useForm;
   const handleFinish = async (val) => {
     try {

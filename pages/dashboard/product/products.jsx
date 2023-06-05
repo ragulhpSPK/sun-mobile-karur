@@ -158,8 +158,6 @@ function Products({ content }) {
   });
 
   const handleUpload = (file) => {
-    console.log(file.name, "fhjnmk");
-
     const imageRef = ref(storage, `imageList/${v4()}-${file && file.name}`);
 
     uploadBytes(imageRef, file).then((snaphsot) => {
@@ -547,8 +545,6 @@ function Products({ content }) {
       value: data.title,
     });
   });
-
-  console.log(props, "searchers");
 
   return (
     <div className="flex flex-col">

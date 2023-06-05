@@ -176,6 +176,5 @@ export const getDashProfile = () => {
 };
 
 export const createDasProfile = (formData) => {
-  console.log(formData, "dfnjn");
   return axios.post("/api/dasProfile", formData);
 };

@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { CloseOutlined, ReloadOutlined } from "@ant-design/icons";
-import styles from "../../styles/form.module.css";
+import { ReloadOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import {
   Button,
@@ -10,10 +9,7 @@ import {
   Drawer,
   Form,
   Input,
-  InputNumber,
-  Select,
   Spin,
-  Table,
   notification,
 } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,14 +30,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import { showLoader, hideLoader } from "@/redux/loadingSlice";
 
 function Cart() {
-  const [check, setCheck] = useState(false);
   const isLoading = useSelector((state) => state.loader.isLoading);
   const cart = useSelector((state) => state.cart);
-  const [Qty, setQty] = useState("");
-  const [bqty, setBqty] = useState(1);
   const [UID, setUID] = useState("");
   const router = useRouter();
-  const [price, setPrice] = useState(router.query.price);
   const [products, setProduts] = useState();
   const [draw, setDrawOpen] = useState(false);
   const dispatch = useDispatch();
@@ -51,8 +43,6 @@ function Cart() {
   const [address, setAddress] = useState([]);
   const [size, setSize] = useState();
   uuidv1();
-
-  console.log(cart, "erbjh");
 
   const handleCheck = () => {
     var today = new Date();
@@ -99,20 +89,6 @@ function Cart() {
       fetchData();
       notification.success({ message: "cart deleted successfully" });
     } catch {
-      notification.error({ message: "Something went wrong" });
-    }
-  };
-
-  const handleChange = async (data, e) => {
-    try {
-      // const formData = {
-      //   quantity: e,
-      //   id: data,
-      // };
-      // await updateCart(formData);
-      // fetchData();
-      notification.success({ message: "cart updated successfully" });
-    } catch (err) {
       notification.error({ message: "Something went wrong" });
     }
   };
@@ -312,7 +288,7 @@ function Cart() {
                                 className="xsm:w-[15vw] md:w-[4vw]"
                               /> */}
 
-                              <div className="md:!w-[4vw] border-2 md:bg-white flex xsm:flex-col md:flex-row items-center justify-center gap-x-4">
+                              <div className="md:!w-[4vw]  md:bg-white flex xsm:flex-col md:flex-row items-center justify-center gap-x-4">
                                 <button
                                   onClick={() => {
                                     DecrementQty(data._id);

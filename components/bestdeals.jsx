@@ -41,7 +41,6 @@ function Bestdeals() {
       const result = [await getAllproducts(), await getAllCart()];
       const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
       setGetUser(get(getUser, "data.message[0]", []));
-
       setProducts(get(result, "[0].data.data"));
       setCart(get(result, "[1].data.message"));
     } catch (err) {
@@ -61,7 +60,7 @@ function Bestdeals() {
     );
   }, [product]);
 
-  const handleClick = async (id, data) => {
+  const handleClick = async (data) => {
     try {
       const formData = {
         data: {
@@ -89,14 +88,17 @@ function Bestdeals() {
   }, [goCart]);
 
   return (
-    <div className="flex flex-col  !w-[90vw] xl:!w-[80vw] mt-0 pt-0  m-auto justify-center">
+    <div
+      className="flex flex-col  !w-[90vw] xl:!w-[80vw] mt-0 pt-0  m-auto justify-center"
+      data-theme="lightmode"
+    >
       <div className=" flex items-center justify-center">
         <div className="flex flex-row w-[90vw] justify-between  ">
-          <div className="xl:text-2xl  font-bold text-[--second-color]">
+          <div className="xl:text-2xl  font-bold text-[--first-color] ">
             Best Deals Today
           </div>
           <Link href="/Allbestdeals">
-            <div className="xl:text-2xl font-bold text-[--second-color]">
+            <div className={`xl:text-2xl font-bold text-[--second-color]`}>
               see more
             </div>
           </Link>
@@ -134,6 +136,7 @@ function Bestdeals() {
                   <div
                     className="card  bg-base-100  shadow-sm xl:shadow-xl m-auto"
                     key={index}
+                    data-theme="primary"
                   >
                     <figure className="xl:px-10 pt-10  cursor-pointer">
                       <div
@@ -154,9 +157,9 @@ function Bestdeals() {
                       </div>
                     </figure>
                     <div className="card-body ">
-                      <div className="h-[6vh]">
+                      <div className="h-[8vh] ">
                         <h2
-                          className="font-bold xsm:text-[12px] text-center p-[1vh] lg:text-[16px] cursor-pointer"
+                          className="font-bold xsm:text-[12px] text-center p-[1vh] lg:text-[16px] cursor-pointer "
                           onClick={() =>
                             router.push({
                               pathname: `/product/${res._id}`,
@@ -173,7 +176,7 @@ function Bestdeals() {
                         defaultValue={2.5}
                         className="!text-sm p-[3vh] text-center"
                       />
-                      <div className="flex gap-x-10 justify-between  pb-[3vh] xsm:text-[12px] items-center m-auto">
+                      <div className="flex gap-x-10 justify-between pb-[3vh] xsm:text-[12px] items-center m-auto">
                         {res.bestOffer !== null || 0 ? (
                           <p className="xl:text-lg xsm:text-[14px] text-green-400 flex flex-row-reverse gap-2 pb-[2vh] xsm:text-md xsm:font-semibold font-medium">
                             <s className="text-red-400">&#8377;{res.price}</s>
@@ -196,7 +199,7 @@ function Bestdeals() {
                           }`}
                         >
                           <div
-                            className="absolute bottom-5 xsm:left-[15%] lg:left-[12%] xsm:w-[80%] xl:left-[28%] cursor-pointer xxl:left-[17%]   xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--fifth-color] text-white p-2 rounded
+                            className="absolute bottom-5 xsm:left-[15%] lg:left-[12%] xsm:w-[80%] xl:left-[28%] cursor-pointer xxl:left-[17%] bg-[--fifth-color]  xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2  text-white p-2 rounded
                   "
                           >
                             <ShoppingCartCheckoutOutlinedIcon />
@@ -205,8 +208,7 @@ function Bestdeals() {
                         </Link>
                       ) : (
                         <div
-                          className="absolute bottom-5 xsm:left-[15%] cursor-pointer lg:left-[12%] xsm:w-[80%] xl:left-[28%] xxl:left-[17%]   xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
-                  "
+                          className="absolute bottom-5 xsm:left-[15%] cursor-pointer lg:left-[12%] xsm:w-[80%] xl:left-[28%] xxl:left-[17%]   xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--third-color] text-white p-2 rounded"
                           onClick={() => {
                             isEmpty(getUser)
                               ? setLogin(true)

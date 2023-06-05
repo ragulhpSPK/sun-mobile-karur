@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Head from "next/head";
 import Swiper from "../components/swiper";
 import Delivery from "@/components/delivery";
@@ -11,12 +12,45 @@ import { Skeleton, Spin } from "antd";
 import { useState } from "react";
 import { LoadingOutlined, ReloadOutlined } from "@ant-design/icons";
 import SyncIcon from "@mui/icons-material/Sync";
+import { getDashProfile } from "@/helper/utilities/apiHelper";
+import { useEffect } from "react";
+import { get } from "lodash";
+import { useDispatch } from "react-redux";
+import { setColors } from "@/redux/colorSlice";
 
 export default function Home() {
   const isLoading = useSelector((state) => state.loader.isLoading);
+  const [colors, setColor] = useState([]);
+  const dispatch = useDispatch();
   const result = useSelector((data) => {
     return data.search.searches;
   });
+
+  const fetchData = async () => {
+    try {
+      const result = await getDashProfile();
+      setColor(get(result, "data.data[0]"));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      "--second-color",
+      colors.primary
+    );
+    document.documentElement.style.setProperty(
+      "--fifth-color",
+      colors.secondary
+    );
+    document.documentElement.style.setProperty("--third-color", colors.primary);
+    console.log(
+      document.documentElement.style,
+      "document.documentElement.style"
+    );
+    fetchData();
+  }, [colors.primary]);
 
   const antIcon = (
     <ReloadOutlined style={{ fontSize: 40 }} className="animate-spin" />

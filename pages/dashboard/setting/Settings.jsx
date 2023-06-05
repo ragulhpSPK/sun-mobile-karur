@@ -30,9 +30,6 @@ import Sidenavbar from "../shared/Sidenavbar";
 import AdminNavbar from "../shared/AdminNavbar";
 import { useRouter } from "next/router";
 import { get } from "lodash";
-import FooterSettings from "./footerSettings";
-import Themes from "./themes";
-import { primary } from "daisyui/colors/colorNames";
 import Profile from "./profile";
 import { PlusOneOutlined } from "@mui/icons-material";
 
@@ -60,13 +57,11 @@ function Settings() {
     });
   };
 
-  console.log(dashProfileData[0], "dfknj");
-
   const fetchData = async () => {
     try {
       setLoading(true);
       const result = await getDashProfile();
-      console.log(result);
+
       setdashProfileData(get(result, "data.data"));
       form.setFieldsValue(get(result, "data.data")[0]);
     } catch (e) {
@@ -76,7 +71,7 @@ function Settings() {
     }
   };
 
-  const handleProfileFinish = async (value) => {
+  const handleProfileFinish = async () => {
     try {
       const formData = {
         coverphto: imageList,
@@ -96,17 +91,24 @@ function Settings() {
   useEffect(() => {
     fetchData();
   }, []);
-
+  console.log(get(dashProfileData, "[0].coverphto", "") !== "");
   return (
     <div className="flex flex-col">
       <div className="flex flex-row">
         <Sidenavbar />
         <div>
-          <AdminNavbar currentPage={"Settings"} />
+          <AdminNavbar />
           <div>
-            <div className="w-[90vw] !z-10 mb-[-3vh]                                                                                 %] -70">
+            <div className="xl:w-[90vw] !z-10 xl:mb-[-3vh]                                                                                 %] -70">
               <div
-                className={`h-[30vh] bg-[url('/assets/images/1.jpg')]  flex justify-end items-start`}
+                style={{
+                  background: `${
+                    get(dashProfileData, "[0].coverphto", "") !== ""
+                      ? `url(${get(dashProfileData, "[0].coverphto", "")})`
+                      : "#570DF8"
+                  }`,
+                }}
+                className={`xsm:h-[20vh] xl:h-[30vh] !bg-cover !bg-no-repeat  flex justify-end items-start`}
               >
                 <div className="p-2">
                   <div
@@ -121,8 +123,8 @@ function Settings() {
                 </div>
               </div>
             </div>
-            <div className="flex items-center justify-center gap-10 !z-20 !opacity-100">
-              <div className="h-[60vh] w-[25vw] bg-white shadow-2xl rounded-lg">
+            <div className="flex flex-col xl:flex-row items-center justify-center xl:gap-10 !z-20 !opacity-100">
+              <div className="xl:h-[60vh] xl:w-[25vw] bg-white shadow-2xl rounded-lg">
                 <Skeleton loading={loading} className="!h-[60vh] !w-[25vw]">
                   {dashProfileData.map((data, i) => {
                     return (
@@ -167,13 +169,20 @@ function Settings() {
                               {data.workinghours}
                             </p>
                             <p className="text-lg flex items-center gap-1 ">
-                              <div className="font-semibold">
-                                Primary Color:
-                              </div>
+                              <div className="font-semibold">Colors:</div>
                               <div
                                 className="w-[30%]"
                                 style={{
                                   backgroundColor: get(data, "primary", ""),
+                                  width: "25px",
+                                  height: "25px",
+                                  borderRadius: "50%  ",
+                                }}
+                              ></div>
+                              <div
+                                className="w-[30%]"
+                                style={{
+                                  backgroundColor: get(data, "secondary", ""),
                                   width: "25px",
                                   height: "25px",
                                   borderRadius: "50%  ",

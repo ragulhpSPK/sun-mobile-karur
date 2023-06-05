@@ -74,8 +74,6 @@ function Navbar() {
     }
   };
 
-  console.log(dashsettings, "fdj");
-
   useEffect(() => {
     fetchData();
   }, [cart.products, userDetails]);
@@ -141,7 +139,7 @@ function Navbar() {
           <WhatsAppIcon /> */}
         </div>
       </div>
-      <hr />
+      <span className="border-b border-slate-50 p-1"></span>
       {/* step 2 */}
       <div className="flex justify-center items-center h-[10vh]">
         <div className="flex justify-between items-center w-[90vw] h-[10vh]  ">
@@ -157,10 +155,10 @@ function Navbar() {
             </Skeleton>
           </Link>
           <div>
-            <div className="flex items-center justify-between  border border-slate-50  p-2 rounded">
+            <div className="flex items-center justify-between  border border-slate-100  p-2 rounded">
               <input
                 placeholder="I'm looking for...."
-                className="outline-none border-none xsm:!w-[40vw] lg:w-[30vw] placeholder:text-slate-200"
+                className="outline-none border-none xsm:!w-[40vw] p-2 lg:w-[30vw] placeholder:text-slate-200"
                 onChange={(e) => dispatch(addSearch(e.target.value))}
                 onKeyUp={handleKeyDown}
               />
@@ -170,7 +168,7 @@ function Navbar() {
               </div>
             </div>
           </div>
-          {}
+
           <div className="flex gap-x-2 text-sm capitalize  items-center">
             {isEmpty(activeUser) ? (
               ""

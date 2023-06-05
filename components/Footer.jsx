@@ -26,8 +26,6 @@ const CustomerFooters = () => {
     fetchData();
   }, []);
 
-  console.log(data, "nj");
-
   const footersData = [
     {
       id: 1,

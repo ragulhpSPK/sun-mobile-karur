@@ -71,7 +71,7 @@ function ProductFilter() {
               produts.map((data, index) => {
                 return (
                   <div
-                    className="sm:card  flex flex-row sm:flex-col border-b border-t  xsm:w-[90vw] mt-[2vh] sm:w-[35vw] md:w-[24vw]  xl:w-[18vw] xxl:w-[15vw]  sm:bg-base-100 xsm:p-[2vh] sm:shadow-xl sm:pt-10 "
+                    className="sm:card  flex flex-row sm:flex-col border-b border-t border-slate-100  xsm:w-[90vw] mt-[2vh] sm:w-[35vw] md:w-[24vw]  xl:w-[18vw] xxl:w-[15vw]  sm:bg-base-100 xsm:p-[2vh] sm:shadow-xl sm:pt-10 "
                     onClick={() => {
                       router.push({
                         pathname: `product/${data._id}`,

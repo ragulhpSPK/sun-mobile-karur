@@ -8,13 +8,36 @@ import { isEmpty } from "lodash";
 function Themes({ data, fetchData }) {
   const initialValues = { color: { r: 26, g: 14, b: 85, a: 1 } };
 
-  console.log(data, "data");
-  const handleOnFinish = async (val) => {
+  // const handleOnFinish = async (val) => {
+  //   try {
+  //     await createDasProfile({
+  //       primary: val.primary.hex,
+  //       secondary: val.secondary.hex,
+  //     });
+  //     notification.success({ message: "color added succesfully" });
+  //     fetchData();
+  //   } catch (e) {
+  //     notification.success({ message: "something went wrong" });
+  //   }
+  // };
+
+  const handleChangePc = async (pc) => {
     try {
-      const formData = {
-        primary: val.primary.hex,
-      };
-      await createDasProfile(formData);
+      await createDasProfile({
+        primary: pc.hex,
+      });
+      notification.success({ message: "color added succesfully" });
+      fetchData();
+    } catch (e) {
+      notification.success({ message: "something went wrong" });
+    }
+  };
+
+  const handleChangeSc = async (sc) => {
+    try {
+      await createDasProfile({
+        secondary: sc.hex,
+      });
       notification.success({ message: "color added succesfully" });
       fetchData();
     } catch (e) {
@@ -24,24 +47,26 @@ function Themes({ data, fetchData }) {
 
   return (
     <Form
-      onFinish={handleOnFinish}
+      // onFinish={handleOnFinish}
       initialValues={initialValues}
       layout="vertical"
     >
       <div className="flex gap-10 items-center justify-center">
-        <Form.Item label={"Pimary Color"} name="primary">
-          <Colorpicker />
+        <Form.Item label={"Primary Color"} name="primary">
+          <Colorpicker
+            onChange={(e) => {
+              handleChangePc(e);
+            }}
+          />
         </Form.Item>
-        {/* <Form.Item label={"secondary Color"} name="secondary">
-          <Colorpicker />
-        </Form.Item> */}
+        <Form.Item label={"secondary Color"} name="secondary">
+          <Colorpicker
+            onChange={(e) => {
+              handleChangeSc(e);
+            }}
+          />
+        </Form.Item>
       </div>
-
-      <Form.Item className="flex items-center justify-center">
-        <Button type="primary" htmlType="submit" className="!w-[15vw]">
-          {isEmpty(data?.primary) ? "Save" : "Update"}
-        </Button>
-      </Form.Item>
     </Form>
   );
 }

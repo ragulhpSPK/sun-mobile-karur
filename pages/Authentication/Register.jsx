@@ -44,7 +44,7 @@ function Register({ setLogin }) {
         authentication
       );
     } catch (err) {
-      console.log(err, "oiodieuoe");
+      console.log(err);
     }
   };
 
