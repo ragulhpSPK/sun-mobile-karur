@@ -23,7 +23,11 @@ import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import { useDispatch, useSelector } from "react-redux";
 import { addSearch } from "@/redux/searchSlice";
 import Image from "next/image";
-import { getAllCart, getOneUerforNav } from "../helper/utilities/apiHelper";
+import {
+  getAllCart,
+  getOneUerforNav,
+  getDashProfile,
+} from "../helper/utilities/apiHelper";
 import { get, isEmpty } from "lodash";
 import Login from "../pages/Authentication/Register";
 import Cookies from "js-cookie";
@@ -42,6 +46,7 @@ function Navbar() {
   const [login, setLogin] = useState(false);
   const [activeUser, setActiveUser] = useState([]);
   const [profile, setProfile] = useState(false);
+  const [dashsettings, setDashSettings] = useState([]);
   const [form] = Form.useForm();
   const { TextArea } = Input;
 
@@ -56,12 +61,16 @@ function Navbar() {
 
   const fetchData = async () => {
     try {
-      const result = await getAllCart();
-      setProduct(get(result, "data.message"));
+      const result = [await getAllCart(), await getDashProfile()];
+
+      setProduct(get(result[0], "data.message"));
+      setDashSettings(get(result[1], "data.data"));
     } catch (err) {
       console.log(err);
     }
   };
+
+  console.log(dashsettings, "fdj");
 
   useEffect(() => {
     fetchData();
@@ -134,7 +143,7 @@ function Navbar() {
         <div className="flex justify-between items-center w-[90vw] h-[10vh]  ">
           <Link href="/">
             <Image
-              src="/assets/sun2.png"
+              src={dashsettings[0]?.image}
               width={90}
               height={90}
               alt="logo"

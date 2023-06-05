@@ -3,10 +3,12 @@ import React from "react";
 import { Button, Form, notification } from "antd";
 import { Colorpicker, ColorPickerValue } from "antd-colorpicker";
 import { createDasProfile } from "@/helper/utilities/apiHelper";
+import { isEmpty } from "lodash";
 
-function Themes({ fetchData }) {
+function Themes({ data, fetchData }) {
   const initialValues = { color: { r: 26, g: 14, b: 85, a: 1 } };
 
+  console.log(data, "data");
   const handleOnFinish = async (val) => {
     try {
       const formData = {
@@ -37,7 +39,7 @@ function Themes({ fetchData }) {
 
       <Form.Item className="flex items-center justify-center">
         <Button type="primary" htmlType="submit" className="!w-[15vw]">
-          Save
+          {isEmpty(data.primary) ? "Save" : "Update"}
         </Button>
       </Form.Item>
     </Form>

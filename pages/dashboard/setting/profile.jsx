@@ -29,20 +29,18 @@ import { v4 } from "uuid";
 import Sidenavbar from "../shared/Sidenavbar";
 import AdminNavbar from "../shared/AdminNavbar";
 import { useRouter } from "next/router";
-import { get } from "lodash";
+import { get, isEmpty } from "lodash";
 import FooterSettings from "./footerSettings";
 import Themes from "./themes";
 import { primary } from "daisyui/colors/colorNames";
 import SocialSettings from "./socialSettings";
 
-function Profile(dashProfileData) {
+function Profile({ data, fetchData }) {
   const [open, setOpen] = useState(false);
   const [imageList, setImageList] = useState("");
 
   const [form] = Form.useForm();
   const router = useRouter();
-
-  console.log(dashProfileData.dashProfileData[0], "hnjmk");
 
   const handleProfileFinish = async (value) => {
     console.log("clicked");
@@ -65,8 +63,8 @@ function Profile(dashProfileData) {
   };
 
   useEffect(() => {
-    form.setFieldsValue(dashProfileData.dashProfileData[0]);
-  }, [dashProfileData.dashProfileData[0]]);
+    form.setFieldsValue(data);
+  }, [data]);
 
   const uploadImage = (imagename) => {
     if (imagename == null) return;
@@ -101,7 +99,7 @@ function Profile(dashProfileData) {
                     }}
                     fileList={[
                       {
-                        url: dashProfileData.dashProfileData[0]?.image,
+                        url: data?.image,
                       },
                     ]}
                     maxCount={1}
@@ -138,7 +136,7 @@ function Profile(dashProfileData) {
                     htmlType="submit"
                     className="w-[15vw] h-[5vh]"
                   >
-                    Save
+                    {isEmpty(data?.image) ? "Save" : "Update"}
                   </Button>
                 </Form.Item>
               </Form>
@@ -150,17 +148,17 @@ function Profile(dashProfileData) {
     {
       key: "2",
       label: `Themes Settings`,
-      children: <Themes />,
+      children: <Themes data={data} fetchData={fetchData} />,
     },
     {
       key: "3",
       label: `Footer Settings`,
-      children: <FooterSettings data={dashProfileData.dashProfileData[0]} />,
+      children: <FooterSettings data={data} fetchData={fetchData} />,
     },
     {
       key: "4",
       label: "Social Media Settings",
-      children: <SocialSettings data={dashProfileData.dashProfileData[0]} />,
+      children: <SocialSettings data={data} fetchData={fetchData} />,
     },
   ];
 

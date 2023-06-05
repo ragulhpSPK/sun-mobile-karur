@@ -4,11 +4,10 @@ import {
   createDasProfile,
   getDashProfile,
 } from "../../../helper/utilities/apiHelper";
+import { isEmpty } from "lodash";
 
-function FooterSettings({ data }) {
+function FooterSettings({ data, fetchData }) {
   const { form } = Form.useForm;
-
-  console.log(data.address, "hghjkl");
 
   const handleFooter = async (value) => {
     try {
@@ -21,6 +20,7 @@ function FooterSettings({ data }) {
 
       await createDasProfile(formData);
       notification.success({ message: "profile created successfully" });
+      fetchData();
     } catch (e) {
       console.log(e, "Ebhn");
       notification.error({ message: "something went wrong" });
@@ -94,7 +94,14 @@ function FooterSettings({ data }) {
             htmlType="submit"
             className="!w-[15vw] !h-[5vh]"
           >
-            Update
+            {isEmpty(
+              data?.address ||
+                data?.number ||
+                data?.alternatenumber ||
+                data?.workinghours
+            )
+              ? " Save"
+              : "Update"}
           </Button>
         </div>
       </Form>

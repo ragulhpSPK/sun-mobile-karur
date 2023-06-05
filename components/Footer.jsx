@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import {
   EnvironmentOutlined,
   PhoneOutlined,
@@ -10,31 +10,47 @@ import {
   TwitterOutlined,
   WhatsAppOutlined,
 } from "@ant-design/icons";
+import { getDashProfile } from "../helper/utilities/apiHelper";
+import { useEffect } from "react";
+import { get } from "lodash";
 
 const CustomerFooters = () => {
+  const [data, setData] = useState([]);
+
+  const fetchData = async () => {
+    const result = await getDashProfile();
+    setData(get(result, "data.data[0]"));
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  console.log(data, "nj");
+
   const footersData = [
     {
       id: 1,
       title: "Address",
-      subTitle: "Trukish",
+      subTitle: data.address,
       icon: <EnvironmentOutlined className="text-sm" />,
     },
     {
       id: 2,
       title: "Call Us",
-      subTitle: "(+91) - 9876543210",
+      subTitle: `(+91) - ${data.number}`,
       icon: <PhoneOutlined className="text-sm" />,
     },
     {
       id: 3,
       title: "Email",
-      subTitle: "samsung@elonmusk.com",
+      subTitle: data.email,
       icon: <AliwangwangOutlined className="text-sm" />,
     },
     {
       id: 4,
       title: "Hours",
-      subTitle: "10:00 - 18:00, Mon - Sat",
+      subTitle: data.workinghours,
       icon: <FieldTimeOutlined className="text-sm" />,
     },
   ];
@@ -54,7 +70,7 @@ const CustomerFooters = () => {
                 <div className="font-bold hover:text-[--third-color] cursor-pointer">
                   {res.title}:
                 </div>
-                <div className="text-md lg:w-[20vw]">{res.subTitle}</div>
+                <div className="text-md lg:w-[15vw]">{res.subTitle}</div>
               </div>
             );
           })}

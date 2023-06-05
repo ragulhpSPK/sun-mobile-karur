@@ -1,8 +1,9 @@
 import { createDasProfile } from "@/helper/utilities/apiHelper";
 import { Form, Input, Button, notification } from "antd";
+import { isEmpty } from "lodash";
 import React, { useEffect } from "react";
 
-function SocialSettings({ data }) {
+function SocialSettings({ data, fetchData }) {
   console.log(data, "gv bhjinijn ");
   const { form } = Form.useForm;
   const handleFinish = async (val) => {
@@ -15,6 +16,7 @@ function SocialSettings({ data }) {
       //   };
       await createDasProfile(val);
       notification.success({ message: "profile created successfully" });
+      fetchData();
     } catch (e) {
       notification.error({ message: "something went wrong" });
     }
@@ -51,7 +53,11 @@ function SocialSettings({ data }) {
             htmlType="submit"
             className="w-[15vw] h-[4.5vh]"
           >
-            Save
+            {isEmpty(
+              data?.fblink || data?.inlink || data?.twlink || data?.wplink
+            )
+              ? " Save"
+              : "Update"}
           </Button>
         </div>
       </Form>

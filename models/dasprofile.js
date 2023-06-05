@@ -40,6 +40,9 @@ const profileSchema = new mongoose.Schema({
   inlink: {
     type: String,
   },
+  coverphto: {
+    type: String,
+  },
 });
 
 module.exports =
