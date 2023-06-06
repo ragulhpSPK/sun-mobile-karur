@@ -3,7 +3,6 @@ import cartReducer from "./cartSlice";
 import searchReducer from "./searchSlice";
 import userSlice from "./userSlice";
 import loaderReducer from "./loadingSlice";
-import colorsSlice from "./colorSlice";
 
 export default configureStore({
   reducer: {
@@ -11,6 +10,5 @@ export default configureStore({
     search: searchReducer,
     user: userSlice,
     loader: loaderReducer,
-    colors: colorsSlice,
   },
 });

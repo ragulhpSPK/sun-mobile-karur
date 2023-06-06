@@ -7,7 +7,8 @@ export default async function MessageController(req, res) {
   switch (req.method) {
     case "GET": {
       try {
-        return res.send({ message: "trtu" });
+        const user = await User.find();
+        return res.send({ message: user });
       } catch (err) {
         return res.send({ message: "failed" });
       }

@@ -159,6 +159,10 @@ export const getOneUer = (formData) => {
   return axios.get(`/api/auth/${formData}`);
 };
 
+export const getAllUsers = () => {
+  return axios.get("/api/auth/raw");
+};
+
 export const getOneUerforNav = () => {
   return axios.get(`/api/auth/`);
 };

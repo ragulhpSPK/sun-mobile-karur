@@ -16,7 +16,6 @@ import { getDashProfile } from "@/helper/utilities/apiHelper";
 import { useEffect } from "react";
 import { get } from "lodash";
 import { useDispatch } from "react-redux";
-import { setColors } from "@/redux/colorSlice";
 
 export default function Home() {
   const isLoading = useSelector((state) => state.loader.isLoading);

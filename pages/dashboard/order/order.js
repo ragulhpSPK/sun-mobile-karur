@@ -6,7 +6,7 @@ import {
   getDashBoardOrder,
   updateOrder,
 } from "../../../helper/utilities/apiHelper";
-import { get } from "lodash";
+import { get, isEmpty } from "lodash";
 
 function Order() {
   const [order, setOrder] = useState([]);
@@ -46,6 +46,52 @@ function Order() {
       notification.error({ message: "Something went wrong" });
     }
   };
+
+  const handleConfirm = () => {
+    console.log(order, "dk");
+    setDataSource(
+      order.filter((data) => {
+        return data.status === "Confirmed";
+      })
+    );
+  };
+  const handleShipped = () => {
+    console.log(order, "dk");
+    setDataSource(
+      order.filter((data) => {
+        return data.status === "Shipped";
+      })
+    );
+  };
+  const handleOutForDelivery = () => {
+    console.log(order, "dk");
+    setDataSource(
+      order.filter((data) => {
+        return data.status === "Out_For_Delivery";
+      })
+    );
+  };
+  const handleDelivered = () => {
+    setDataSource(
+      order.filter((data) => {
+        return data.status === "Delivered";
+      })
+    );
+  };
+  const handleCancelled = () => {
+    console.log(order, "dk");
+    setDataSource(
+      order.filter((data) => {
+        return data.status === "Cancelled";
+      })
+    );
+  };
+
+  console.log(
+    order.filter((data) => {
+      return data.status === "Cancelled";
+    }).length
+  );
 
   const columns = [
     {
@@ -142,6 +188,8 @@ function Order() {
     },
   ];
 
+  console.log(dataSource, "sourde");
+
   return (
     <div className="flex flex-col">
       {/* <div>
@@ -153,10 +201,77 @@ function Order() {
         </div>
 
         <div className="xl:w-[80vw] xl:p-5 xl:!pt-[12vh]">
+          <div className="flex gap-10 pb-3 text-white text-md">
+            <p
+              className="h-[5vh] w-[10vw] cursor-pointer bg-pink-400  flex items-center justify-center rounded-md"
+              onClick={handleConfirm}
+            >
+              Confirmed
+              <span className="pl-2">
+                {
+                  order.filter((data) => {
+                    return data.status === "Confirmed";
+                  }).length
+                }
+              </span>
+            </p>
+            <p
+              className="h-[5vh] w-[10vw] cursor-pointer bg-purple-400  flex items-center  justify-center rounded-md"
+              onClick={handleShipped}
+            >
+              Shipped
+              <span className="pl-2">
+                {
+                  order.filter((data) => {
+                    return data.status === "Shipped";
+                  }).length
+                }
+              </span>
+            </p>
+            <p
+              className="h-[5vh] w-[10vw] cursor-pointer bg-yellow-500 flex items-center  justify-center rounded-md"
+              onClick={handleOutForDelivery}
+            >
+              Out_For_Delivery
+              <span className="pl-2">
+                {
+                  order.filter((data) => {
+                    return data.status === "Out_For_Delivery";
+                  }).length
+                }
+              </span>
+            </p>
+            <p
+              className="h-[5vh] w-[10vw] cursor-pointer bg-green-500 flex items-center  justify-center rounded-md"
+              onClick={handleDelivered}
+            >
+              Delivered
+              <span className="pl-2">
+                {
+                  order.filter((data) => {
+                    return data.status === "Delivered";
+                  }).length
+                }
+              </span>
+            </p>
+            <p
+              className="h-[5vh] w-[10vw] cursor-pointer bg-red-500 flex items-center  justify-center rounded-md"
+              onClick={handleCancelled}
+            >
+              Cancelled
+              <span className="pl-2">
+                {
+                  order.filter((data) => {
+                    return data.status === "Cancelled";
+                  }).length
+                }
+              </span>
+            </p>
+          </div>
           <Table
             className="xl:m-auto  xl:w-[80vw]"
             columns={columns}
-            dataSource={order}
+            dataSource={isEmpty(dataSource) ? order : dataSource}
             pagination={{
               pageSize: 10,
             }}
