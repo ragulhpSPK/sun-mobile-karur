@@ -8,6 +8,7 @@ import PieChart from "@/components/charts/PieChart";
 import { userData } from "@/helper/data";
 import RadarChart from "@/components/charts/ScatterChart";
 import { Table, DatePicker } from "antd";
+import LineAxisOutlinedIcon from "@mui/icons-material/LineAxisOutlined";
 import {
   getAllOrder,
   getAllUsers,
@@ -18,6 +19,15 @@ import {
 import { get } from "lodash";
 import moment from "moment";
 import Link from "next/link";
+import { delivery } from "@/helper/delivery";
+import LocalGroceryStoreOutlinedIcon from "@mui/icons-material/LocalGroceryStoreOutlined";
+import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
+import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
+import ShowChartOutlinedIcon from "@mui/icons-material/ShowChartOutlined";
+import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
+import FormatIndentIncreaseOutlinedIcon from "@mui/icons-material/FormatIndentIncreaseOutlined";
+import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 
 const Home = () => {
   const [orders, setOrders] = useState([]);
@@ -62,23 +72,55 @@ const Home = () => {
       })
     );
 
-    console.log(DeliveredOrders, "fhuh");
-
-    DeliveredOrders.map((data) => {
-      console.log(data, "fhhbgvbgvh");
-      setDeliveredDates(moment(data.updatedAt).format("YYYY-MM-DD"));
-    });
-
-    console.log(DeliveredDates, "datessss");
+    setDeliveredDates(
+      DeliveredOrders.map((data) => {
+        return moment(data.updatedAt).format("YYYY-MM-DD");
+      })
+    );
 
     setDateOf(
-      selectedDates.filter((data) => {
-        return data === DeliveredDates;
+      DeliveredDates.filter((data) => {
+        return selectedDates.includes(data);
       })
     );
   }, [orders, selectedDates]);
 
-  console.log(dateof[0], "dakndjkasdbh");
+  let uniqueDates = [];
+  const DatesArr = dateof.filter((data, id) => {
+    return dateof.indexOf(data) == id;
+  });
+
+  uniqueDates.push(DatesArr);
+
+  // console.log(
+  //   dateof.filter((data, id) => {
+  //     return dateof.indexOf(data) !== id;
+  //   })[0],
+  //   "flllf"
+  // );
+
+  // let countTotal = [];
+  // const totalArr = dateof.filter((data, id) => {
+  //   return dateof.indexOf(data) !== id;
+  // });
+
+  // countTotal.push(totalArr);
+
+  // useEffect(() => {
+  //   setTotal(
+  //     DeliveredOrders.filter((data) => {
+  //       return moment(data.updatedAt).format("YYYY-MM-DD") === totalArr[0];
+  //     }).map((data) => {
+  //       return data.total;
+  //     })
+  //   );
+  // }, [DeliveredOrders]);
+
+  // const sum =
+  //   total &&
+  //   total.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+
+  // console.log(sum, "sum");
 
   const columns1 = [
     {
@@ -108,9 +150,9 @@ const Home = () => {
     },
   ];
 
-  const salesCount = +orders?.filter((data) => {
-    return data.status === "Delivered";
-  }).length;
+  const salesCount = DeliveredOrders.map((data) => {
+    return data.total;
+  }).reduce((accumulator, current) => accumulator + current, 0);
 
   const columns2 = [
     {
@@ -141,8 +183,6 @@ const Home = () => {
   ];
 
   const handleDateChange = (dates) => {
-    // setSelectedDates(dates);
-
     const startDate = moment(
       `${dates[0]?.$y} - ${dates[0]?.$M + 1} - ${dates[0]?.$D}`,
       "YYYY-MM-DD"
@@ -157,28 +197,62 @@ const Home = () => {
 
     while (currentDate <= endDate) {
       date.push(currentDate.format("YYYY-MM-DD"));
+      console.log(date);
       setSelectedDates(date);
       currentDate = currentDate.clone().add(1, "days");
     }
   };
+
+  // console.log(
+  //   DeliveredOrders?.filter((data) => {
+  //     return (
+  //       moment(data.updatedAt).format("YYYY-MM-DD") ===
+  //       dateof.filter((data, id) => {
+  //         return dateof.indexOf(data) !== id;
+  //       })[0]
+  //     );
+  //   })
+  //     .map((res) => {
+  //       return res.total;
+  //     })
+  //     .reduce((accumulator, currentValue) => accumulator + currentValue, 0),
+  //   "ppppp"
+  // );
+
+  console.log(
+    get(uniqueDates, "[0]", []).filter((res) => {
+      DeliveredOrders.filter((data) => {
+        return moment(data.updatedAt).format("YYYY-MM-DD") == res;
+      });
+    }),
+    "ppp"
+  );
+
+  // uniqueDates[0].map((data) => {
+  //   DeliveredOrders.filter((res) => {
+  //     console.log(res, "lllll");
+  //   });
+  // });
+
   const UserData = {
-    labels: [
-      dateof.map((data) => {
-        return data;
-      }),
-    ],
+    labels: uniqueDates[0].map((data) => {
+      return data;
+    }),
+
     datasets: [
       {
-        label: "User gained",
-        data: userData.map((data) => {
-          return data.userGain;
+        label: "Sales During Day",
+        data: DeliveredOrders.filter((data) => {
+          return;
+          moment(data.updatedAt).format("YYYY-MM-DD") === uniqueDates[0][0];
         }),
-        backgroundColor: ["#943074", "#f092be", "violet", "pink"],
+        backgroundColor: ["#9c3587", "violet", "#e53f71", "#3f1561"],
         borderColor: "black",
         borderWidth: 2,
       },
     ],
   };
+
   return (
     <div className="flex flex-row-reverse">
       <div>
@@ -191,7 +265,7 @@ const Home = () => {
                 width: 1000,
               }}
             >
-              <div className="flex  gap-[7vw] pl-[5vw]">
+              <div className="flex items-center justify-center ml-[4vw] gap-[7vw] p-5 bg-slate-50 w-[80vw] ">
                 <div>
                   <div className="pb-[2vh]">
                     <RangePicker
@@ -206,130 +280,120 @@ const Home = () => {
 
                   <Chart chartData={UserData} />
                   <h1 className="flex items-center justify-center bg-slate-50">
-                    Order Status Of the Years
-                  </h1>
-                </div>
-                <div>
-                  <div className="pb-[2vh]">
-                    <RangePicker
-                      format={dateFormat}
-                      onChange={handleDateChange}
-                      style={{
-                        width: "100%",
-                      }}
-                      size="large"
-                    />
-                  </div>
-
-                  <PieChart chartData={UserData} />
-                  <h1 className="flex items-center justify-center bg-slate-50">
-                    Sales Status of the Years
-                  </h1>
-                </div>
-
-                <div>
-                  <div className="pb-[2vh]">
-                    <RangePicker
-                      format={dateFormat}
-                      onChange={handleDateChange}
-                      style={{
-                        width: "100%",
-                      }}
-                      size="large"
-                    />
-                  </div>
-
-                  <RadarChart chartData={UserData} />
-                  <h1 className="flex items-center justify-center bg-slate-50">
-                    Sales Status of the Years
+                    Sales Status During a Day
                   </h1>
                 </div>
               </div>
-
-              {/* <div className="flex gap-[13vw] pt-[10vh] pl-[8vw]">
-                <div>
-                  <PieChart chartData={UserData} />
-                </div>
-
-                <div>
-                  <RadarChart chartData={UserData} />
-                </div>
-              </div> */}
             </div>
-            <div className="grid grid-cols-3 gap-5 justify-around text-xl text-slate-400 font-normal w-[80vw] m-auto">
-              <div className="bg-slate-50    w-[20vw] py-[2vh] text-center">
-                <p className="text-[--second-color] font-bold text-xl">
-                  Total Orders
-                </p>
-                <span>{orders.length}</span>
-              </div>
-              <div className="bg-slate-50  py-[2vh] text-center w-[20vw]">
-                <p className="text-[--second-color] font-bold text-xl">
-                  Total Sales
-                </p>
-                <span>{salesCount}</span>
-              </div>
-              <div className="bg-slate-50  w-[20vw] py-[2vh] text-center">
-                <p className="text-[--second-color] font-bold text-xl">
-                  Total Users
-                </p>
-                <span>{users.length}</span>
-              </div>
-              <div className="bg-slate-50  w-[20vw] py-[2vh] text-center">
-                <p className="text-[--second-color] font-bold text-xl">
-                  Total Categories
-                </p>
-                <span>{categories}</span>
-              </div>
-              <div className="bg-slate-50  w-[20vw] py-[2vh] text-center">
-                <p className="text-[--second-color] font-bold text-xl">
-                  Total SubCategories
-                </p>
-                <span>{subCategories}</span>
-              </div>
-              <div className="bg-slate-50  w-[20vw] py-[2vh] text-center">
-                <p className="text-[--second-color] font-bold text-xl">
-                  Total Products
-                </p>
-                <span>{Products}</span>
-              </div>
-              <div className="w-[80vw] m-auto pt-[5vh]">
-                <div className="flex">
-                  <h1 className="text-2xl p-6 text-center w-[10vw]  flex items-center justify-center text-[--third-color] font-bold bg-slate-50">
-                    Last 10 Orders
-                  </h1>
-                  <div className="flex">
-                    <Table
-                      dataSource={orders.slice(-10)}
-                      columns={columns1}
-                      pagination={false}
-                      className="w-[55vw]"
+            <div className="flex">
+              <div className=" text-xl text-slate-400 font-normal w-[80vw] m-auto">
+                <div className="flex gap-32 justify-around ">
+                  <div className="flex gap-3 bg-slate-50 p-[4vw]">
+                    <ShowChartOutlinedIcon
+                      style={{ fontSize: "80px" }}
+                      className="text-[--third-color]"
                     />
-                    <Link
-                      href="/dashboard/order/order"
-                      className="w-[10vw] flex items-center justify-center bg-slate-50  text-[--third-color] text-2xl font-bold"
-                    >
-                      <p>View All</p>
-                    </Link>
+                    <span className="text-slate-700">
+                      <h1 className="text-4xl">DashBoard </h1>
+                      <p className="text-4xl">Stats</p>
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-x-32 gap-y-4 justify-around">
+                    <div className="bg-slate-50 w-[15vw] py-[2vh] text-center">
+                      <p className="text-[--second-color] font-bold text-[20px]">
+                        <LocalGroceryStoreOutlinedIcon />
+                        Total Orders
+                      </p>
+                      <span>{orders.length}</span>
+                    </div>
+                    <div className="bg-slate-50  py-[2vh] text-center w-[15vw]">
+                      <p className="text-[--second-color] font-bold text-[20px]">
+                        <AttachMoneyOutlinedIcon />
+                        Total Sales
+                      </p>
+                      <span>&#8377;{salesCount}</span>
+                    </div>
+                    <div className="bg-slate-50  w-[15vw] py-[2vh] text-center">
+                      <p className="text-[--second-color] font-bold text-[20px]">
+                        <ContactPageOutlinedIcon />
+                        Total Users
+                      </p>
+                      <span>{users.length}</span>
+                    </div>
+                    <div className="bg-slate-50  w-[15vw] py-[2vh] text-center">
+                      <p className="text-[--second-color] font-bold text-[20px]">
+                        <MenuOutlinedIcon />
+                        Total Categories
+                      </p>
+                      <span>{categories}</span>
+                    </div>
+                    <div className="bg-slate-50  w-[15vw] py-[2vh] text-center">
+                      <p className="text-[--second-color] font-bold text-[20px]">
+                        <FormatIndentIncreaseOutlinedIcon />
+                        Total SubCategories
+                      </p>
+                      <span>{subCategories}</span>
+                    </div>
+                    <div className="bg-slate-50  w-[15vw] py-[2vh] text-center">
+                      <p className="text-[--second-color] font-bold text-[20px]">
+                        <Inventory2OutlinedIcon />
+                        Total Products
+                      </p>
+                      <span>{Products}</span>
+                    </div>
                   </div>
                 </div>
-                <div className="pt-[4vh] flex">
-                  <h1 className="text-2xl w-[10vw] p-3 text-center pb-3 text-[--third-color] flex items-center justify-center font-bold bg-slate-50">
-                    Last 10 Customers
-                  </h1>
-                  <div className="flex">
-                    <Table
-                      dataSource={users.slice(-10)}
-                      columns={columns2}
-                      pagination={false}
-                      className="w-[55vw]"
-                    />
-                    <Link
-                      href="/dashboard/Users/user"
-                      className="w-[10vw] flex items-center justify-center bg-slate-50  text-[--third-color] text-2xl font-bold"
-                    >
-                      <p>View All</p>
-                    </Link>
+                <div className="pt-[5vh] ">
+                  <div className="w-[83vw]  m-auto pt-[5vh]  bg-slate-50 p-4 ">
+                    <div className="flex gap-[5vw] !w-[83vw] ">
+                      <div className="flex flex-col">
+                        <div className="w-[35vw] flex justify-between text-[--third-color] font-bold bg-slate-50 ">
+                          <h1 className="text-2xl p-6 text-center">
+                            Last 10 Orders
+                          </h1>
+                          <Link
+                            href="/dashboard/order/order"
+                            className="w-[10vw] flex items-center justify-center bg-slate-50  text-[--third-color] text-2xl font-bold"
+                          >
+                            <p>View All</p>
+                          </Link>
+                        </div>
+
+                        <div className="flex pr-1">
+                          <Table
+                            dataSource={orders.slice(-10)}
+                            columns={columns1}
+                            pagination={{
+                              pageSize: 4,
+                            }}
+                            className="w-[35vw] "
+                          />
+                        </div>
+                      </div>
+                      <div className=" flex flex-col">
+                        <div className="w-[42vw] flex justify-between text-[--third-color] font-bold bg-slate-50 ">
+                          <h1 className="text-2xl p-6 text-center">
+                            Last 10 Customers
+                          </h1>
+                          <Link
+                            href="/dashboard/Users/user"
+                            className="w-[20vw] flex items-center justify-center bg-slate-50  text-[--third-color] text-2xl font-bold"
+                          >
+                            <p>View All</p>
+                          </Link>
+                        </div>
+                        <div className="flex">
+                          <Table
+                            dataSource={users.slice(-10)}
+                            columns={columns2}
+                            pagination={{
+                              pageSize: 4,
+                            }}
+                            className="w-[42vw]"
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -4,8 +4,8 @@ import { Chart as ChartJS } from "chart.js/auto";
 
 function BarChart({ chartData }) {
   return (
-    <div className="!w-[30vw]">
-      <Bar data={chartData} />
+    <div className="!w-[40vw] ">
+      <Bar data={chartData} style={{ width: "100%" }} />
     </div>
   );
 }
