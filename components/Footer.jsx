@@ -53,11 +53,11 @@ const CustomerFooters = () => {
     },
   ];
   return (
-    <div className="flex flex-col lg:flex-row lg:justify-center lg:items-center xsm:w-[90vw] lg:w-[80vw] xsm:pl-[12vw] lg:pl-0 lg:m-auto !mt-[15vh]">
+    <div className="flex flex-col lg:flex-row lg:justify-center xl:text-[18px] lg:items-center xsm:w-[90vw] lg:w-[80vw] xsm:pl-[12vw] lg:pl-0 lg:m-auto !mt-[8vh]">
       {/* Locations */}
-      <div className="lg:w-[30vw] flex-col  pt-2 gap-y-4  p-2">
+      <div className="lg:w-[30vw] flex-col  pt-2 gap-y-4 h-[20vh] p-2">
         {/* <div className="text-lg font-bold ">Sun Mobiles</div> */}
-        <div className="pt-2 flex gap-y-2 gap-x-2 xsm:text-sm flex-col ">
+        <div className="pt-2 flex gap-y-2 gap-x-2 xsm:text-sm xl:text-[18px] flex-col ">
           {footersData.map((res, index) => {
             return (
               <div
@@ -65,17 +65,19 @@ const CustomerFooters = () => {
                 className="flex gap-x-2 items-start justify-start"
               >
                 <div>{res.icon}</div>
-                <div className="font-bold hover:text-[--third-color] cursor-pointer">
+                <div className="font-bold hover:text-[--third-color] hover:font-bold  cursor-pointer">
                   {res.title}:
                 </div>
-                <div className="text-md lg:w-[15vw]">{res.subTitle}</div>
+                <div className="text-md lg:w-[15vw]  hover:text-[--third-color] hover:font-bold  cursor-pointer">
+                  {res.subTitle}
+                </div>
               </div>
             );
           })}
         </div>
       </div>
       {/* Tours */}
-      <div className="lg:w-[20vw] flex-col  items-center pt-2 gap-y-4  p-2">
+      <div className="lg:w-[20vw] flex-col  items-center pt-2 gap-y-4 h-[20vh] p-2">
         <div className="text-lg font-bold hover:text-[--third-color] cursor-pointer">
           Website Tour
         </div>
@@ -84,7 +86,7 @@ const CustomerFooters = () => {
             (res, index) => {
               return (
                 <div key={index} className="flex gap-x-2 items-start">
-                  <div className="hover:text-[--third-color] cursor-pointer font-normal">
+                  <div className="hover:text-[--third-color] hover:font-bold cursor-pointer font-normal">
                     {res}
                   </div>
                 </div>
@@ -94,34 +96,38 @@ const CustomerFooters = () => {
         </div>
       </div>
       {/* follow */}
-      <div className="lg:w-[20vw] flex-col items-center pt-2 gap-y-4  p-2">
-        <div className="text-lg font-bold h-[5vh]">Follow Us</div>
+      <div className="lg:w-[20vw] flex-col items-center pt-2 gap-y-4 h-[20vh] p-2">
+        <div className="text-lg font-bold h-[5vh] hover:font-semibold cursor-pointer hover:text-[--third-color]">
+          Follow Us
+        </div>
         <div className="pt-2 flex gap-y-2 flex-col h-[20vh] ">
-          <div className="group hover:font-semibold cursor-pointer flex flex-row items-center gap-x-2">
+          <div className="group hover:font-semibold hover:text-[--third-color]  cursor-pointer flex flex-row items-center gap-x-2">
             <FacebookOutlined className="group-hover:text-[#1673eb] " />
             <h1 className="text-md">Facebook</h1>
           </div>
-          <div className="group hover:font-semibold cursor-pointer flex flex-row items-center gap-x-2">
+          <div className="group hover:font-semibold cursor-pointer hover:text-[--third-color] flex flex-row items-center gap-x-2">
             <InstagramOutlined className="group-hover:text-[#f40873] " />
             <h1 className="text-md">Instagram</h1>
           </div>
-          <div className="group hover:font-semibold cursor-pointer flex flex-row items-center gap-x-2">
+          <div className="group hover:font-semibold cursor-pointer hover:text-[--third-color] flex flex-row items-center gap-x-2">
             <TwitterOutlined className="group-hover:text-[#1c96e8] " />
             <h1 className="text-md">Twitter</h1>
           </div>
-          <div className="group hover:font-semibold cursor-pointer flex flex-row items-center gap-x-2">
+          <div className="group hover:font-semibold cursor-pointer hover:text-[--third-color] flex flex-row items-center gap-x-2">
             <WhatsAppOutlined className="group-hover:text-[#1ad03f] " />
             <h1 className="text-md">Whatsapp</h1>
           </div>
-          <div className="group invisible hover:font-semibold cursor-pointer flex flex-row items-center gap-x-2">
+          <div className="group invisible hover:font-semibold cursor-pointer hover:text-[--third-color] flex flex-row items-center gap-x-2">
             <WhatsAppOutlined className="group-hover:text-[#1ad03f] " />
             <h1 className="text-md">Whatsapp</h1>
           </div>
         </div>
       </div>
       {/* React Us */}
-      <div className="lg:w-[20vw] flex-col items-center pt-2 gap-y-4  p-2">
-        <div className="text-lg font-bold h-[5vh]">Reach Us</div>
+      <div className="lg:w-[20vw] flex-col items-center pt-2 gap-y-4 h-[20vh] p-2">
+        <div className="text-lg font-bold h-[5vh] hover:font-semibold cursor-pointer hover:text-[--third-color]">
+          Reach Us
+        </div>
         <div className="pt-2 flex gap-y-2 flex-col h-[20vh] ">
           <div className="cursor-pointer flex flex-row items-center gap-x-2">
             <Image

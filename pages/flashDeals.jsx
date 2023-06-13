@@ -12,7 +12,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { get } from "lodash";
 import { Spin, Pagination, Drawer, Modal, notification } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { HeartOutlined, LoadingOutlined } from "@ant-design/icons";
 import Buy from "../components/buy";
 import { Rate } from "antd";
 import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
@@ -129,6 +129,13 @@ function FlashDeals() {
                   className="card xsm:w-[90vw]  sm:w-[40vw] md:w-[34vw] lg:w-[26vw] xl:w-[20vw] xxl:w-[18vw]  bg-base-100 shadow-xl "
                   key={index}
                 >
+                  <div className="flex  justify-end p-2">
+                    <Rate
+                      count={1}
+                      character={<HeartOutlined />}
+                      className="text-[--third-color]"
+                    />
+                  </div>
                   <figure className="px-10 pt-10  cursor-pointer">
                     <Image
                       width={100}

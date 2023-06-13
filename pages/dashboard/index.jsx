@@ -41,6 +41,7 @@ const Home = () => {
   const [DeliveredOrders, setDeliveredOrders] = useState([]);
   const [DeliveredDates, setDeliveredDates] = useState([]);
   const [dateof, setDateOf] = useState([]);
+  const [userDate, setUserDate] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -83,6 +84,16 @@ const Home = () => {
         return selectedDates.includes(data);
       })
     );
+
+    console.log(
+      users
+        .map((data) => {
+          return moment(data.createdAt).format("YYYY-MM-DD");
+        })
+        .filter((dates) => {
+          console.log(dates);
+        })
+    );
   }, [orders, selectedDates]);
 
   let uniqueDates = [];
@@ -92,35 +103,12 @@ const Home = () => {
 
   uniqueDates.push(DatesArr);
 
-  // console.log(
-  //   dateof.filter((data, id) => {
-  //     return dateof.indexOf(data) !== id;
-  //   })[0],
-  //   "flllf"
-  // );
+  let countTotal = [];
+  const totalArr = dateof.filter((data, id) => {
+    return dateof.indexOf(data) !== id;
+  });
 
-  // let countTotal = [];
-  // const totalArr = dateof.filter((data, id) => {
-  //   return dateof.indexOf(data) !== id;
-  // });
-
-  // countTotal.push(totalArr);
-
-  // useEffect(() => {
-  //   setTotal(
-  //     DeliveredOrders.filter((data) => {
-  //       return moment(data.updatedAt).format("YYYY-MM-DD") === totalArr[0];
-  //     }).map((data) => {
-  //       return data.total;
-  //     })
-  //   );
-  // }, [DeliveredOrders]);
-
-  // const sum =
-  //   total &&
-  //   total.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-
-  // console.log(sum, "sum");
+  countTotal.push(totalArr);
 
   const columns1 = [
     {
@@ -197,42 +185,66 @@ const Home = () => {
 
     while (currentDate <= endDate) {
       date.push(currentDate.format("YYYY-MM-DD"));
-      console.log(date);
+
       setSelectedDates(date);
       currentDate = currentDate.clone().add(1, "days");
     }
   };
 
-  // console.log(
-  //   DeliveredOrders?.filter((data) => {
-  //     return (
-  //       moment(data.updatedAt).format("YYYY-MM-DD") ===
-  //       dateof.filter((data, id) => {
-  //         return dateof.indexOf(data) !== id;
-  //       })[0]
-  //     );
-  //   })
-  //     .map((res) => {
-  //       return res.total;
-  //     })
-  //     .reduce((accumulator, currentValue) => accumulator + currentValue, 0),
-  //   "ppppp"
-  // );
+  const handleDateChangeUser = (date) => {
+    const startDate = moment(
+      `${date[0]?.$y} - ${date[0]?.$M + 1} - ${date[0]?.$D}`,
+      "YYYY-MM-DD"
+    );
+    const endDate = moment(
+      `${date[1]?.$y} - ${date[1]?.$M + 1} - ${date[1]?.$D}`,
+      "YYYY-MM-DD"
+    );
 
-  console.log(
-    get(uniqueDates, "[0]", []).filter((res) => {
-      DeliveredOrders.filter((data) => {
-        return moment(data.updatedAt).format("YYYY-MM-DD") == res;
+    const dates = [];
+    let currentDate = startDate;
+
+    while (currentDate <= endDate) {
+      dates.push(currentDate.format("YYYY-MM-DD"));
+
+      setUserDate(dates);
+      currentDate = currentDate.clone().add(1, "days");
+    }
+  };
+
+  const totalDates = get(uniqueDates, "[0]")
+    .map((res) => {
+      return DeliveredOrders.filter((data) => {
+        return (
+          moment(data.updatedAt).format("YYYY-MM-DD").includes(res) &&
+          data.total
+        );
       });
-    }),
-    "ppp"
-  );
+    })
+    ?.map((res) => {
+      return res.map((datas) => {
+        return datas.total;
+      });
+    })
+    .map((res) => {
+      return _.sum(res);
+    });
 
-  // uniqueDates[0].map((data) => {
-  //   DeliveredOrders.filter((res) => {
-  //     console.log(res, "lllll");
-  //   });
-  // });
+  const salesData = {
+    labels: uniqueDates[0].map((data) => {
+      return data;
+    }),
+
+    datasets: [
+      {
+        label: "Sales During Day",
+        data: totalDates,
+        backgroundColor: ["#9c3587", "violet", "#e53f71", "#3f1561"],
+        borderColor: "black",
+        borderWidth: 2,
+      },
+    ],
+  };
 
   const UserData = {
     labels: uniqueDates[0].map((data) => {
@@ -242,10 +254,7 @@ const Home = () => {
     datasets: [
       {
         label: "Sales During Day",
-        data: DeliveredOrders.filter((data) => {
-          return;
-          moment(data.updatedAt).format("YYYY-MM-DD") === uniqueDates[0][0];
-        }),
+        data: totalDates,
         backgroundColor: ["#9c3587", "violet", "#e53f71", "#3f1561"],
         borderColor: "black",
         borderWidth: 2,
@@ -265,8 +274,9 @@ const Home = () => {
                 width: 1000,
               }}
             >
-              <div className="flex items-center justify-center ml-[4vw] gap-[7vw] p-5 bg-slate-50 w-[80vw] ">
-                <div>
+              <div className="flex   ml-[4vw] gap-[7vw] p-5 bg-slate-50 w-[83vw] ">
+                <div className="w-[40vw]">
+                  Select Dates to See the Sales of a Choosing Day
                   <div className="pb-[2vh]">
                     <RangePicker
                       format={dateFormat}
@@ -277,8 +287,25 @@ const Home = () => {
                       size="large"
                     />
                   </div>
-
                   <Chart chartData={UserData} />
+                  <h1 className="flex items-center justify-center bg-slate-50">
+                    Sales Status During a Day
+                  </h1>
+                </div>
+
+                <div className="w-[40vw]">
+                  Select Dates to See the Sales of a Choosing Day
+                  <div className="pb-[2vh]">
+                    <RangePicker
+                      format={dateFormat}
+                      onChange={handleDateChangeUser}
+                      style={{
+                        width: "100%",
+                      }}
+                      size="large"
+                    />
+                  </div>
+                  <PieChart chartData={salesData} />
                   <h1 className="flex items-center justify-center bg-slate-50">
                     Sales Status During a Day
                   </h1>

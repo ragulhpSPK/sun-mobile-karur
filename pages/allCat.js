@@ -405,6 +405,7 @@ function AllCat() {
                   return (
                     <List.Item key={index} className="!mt-[1vh]">
                       <div>
+                        <div className="flex  justify-end p-2"></div>
                         <Card
                           hoverable
                           style={{

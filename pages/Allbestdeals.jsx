@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import { Modal, Rate, Spin, notification } from "antd";
 import { addproduct } from "@/redux/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { LoadingOutlined } from "@ant-design/icons";
+import { HeartOutlined, LoadingOutlined } from "@ant-design/icons";
 import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
 import Link from "next/link";
 import Cookies from "js-cookie";
@@ -142,6 +142,13 @@ function Allbestdeals() {
                 className="card xsm:w-[90vw]  sm:w-[40vw] md:w-[34vw] lg:w-[26vw] xl:w-[20vw] xxl:w-[18vw]  bg-base-100 shadow-xl "
                 key={index}
               >
+                <div className="flex  justify-end p-2">
+                  <Rate
+                    count={1}
+                    character={<HeartOutlined />}
+                    className="text-[--third-color]"
+                  />
+                </div>
                 <figure className="px-10 pt-10  cursor-pointer">
                   <Image
                     width={100}

@@ -54,6 +54,7 @@ function Profile({ data, fetchData, loading }) {
       setOpen(false);
       form.resetFields();
       fetchData();
+
       notification.success({ message: "profile created successfully" });
     } catch (e) {
       console.log(e, "Ebhn");
@@ -63,6 +64,7 @@ function Profile({ data, fetchData, loading }) {
 
   useEffect(() => {
     form.setFieldsValue(data);
+    setImageList(data?.image);
   }, [data]);
 
   const uploadImage = (imagename) => {
@@ -93,13 +95,14 @@ function Profile({ data, fetchData, loading }) {
                 <Form>
                   <Form.Item rules={[{ required: true }]}>
                     <Upload
+                      pre
                       listType="picture-card"
                       onRemove={(e) => {
                         setImageList("");
                       }}
                       fileList={[
                         {
-                          url: data?.image,
+                          url: imageList,
                         },
                       ]}
                       maxCount={1}

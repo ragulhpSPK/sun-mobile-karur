@@ -17,6 +17,7 @@ import { addproduct } from "@/redux/cartSlice";
 import { useRouter } from "next/router";
 import Login from "@/pages/Authentication/Register";
 import Cookies from "js-cookie";
+import { HeartOutlined } from "@ant-design/icons";
 
 const TopRated = () => {
   const cartSlice = useSelector((state) => state.cart);
@@ -127,7 +128,14 @@ const TopRated = () => {
                     className="card  bg-base-100  shadow-sm xl:shadow-xl m-auto"
                     key={index}
                   >
-                    <figure className="xl:px-10 pt-10  cursor-pointer">
+                    <div className="flex  justify-end p-2">
+                      <Rate
+                        count={1}
+                        character={<HeartOutlined />}
+                        className="text-[--third-color]"
+                      />
+                    </div>
+                    <figure className="xl:px-10   cursor-pointer">
                       <div
                         onClick={() =>
                           router.push({
@@ -148,7 +156,7 @@ const TopRated = () => {
                     <div className="card-body ">
                       <div className="h-[6vh]">
                         <h2
-                          className="font-bold text-center p-[1vh] xsm:text-[12px] cursor-pointer lg:text-[16px]"
+                          className="font-bold text-center pt-[1vh] xsm:text-[12px] cursor-pointer lg:text-[16px]"
                           onClick={() =>
                             router.push({
                               pathname: `/product/${res._id}`,
@@ -163,9 +171,9 @@ const TopRated = () => {
                       <Rate
                         allowHalf
                         defaultValue={2.5}
-                        className="!text-sm p-[3vh] text-center"
+                        className="!text-sm pt-[1vh] text-center"
                       />
-                      <div className="flex gap-x-10 justify-between xsm:text-[12px] pb-[3vh] items-center m-auto">
+                      <div className="flex gap-x-10 justify-between xsm:text-[12px] pt-[1vh] pb-[2vh] items-center m-auto">
                         {res.bestOffer !== null || 0 ? (
                           <p className="xl:text-lg xsm:text-[14px] text-green-400 flex flex-row-reverse gap-2 pb-[2vh] xsm:text-md xsm:font-semibold font-medium">
                             <s className="text-red-400">&#8377;{res.price}</s>

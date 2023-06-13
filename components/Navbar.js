@@ -155,14 +155,14 @@ function Navbar() {
             </Skeleton>
           </Link>
           <div>
-            <div className="flex items-center justify-between  border border-slate-100  p-2 rounded">
+            <div className="flex items-center justify-between  border border-slate-100  p-2 rounded relative">
               <input
                 placeholder="I'm looking for...."
-                className="outline-none border-none xsm:!w-[40vw] p-2 lg:w-[30vw] placeholder:text-slate-200"
+                className="outline-none border-none xsm:!w-[40vw] xsm:!h-[2vh] p-2 lg:w-[30vw] lg:!h-[3.5vh] placeholder:text-slate-200"
                 onChange={(e) => dispatch(addSearch(e.target.value))}
                 onKeyUp={handleKeyDown}
               />
-              <div className="flex items-center w-[2vw]">
+              <div className="flex items-center w-[2vw] absolute xsm:right-[9.5vw] sm:right-[5vw] md:right-[2.5vw] lg:right-[1vw]">
                 <Divider type="vertical" />
                 <SearchOutlined className="text-slate-200" />
               </div>

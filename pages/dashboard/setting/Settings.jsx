@@ -61,7 +61,6 @@ function Settings() {
     try {
       setLoading(true);
       const result = await getDashProfile();
-
       setdashProfileData(get(result, "data.data"));
       form.setFieldsValue(get(result, "data.data")[0]);
     } catch (e) {
@@ -190,19 +189,28 @@ function Settings() {
                               ></div>
                             </p>
 
-                            <div className="group hover:font-semibold cursor-pointer flex flex-row items-center justify-center gap-x-3">
-                              <a href={dashProfileData[0]?.fblink}>
-                                <FacebookOutlined className="group-hover:text-[#1673eb] !text-xl" />
-                              </a>
-                              <a href={dashProfileData[0]?.inlink}>
-                                <InstagramOutlined className="group-hover:text-[#f40873] !text-xl" />
-                              </a>
-                              <a href={dashProfileData[0].twlink}>
-                                <TwitterOutlined className="group-hover:text-[#1c96e8] !text-xl" />
-                              </a>
-                              <a href={dashProfileData[0].wplink}>
-                                <WhatsAppOutlined className="group-hover:text-[#1ad03f] !text-xl" />
-                              </a>
+                            <div className=" hover:font-semibold cursor-pointer flex flex-row items-center justify-center gap-x-3">
+                              <div className="group">
+                                <a href={dashProfileData[0]?.fblink}>
+                                  <FacebookOutlined className="group-hover:text-[#1673eb] !text-xl" />
+                                </a>
+                              </div>
+                              <div className="group">
+                                <a href={dashProfileData[0]?.inlink}>
+                                  <InstagramOutlined className="group-hover:text-[#f40873] !text-xl" />
+                                </a>
+                              </div>
+                              <div className="group">
+                                <a href={dashProfileData[0].twlink}>
+                                  <TwitterOutlined className="group-hover:text-[#1c96e8] !text-xl" />
+                                </a>
+                              </div>
+
+                              <div className="group">
+                                <a href={dashProfileData[0].wplink}>
+                                  <WhatsAppOutlined className="group-hover:text-[#1ad03f] !text-xl" />
+                                </a>
+                              </div>
                             </div>
                           </div>
                         }

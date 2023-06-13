@@ -23,6 +23,7 @@ import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCh
 import Cookies from "js-cookie";
 import Login from "@/pages/Authentication/Register";
 import { addproduct } from "@/redux/cartSlice";
+import { HeartOutlined } from "@ant-design/icons";
 
 function Bestdeals() {
   const isLoading = useSelector((state) => state.loader.isLoading);
@@ -94,7 +95,7 @@ function Bestdeals() {
     >
       <div className=" flex items-center justify-center">
         <div className="flex flex-row w-[90vw] justify-between  ">
-          <div className="xl:text-2xl  font-bold text-[--first-color] ">
+          <div className="xl:text-2xl  font-bold text-[--second-color] ">
             Best Deals Today
           </div>
           <Link href="/Allbestdeals">
@@ -138,7 +139,14 @@ function Bestdeals() {
                     key={index}
                     data-theme="primary"
                   >
-                    <figure className="xl:px-10 pt-10  cursor-pointer">
+                    <div className="flex  justify-end p-2">
+                      <Rate
+                        count={1}
+                        character={<HeartOutlined />}
+                        className="text-[--third-color]"
+                      />
+                    </div>
+                    <figure className="xl:px-10   cursor-pointer">
                       <div
                         onClick={() =>
                           router.push({
@@ -159,7 +167,7 @@ function Bestdeals() {
                     <div className="card-body ">
                       <div className="h-[8vh] ">
                         <h2
-                          className="font-bold xsm:text-[12px] text-center p-[1vh] lg:text-[16px] cursor-pointer "
+                          className="font-bold xsm:text-[12px] text-center pt-[1vh] lg:text-[16px] cursor-pointer "
                           onClick={() =>
                             router.push({
                               pathname: `/product/${res._id}`,
@@ -174,11 +182,11 @@ function Bestdeals() {
                       <Rate
                         allowHalf
                         defaultValue={2.5}
-                        className="!text-sm p-[3vh] text-center"
+                        className="!text-sm pt-[1vh] text-center"
                       />
                       <div className="flex gap-x-10 justify-between pb-[3vh] xsm:text-[12px] items-center m-auto">
                         {res.bestOffer !== null || 0 ? (
-                          <p className="xl:text-lg xsm:text-[14px] text-green-400 flex flex-row-reverse gap-2 pb-[2vh] xsm:text-md xsm:font-semibold font-medium">
+                          <p className="xl:text-lg xsm:text-[14px] text-green-400 flex flex-row-reverse gap-2 pb-[1vh] xsm:text-md xsm:font-semibold font-medium">
                             <s className="text-red-400">&#8377;{res.price}</s>
                             &#8377;
                             {Math.round(
@@ -186,7 +194,7 @@ function Bestdeals() {
                             )}
                           </p>
                         ) : (
-                          <p className="text-lg   font-medium">{res.price}</p>
+                          <p className="text-lg font-medium">{res.price}</p>
                         )}
                       </div>
 

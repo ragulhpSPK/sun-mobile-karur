@@ -20,6 +20,7 @@ import Link from "next/link";
 
 import Cookies from "js-cookie";
 import Login from "@/pages/Authentication/Register";
+import { HeartOutlined } from "@ant-design/icons";
 
 function Topproducts() {
   const cartSlice = useSelector((state) => state.cart);
@@ -88,10 +89,17 @@ function Topproducts() {
           {topProducts.map((res, index) => {
             return (
               <div
-                className="card xsm:w-[80vw] sm:w-[35vw] lg:w-[26vw] xl:w-[20vw] bg-base-100 shadow-xl "
+                className="card xsm:w-[80vw] sm:w-[35vw] lg:w-[26vw] xl:w-[18vw] bg-base-100 shadow-xl "
                 key={index}
               >
-                <figure className="px-10 pt-10  cursor-pointer">
+                <div className="flex  justify-end p-2">
+                  <Rate
+                    count={1}
+                    character={<HeartOutlined />}
+                    className="text-[--third-color]"
+                  />
+                </div>
+                <figure className="px-10   cursor-pointer">
                   <Image
                     width={100}
                     height={100}
@@ -121,9 +129,9 @@ function Topproducts() {
                   <Rate
                     allowHalf
                     defaultValue={2.5}
-                    className="!text-sm p-[2vh] m-auto"
+                    className="!text-sm pt-[1vh] m-auto"
                   />
-                  <div className="flex gap-x-10 xsm:text-[12px] justify-between pb-[3vh] m-auto items-center">
+                  <div className="flex gap-x-10 xsm:text-[12px] justify-between pt-[1vh] pb-[1vh] m-auto items-center">
                     {res.offer !== null || 0 ? (
                       <p className="xl:text-lg xsm:text-[14px] text-green-400 flex flex-row-reverse gap-2 pb-[2vh] xsm:text-md xsm:font-semibold font-medium">
                         <s className="text-red-400">&#8377;{res.price}</s>

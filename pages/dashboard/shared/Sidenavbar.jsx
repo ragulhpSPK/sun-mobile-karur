@@ -87,7 +87,8 @@ function Sidenavbar() {
               alt="no"
               width={60}
               height={40}
-              className="!h-[100%] !w-[100%] "
+              className="!h-[100%] !w-[100%] cursor-pointer"
+              preview={false}
             />
           </Skeleton>
         </div>
