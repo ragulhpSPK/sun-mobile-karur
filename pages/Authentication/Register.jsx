@@ -50,11 +50,12 @@ function Register({ setLogin }) {
 
   const requestOTP = async (e) => {
     setLogin(false);
-    setExpandForm(true);
 
     e.preventDefault();
     try {
       if (phoneNumber.length >= 10) {
+        setExpandForm(true);
+
         generateRecaptchaVerifier();
         let appVerfier = window.recaptchaVerifier;
         signInWithPhoneNumber(
