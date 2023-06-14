@@ -1,9 +1,6 @@
 import React from "react";
 import { ClockCircleOutlined, CodeSandboxOutlined } from "@ant-design/icons";
 import { Button, Timeline, Image, Steps, notification, Badge } from "antd";
-import styles from "../../styles/Home.module.css";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import CheckIcon from "@mui/icons-material/Check";
 import { useState } from "react";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import DoneIcon from "@mui/icons-material/Done";
