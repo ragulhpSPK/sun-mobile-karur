@@ -32,7 +32,7 @@ function Sidenavbar() {
   }, []);
 
   return (
-    <div className="!h-[100vh] w-[10vw]">
+    <div className="!h-[100vh] w-[14vw] pl-[3vw]">
       <div>
         <MenuIcon
           className="lg:hidden"
@@ -43,30 +43,56 @@ function Sidenavbar() {
         {/* <span className="!text-black">DashBoard</span> */}
       </div>
 
+      <div className=" h-[100vh] xsm:hidden lg:block ">
+        <div className="flex flex-col items-center justify-center !pt-[10vh]">
+          <Skeleton loading={loading} style={{ height: "50px", width: "80px" }}>
+            <Image
+              src={data.image}
+              alt="no"
+              width={60}
+              height={50}
+              className="!h-[100%] !w-[100%] cursor-pointer shadow-inner shadow-slate-200 "
+              preview={false}
+            />
+            <p className="font-bold pt-2 text-black">{data.name}</p>
+            <p className="font-bold pt-2">{data.email}</p>
+          </Skeleton>
+        </div>
+
+        <Menu
+          defaultSelectedKeys={
+            router.route.split("/")[router.route.split("/").length - 1]
+          }
+          mode="inline"
+          className=" !w-[14vw] pt-[5vh] hidden lg:block"
+          items={Items}
+          style={{ backgroundColor: "none" }}
+        />
+      </div>
+
       <Drawer
         open={open}
         width={300}
-        placement="left"
+        placement="right"
         onClose={() => setOpen(false)}
         className="lg:hidden"
       >
-        <div className="shadow pt-[30%] !text-black">
+        <div className=" pt-[30%] !text-black">
           <div className="flex flex-col items-center justify-center">
             <Avatar
               style={{ backgroundColor: "white" }}
-              className="!shadow-inner !shadow-slate-200"
-              size={{ xsm: 64 }}
+              className="!shadow-inner !shadow-slate-100 !w-[20vw]"
             >
               <Image
-                src="/assets/sun2.png"
+                src={data.image}
                 alt="no"
                 width={40}
                 height={40}
                 className="pb-5"
               />
             </Avatar>
-            <p className="font-bold pt-2">Sun Mobiles</p>
-            <p className="font-bold pt-2">sunmob123@gmail.com</p>
+            <p className="font-bold pt-2 text-black">{data.name}</p>
+            <p className="font-bold pt-2">{data.email}</p>
           </div>
 
           <Menu
@@ -79,29 +105,6 @@ function Sidenavbar() {
           />
         </div>
       </Drawer>
-      <div className="shadow h-[100vh] xsm:hidden lg:block w-[10vw]">
-        <div className="flex flex-col items-center justify-center !pt-[2vh]">
-          <Skeleton loading={loading} style={{ height: "50px", width: "80px" }}>
-            <Image
-              src={data.image}
-              alt="no"
-              width={60}
-              height={40}
-              className="!h-[100%] !w-[100%] cursor-pointer"
-              preview={false}
-            />
-          </Skeleton>
-        </div>
-
-        <Menu
-          defaultSelectedKeys={
-            router.route.split("/")[router.route.split("/").length - 1]
-          }
-          mode="inline"
-          className=" !w-[10vw] pt-[5vh] "
-          items={Items}
-        />
-      </div>
     </div>
   );
 }

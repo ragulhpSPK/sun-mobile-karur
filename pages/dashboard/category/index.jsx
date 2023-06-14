@@ -37,14 +37,20 @@ const CategoryHome = () => {
 
   return (
     <div className="flex flex-col">
-      {/* <div>
-        <AdminNavbar />
-      </div> */}
+      <div className="pl-[13vw]">
+        <AdminNavbar
+          currentPage={
+            <p className="flex text-xl font-bold text-[--third-color] pl-[2vw] ">
+              Categories
+            </p>
+          }
+        />
+      </div>
       <div className="flex flex-row gap-x-5">
         <div>
           <Sidenavbar />
         </div>
-        <div className="pt-[5vh]  flex flex-col items-center justify-center lg:flex-row gap-y-10 lg:items-start gap-x-10 lg:justify-start">
+        <div className="pt-[5vh]  bg-gradient-to-r from-white via-[#f5f7f6] to-white w-[90vw] flex flex-col items-center justify-center lg:flex-row gap-y-10 lg:items-start gap-x-10 lg:justify-start">
           <Categories
             loading={loading}
             setLoading={setLoading}

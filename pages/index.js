@@ -50,7 +50,7 @@ export default function Home() {
     );
     fetchData();
   }, [colors.primary]);
-
+  console.log("im indes");
   const antIcon = (
     <ReloadOutlined style={{ fontSize: 40 }} className="animate-spin" />
   );

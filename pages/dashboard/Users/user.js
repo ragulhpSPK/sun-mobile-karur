@@ -68,10 +68,19 @@ function User() {
   });
 
   return (
-    <div className="flex flex-row-reverse">
+    <div className="flex ">
       <div>
-        <AdminNavbar />
-        <div className="w-[80vw] m-auto pt-[5vh]">
+        <SideNavebar />
+      </div>
+      <div>
+        <AdminNavbar
+          currentPage={
+            <p className="flex text-xl font-bold text-[--third-color] ">
+              Users
+            </p>
+          }
+        />
+        <div className="lg:w-[86vw] h-[92vh] xsm:w-[100vw]  m-auto lg:pt-[5vh] bg-gradient-to-r from-white via-[#f5f7f6] to-white">
           <div className="pb-[20px] flex items-center justify-center">
             <Select
               mode="tags"
@@ -91,13 +100,21 @@ function User() {
             dataSource={result}
             columns={columns}
             pagination={{
-              pageSize: 20,
+              pageSize: 10,
             }}
+            className="hidden lg:block"
+          />
+
+          <Table
+            dataSource={result}
+            columns={columns}
+            pagination={{
+              pageSize: 10,
+            }}
+            scroll={{ x: 200 }}
+            className=" lg:hidden"
           />
         </div>
-      </div>
-      <div>
-        <SideNavebar />
       </div>
     </div>
   );

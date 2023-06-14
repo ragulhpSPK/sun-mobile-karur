@@ -192,18 +192,24 @@ function Order() {
 
   return (
     <div className="flex flex-col">
-      {/* <div>
-        <AdminNavbar />
-      </div> */}
+      <div className="ml-[13vw]">
+        <AdminNavbar
+          currentPage={
+            <p className="flex text-xl font-bold text-[--third-color] pl-[2vw]">
+              Orders
+            </p>
+          }
+        />
+      </div>
       <div className="flex">
         <div>
           <Sidenavbar />
         </div>
 
-        <div className="xl:w-[80vw] xl:p-5 xl:!pt-[12vh]">
-          <div className="flex gap-10 pb-3 text-white text-md">
+        <div className="xl:w-[90vw] m-auto  xl:p-5 xl:!pt-[12vh] bg-gradient-to-r from-white via-[#f5f7f6] to-white">
+          <div className="flex flex-wrap pl-[5vw] gap-10 pb-3 text-white text-md">
             <p
-              className="h-[5vh] w-[10vw] cursor-pointer bg-pink-400  flex items-center justify-center rounded-md"
+              className="lg:h-[5vh] lg:w-[10vw] xsm:p-3 lg:p-0 cursor-pointer bg-pink-400  flex items-center justify-center rounded-md"
               onClick={handleConfirm}
             >
               Confirmed
@@ -216,7 +222,7 @@ function Order() {
               </span>
             </p>
             <p
-              className="h-[5vh] w-[10vw] cursor-pointer bg-purple-400  flex items-center  justify-center rounded-md"
+              className="lg:h-[5vh] lg:w-[10vw] xsm:p-3 lg:p-0 cursor-pointer bg-purple-400  flex items-center  justify-center rounded-md"
               onClick={handleShipped}
             >
               Shipped
@@ -229,7 +235,7 @@ function Order() {
               </span>
             </p>
             <p
-              className="h-[5vh] w-[10vw] cursor-pointer bg-yellow-500 flex items-center  justify-center rounded-md"
+              className="lg:h-[5vh] lg:w-[10vw] xsm:p-3 lg:p-0 cursor-pointer bg-yellow-500 flex items-center  justify-center rounded-md"
               onClick={handleOutForDelivery}
             >
               Out_For_Delivery
@@ -242,7 +248,7 @@ function Order() {
               </span>
             </p>
             <p
-              className="h-[5vh] w-[10vw] cursor-pointer bg-green-500 flex items-center  justify-center rounded-md"
+              className="lg:h-[5vh] lg:w-[10vw] xsm:p-3 lg:p-0  cursor-pointer bg-green-500 flex items-center  justify-center rounded-md"
               onClick={handleDelivered}
             >
               Delivered
@@ -255,7 +261,7 @@ function Order() {
               </span>
             </p>
             <p
-              className="h-[5vh] w-[10vw] cursor-pointer bg-red-500 flex items-center  justify-center rounded-md"
+              className="lg:h-[5vh] lg:w-[10vw] xsm:p-3 lg:p-0 cursor-pointer bg-red-500 flex items-center  justify-center rounded-md"
               onClick={handleCancelled}
             >
               Cancelled
@@ -269,12 +275,21 @@ function Order() {
             </p>
           </div>
           <Table
-            className="xl:m-auto  xl:w-[80vw]"
+            className="xl:m-auto xsm:w-[100vw] xl:w-[80vw] hidden lg:block"
             columns={columns}
             dataSource={isEmpty(dataSource) ? order : dataSource}
             pagination={{
               pageSize: 10,
             }}
+          />
+          <Table
+            className="xl:m-auto xsm:w-[100vw] xl:w-[80vw]  lg:hidden"
+            columns={columns}
+            dataSource={isEmpty(dataSource) ? order : dataSource}
+            pagination={{
+              pageSize: 10,
+            }}
+            scroll={{ x: 300 }}
           />
         </div>
       </div>

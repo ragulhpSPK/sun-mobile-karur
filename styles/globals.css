@@ -72,6 +72,10 @@ button,
 
 /* antd Modal Override */
 
+.ant-menu-item{
+width: 9vw !important;
+}
+
 .ant-modal-close-icon {
   display: none !important;
 }
@@ -123,9 +127,11 @@ button,
 }
 
 .ant-menu-item-selected {
-  background-color: #943074 !important;
-  color: white !important;
+  background-color: transparent !important;
+  color: #943074 !important;
+  /* color: white !important; */
   border-radius: 1px !important;
+  font-weight: 700;
 }
 
 /* antd tab override */

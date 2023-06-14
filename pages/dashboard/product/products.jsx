@@ -551,11 +551,17 @@ function Products({ content }) {
       <div className="flex flex-row">
         <Sidenavbar />
         <div>
-          <div className="!hidden lg:!block">
-            <AdminNavbar currentPage={"products"} />
+          <div className="!hidden lg:!block w-[86vw] ">
+            <AdminNavbar
+              currentPage={
+                <p className="flex text-xl font-bold text-[--third-color] pl-[2vw]">
+                  Products
+                </p>
+              }
+            />
           </div>
 
-          <div className="flex">
+          <div className="flex bg-gradient-to-r from-white via-[#f5f7f6] to-white">
             <div className="flex flex-col">
               <div className="relative lg:w-[60vw] h-[10vh] pl-[20vw] xsm:pr-2 mt-10">
                 {/* <input
@@ -580,16 +586,19 @@ function Products({ content }) {
               </div>
               <div className="relative flex flex-col gap-[2px] ">
                 <div
-                  className="w-[82vw] !bg-white lg:hidden"
+                  className="w-[82vw]  lg:hidden"
                   onClick={() => {
                     setOpen(!open);
                     setSize(250);
                   }}
                 >
-                  <FileAddOutlined className="!text-[#943074] !bg-white !text-2xl float-right mr-[1vw] cursor-pointer" />
+                  <FileAddOutlined
+                    style={{ width: "20px" }}
+                    className="!text-[#943074] !bg-white !text-2xl float-right mr-[1vw]  cursor-pointer"
+                  />
                 </div>
                 <div
-                  className="w-[82vw] !bg-white hidden lg:block"
+                  className="w-[82vw]  hidden lg:block"
                   onClick={() => {
                     setOpen(!open);
                     setSize(550);

@@ -190,15 +190,21 @@ function Banner() {
 
   return (
     <div className="flex flex-col gap-[5px]">
-      {/* <div>
-        <AdminNavbar />
-      </div> */}
+      <div className="ml-[13vw] !hidden lg:!block w-[86vw] ">
+        <AdminNavbar
+          currentPage={
+            <p className="flex text-xl font-bold text-[--third-color] pl-[2vw]">
+              Banners
+            </p>
+          }
+        />
+      </div>
       <div className="flex gap-[18px] items-start justify-start">
         <div>
           <Sidenavbar />
         </div>
         <Spin spinning={loading}>
-          <div className="w-[80vw] flex flex-col pt-[5vh]">
+          <div className="w-[85vw] h-screen overflow-scroll bg-gradient-to-r from-white via-[#f5f7f6] to-white flex flex-col pt-[5vh]">
             <div
               className=" bg-white shadow-lg p-2 float-right self-end"
               onClick={() => setOpen(!open)}

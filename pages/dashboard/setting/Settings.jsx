@@ -90,15 +90,21 @@ function Settings() {
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(get(dashProfileData, "[0].coverphto", "") !== "");
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-row">
         <Sidenavbar />
-        <div>
-          <AdminNavbar />
-          <div>
-            <div className="xl:w-[90vw] !z-10 xl:mb-[-3vh]                                                                                 %] -70">
+        <div className="!hidden lg:!block w-[86vw] ">
+          <AdminNavbar
+            currentPage={
+              <p className="flex text-xl font-bold text-[--third-color] pl-[2vw]">
+                Settings
+              </p>
+            }
+          />
+          <div className="bg-gradient-to-r from-white via-[#f5f7f6] to-white">
+            <div className="xl:w-[86vw]  !z-10 xl:mb-[-3vh]                                                                                 %] -70">
               <div
                 style={{
                   background: `${
@@ -191,23 +197,35 @@ function Settings() {
 
                             <div className=" hover:font-semibold cursor-pointer flex flex-row items-center justify-center gap-x-3">
                               <div className="group">
-                                <a href={dashProfileData[0]?.fblink}>
+                                <a
+                                  href={dashProfileData[0]?.fblink}
+                                  target="_blank"
+                                >
                                   <FacebookOutlined className="group-hover:text-[#1673eb] !text-xl" />
                                 </a>
                               </div>
                               <div className="group">
-                                <a href={dashProfileData[0]?.inlink}>
+                                <a
+                                  href={dashProfileData[0]?.inlink}
+                                  target="_blank"
+                                >
                                   <InstagramOutlined className="group-hover:text-[#f40873] !text-xl" />
                                 </a>
                               </div>
                               <div className="group">
-                                <a href={dashProfileData[0].twlink}>
+                                <a
+                                  href={dashProfileData[0].twlink}
+                                  target="_blank"
+                                >
                                   <TwitterOutlined className="group-hover:text-[#1c96e8] !text-xl" />
                                 </a>
                               </div>
 
                               <div className="group">
-                                <a href={dashProfileData[0].wplink}>
+                                <a
+                                  href={dashProfileData[0].wplink}
+                                  target="_blank"
+                                >
                                   <WhatsAppOutlined className="group-hover:text-[#1ad03f] !text-xl" />
                                 </a>
                               </div>

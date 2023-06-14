@@ -4,7 +4,7 @@ import React from "react";
 
 const AdminNavbar = ({ currentPage }) => {
   return (
-    <div className="flex items-center w-[90vw] justify-between h-[8vh] p-10 shadow">
+    <div className="flex items-center w-[85vw] justify-between h-[8vh] ">
       <div>{currentPage}</div>
       <div className="cursor-pointer">
         <Avatar
