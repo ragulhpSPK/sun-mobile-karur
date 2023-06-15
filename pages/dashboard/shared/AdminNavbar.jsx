@@ -11,7 +11,7 @@ const AdminNavbar = ({ currentPage }) => {
 
   useEffect(() => {
     if (localStorage.getItem("email") === null) {
-      router.push({ pathname: "customPage" });
+      router.push({ pathname: "/customPage" });
     }
   }, []);
 
@@ -23,11 +23,11 @@ const AdminNavbar = ({ currentPage }) => {
         onClick={() => {
           localStorage.removeItem("email");
           localStorage.getItem("email") == null
-            ? router.push({ pathname: "/Admin/admin" })
+            ? router.push({ pathname: "/admin" })
             : "";
         }}
       >
-        <h1 className="text-xl pr-2 text-[--third-color] font-bold flex items-center justify-center">
+        <h1 className="text-lg pr-2 text-[--third-color] font-bold flex gap-1 items-center justify-center">
           <ExitToAppIcon style={{ fontSize: "20px" }} />
           LogOut
         </h1>

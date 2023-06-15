@@ -10,7 +10,6 @@ import { get } from "lodash";
 
 function Admin() {
   const router = useRouter();
-
   const handleFinish = async (value) => {
     try {
       const result = await getDashBoardUsers();

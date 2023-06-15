@@ -81,7 +81,7 @@ const Home = () => {
       localStorage.getItem("email") === null &&
       router.pathname.split("/").includes("dashboard")
     ) {
-      router.push({ pathname: "customPage" });
+      router.push({ pathname: "/unauthorized page" });
     }
 
     setEmpty(isEmpty(localStorage.getItem("email")));
@@ -447,7 +447,6 @@ const Home = () => {
   ];
 
   const formatter = (value) => <DynamicCountUp end={value} separator="," />;
-
   return (
     <div className={`flex ${empty === true ? "hidden" : "flex"}`}>
       {empty === true ? (
@@ -500,6 +499,7 @@ const Home = () => {
                         <p className="text-[20px] pt-1">
                           Choose Dates for seeing new Customers
                         </p>
+
                         <div className="pb-[2vh]">
                           <RangePicker
                             format={dateFormat}
@@ -520,7 +520,7 @@ const Home = () => {
                       </div>
 
                       <div className="grid lg:grid-cols-2  xl:grid-cols-3 gap-x-2 gap-y-3 justify-around">
-                        <div className="bg-white rounded-lg shadow-slate-300 flex flex-col justify-center items-center xsm:w-[80vw] lg:w-[35vw] xl:w-[17vw] xl:h-[18vh] py-[1vh] text-center">
+                        <div className="bg-white rounded-lg  flex flex-col justify-center items-center xsm:w-[80vw] border-l border-l-slate-200 lg:w-[35vw] xl:w-[17vw] xl:h-[18vh] py-[1vh] text-center">
                           <div className="text-[--second-color] font-bold text-[20px] flex flex-col items-center justify-center">
                             <Image
                               src="/assets/dasicons/order.png"
@@ -576,7 +576,7 @@ const Home = () => {
                             </Row>
                           </div>
                         </div>
-                        <div className="bg-white  rounded-lg flex flex-col justify-center items-center shadow-slate-300 xsm:w-[80vw] lg:w-[35vw] xl:w-[17vw] xl:h-[18vh] h-[18vh] py-[1vh] text-center">
+                        <div className="bg-white  rounded-lg flex flex-col justify-center items-center border-r border-r-200 xsm:w-[80vw] lg:w-[35vw] xl:w-[17vw] xl:h-[18vh] h-[18vh] py-[1vh] text-center">
                           <div className="text-[--second-color] font-bold text-[20px] flex flex-col items-center justify-center">
                             <Image
                               src="/assets/dasicons/user (1).png"
@@ -604,7 +604,7 @@ const Home = () => {
                             </Row>
                           </div>
                         </div>
-                        <div className="bg-white   rounded-lg flex flex-col justify-center items-center shadow-slate-300 xsm:w-[80vw] lg:w-[35vw] xl:w-[17vw] xl:h-[18vh] h-[18vh] py-[1vh] text-center">
+                        <div className="bg-white   rounded-lg flex flex-col justify-center items-center border-l border-l-slate-200 xsm:w-[80vw] lg:w-[35vw] xl:w-[17vw] xl:h-[18vh] h-[18vh] py-[1vh] text-center">
                           <div className="text-[--second-color] font-bold text-[20px] flex flex-col items-center justify-center">
                             <Image
                               src="/assets/dasicons/cat.png"
@@ -660,7 +660,7 @@ const Home = () => {
                             </Row>
                           </div>
                         </div>
-                        <div className="bg-white  rounded-lg shadow-slate-300 flex flex-col justify-center items-center  xsm:w-[80vw] lg:w-[35vw] xl:w-[17vw] xl:h-[18vh] h-[18vh] py-[1vh] text-center">
+                        <div className="bg-white  rounded-lg shadow-slate-300 flex flex-col justify-center items-center border-r border-r-200 xsm:w-[80vw] lg:w-[35vw] xl:w-[17vw] xl:h-[18vh] h-[18vh] py-[1vh] text-center">
                           <div className="text-[--second-color] font-bold text-[20px] flex flex-col items-center justify-center">
                             <Image
                               src="/assets/dasicons/poducts.png"

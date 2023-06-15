@@ -370,3 +370,9 @@ width: 9vw !important;
 font-size: 15px !important;
 font-weight: 500 !important;
 }
+
+.ant-tabs-content-holder{
+  background-color: #fff !important;
+  border: none !important;
+  outline: none !important;
+}

@@ -59,6 +59,8 @@ export default function Home() {
     <ReloadOutlined style={{ fontSize: 40 }} className="animate-spin" />
   );
 
+  console.log(router, "router");
+
   return (
     <>
       <Head>
