@@ -183,4 +183,12 @@ export const createDasProfile = (formData) => {
   return axios.post("/api/dasProfile", formData);
 };
 
-// get All dashboard orders
+// Dashboard users
+
+export const getDashBoardUsers = () => {
+  return axios.get("/api/dashboardusers");
+};
+
+export const createDashboardUsers = (formData) => {
+  return axios.post("/api/dashboardusers", formData);
+};

@@ -16,13 +16,15 @@ import {
   getAllSubCatagory,
   getAllproducts,
 } from "../../helper/utilities/apiHelper";
-import _, { get, uniq } from "lodash";
+import _, { get, isEmpty, uniq } from "lodash";
 import moment from "moment";
 import Link from "next/link";
 import { delivery } from "@/helper/delivery";
 import styles from "../../styles/Home.module.css";
 import { Tabs } from "antd";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import { getOneUerforNav } from "../../helper/utilities/apiHelper";
 
 const DynamicCountUp = dynamic(() => import("react-countup"), {
   loading: () => <div>Loading...</div>, // Optional loading component
@@ -45,6 +47,8 @@ const Home = () => {
   const [allUserDates, setallUserDates] = useState("");
   const [userChartDate, setUserChartDate] = useState("");
   const [loading, setLoading] = useState(false);
+  const [empty, setEmpty] = useState("");
+  const router = useRouter();
 
   const fetchData = async () => {
     try {
@@ -55,6 +59,7 @@ const Home = () => {
         await getAllCatagory(),
         await getAllSubCatagory(),
         await getAllproducts(),
+        await getOneUerforNav(),
       ];
 
       setOrders(get(result, "[0]data.data", ""));
@@ -71,7 +76,18 @@ const Home = () => {
 
   useEffect(() => {
     fetchData();
+
+    if (
+      localStorage.getItem("email") === null &&
+      router.pathname.split("/").includes("dashboard")
+    ) {
+      router.push({ pathname: "customPage" });
+    }
+
+    setEmpty(isEmpty(localStorage.getItem("email")));
   }, []);
+
+  console.log(empty, "empty");
 
   useEffect(() => {
     setDeliveredOrders(
@@ -433,243 +449,247 @@ const Home = () => {
   const formatter = (value) => <DynamicCountUp end={value} separator="," />;
 
   return (
-    <div className="flex  ">
-      <div>
-        <Sidenavbar />
-      </div>
-      <div>
-        <AdminNavbar
-          currentPage={
-            <p className="flex text-xl font-bold text-[--third-color] pl-[2vw]">
-              Dashboard
-            </p>
-          }
-        />
-        <div className="bg-gradient-to-r from-white via-[#f5f7f6] to-white !w-[80vw]">
-          <div className="flex  flex-col-reverse pt-[5vh]">
-            <div className="text-2xl xl:p-3 flex flex-col pt-[6vh]">
-              <div className="flex xsm:flex-col xl:flex-row-reverse shadow xl:ml-[1vw]  gap-[5vw] px-5  bg-white rounded-lg shadow-slate-300 xsm:w-[80vw] xl:w-[77.5vw] ">
-                <div className="xl:w-[35vw] text-[20px] text-slate-400">
-                  Select Dates to See the Sales of a Choosing Day
-                  <div className="pb-[2vh]">
-                    <RangePicker
-                      format={dateFormat}
-                      onChange={handleDateChange}
-                      style={{
-                        width: "100%",
-                      }}
-                      size="large"
-                    />
-                  </div>
-                  <Skeleton loading={loading}>
-                    <Chart chartData={salesData} />
-                    {/* <h1 className="flex items-center justify-center bg-slate-50">
+    <div className={`flex ${empty === true ? "hidden" : "flex"}`}>
+      {empty === true ? (
+        ""
+      ) : (
+        <>
+          <div>
+            <Sidenavbar />
+          </div>
+          <div>
+            <AdminNavbar
+              currentPage={
+                <p className="flex text-xl font-bold text-[--third-color] pl-[2vw]">
+                  Dashboard
+                </p>
+              }
+            />
+            <div className="bg-gradient-to-r from-white via-[#f5f7f6] to-white !w-[80vw]">
+              <div className="flex  flex-col-reverse pt-[5vh]">
+                <div className="text-2xl xl:p-3 flex flex-col pt-[6vh]">
+                  <div className="flex xsm:flex-col xl:flex-row-reverse shadow xl:ml-[1vw]  gap-[5vw] px-5  bg-white rounded-lg shadow-slate-300 xsm:w-[80vw] xl:w-[77.5vw] ">
+                    <div className="xl:w-[35vw] text-[20px] text-slate-400">
+                      Select Dates to See the Sales of a Choosing Day
+                      <div className="pb-[2vh]">
+                        <RangePicker
+                          format={dateFormat}
+                          onChange={handleDateChange}
+                          style={{
+                            width: "100%",
+                          }}
+                          size="large"
+                        />
+                      </div>
+                      <Skeleton loading={loading}>
+                        <Chart chartData={salesData} />
+                        {/* <h1 className="flex items-center justify-center bg-slate-50">
                       Sales Status During a Day
                     </h1> */}
-                  </Skeleton>
-                </div>
-                <div className="xsm:pt-10 xl:pt-0">
-                  <Tabs items={items} />
-                </div>
-              </div>
-            </div>
-            <div className="flex ">
-              <div className="text-xl text-slate-400  font-normal pt-[-6vh] w-[80vw] m-auto">
-                <div className="flex flex-col-reverse xl:flex-row-reverse  justify-around ">
-                  <div className="xl:w-[25vw] xl:h-[36vh] xsm:w-[80vw] xsm:pb-2 ml-[-2vw] bg-white rounded-lg shadow-slate-300 shadow px-2">
-                    <p className="text-[20px] pt-1">
-                      Choose Dates for seeing new Customers
-                    </p>
-                    <div className="pb-[2vh]">
-                      <RangePicker
-                        format={dateFormat}
-                        onChange={handleDateChangeUser}
-                        style={{
-                          width: "100%",
-                        }}
-                        size="large"
-                      />
+                      </Skeleton>
                     </div>
-                    <Skeleton loading={loading}>
-                      <PieChart chartData={UserData} />
-                    </Skeleton>
+                    <div className="xsm:pt-10 xl:pt-0">
+                      <Tabs items={items} />
+                    </div>
+                  </div>
+                </div>
+                <div className="flex ">
+                  <div className="text-xl text-slate-400  font-normal pt-[-6vh] w-[80vw] m-auto">
+                    <div className="flex flex-col-reverse xl:flex-row-reverse  justify-around ">
+                      <div className="xl:w-[25vw] xl:h-[38vh] xsm:w-[80vw] xsm:pb-2 ml-[-2vw] bg-white rounded-lg shadow-slate-300 shadow px-2">
+                        <p className="text-[20px] pt-1">
+                          Choose Dates for seeing new Customers
+                        </p>
+                        <div className="pb-[2vh]">
+                          <RangePicker
+                            format={dateFormat}
+                            onChange={handleDateChangeUser}
+                            style={{
+                              width: "100%",
+                            }}
+                            size="large"
+                          />
+                        </div>
+                        <Skeleton loading={loading}>
+                          <PieChart chartData={UserData} />
+                        </Skeleton>
 
-                    {/* <h1 className="flex items-center justify-center bg-slate-50">
+                        {/* <h1 className="flex items-center justify-center bg-slate-50">
                       Customer on that Day
                     </h1> */}
-                  </div>
+                      </div>
 
-                  <div className="grid lg:grid-cols-2  xl:grid-cols-3 gap-x-2 gap-y-3 justify-around">
-                    <div className="bg-white rounded-lg shadow-slate-300 flex flex-col justify-center items-center xsm:w-[80vw] lg:w-[35vw] xl:w-[17vw] xl:h-[18vh] py-[1vh] text-center">
-                      <div className="text-[--second-color] font-bold text-[20px] flex flex-col items-center justify-center">
-                        <Image
-                          src="/assets/dasicons/order.png"
-                          alt="sale"
-                          width={70}
-                          height={70}
-                          preview={false}
-                          className="cursor-pointer"
-                        />
-                      </div>
-                      <Row
-                        gutter={16}
-                        className="xsm:w-[80vw] xl:w-[17vw] flex items-center justify-center"
-                      >
-                        <Col span={12}>
-                          <Statistic
-                            title={
-                              <h1 className="text-[--second-color] font-bold xl:text-[20px]">
-                                Total Orders
-                              </h1>
-                            }
-                            value={orders.length}
-                            formatter={formatter}
-                          />
-                        </Col>
-                      </Row>
-                    </div>
-                    <div className="bg-white xsm:w-[80vw]  xl:w-[17vw] lg:w-[35vw] xl:h-[18vh] rounded-lg h-[18vh] py-[1vh] text-center flex flex-col justify-center items-center">
-                      <div className="text-[--second-color] font-bold text-[20px] flex flex-col items-center justify-center">
-                        <Image
-                          src="/assets/dasicons/sales.png"
-                          alt="sale"
-                          width={70}
-                          height={70}
-                          preview={false}
-                          className="cursor-pointer"
-                        />
-                        <Row
-                          gutter={16}
-                          className="xsm:w-[80vw] xl:w-[17vw] lg:w-[35vw] flex items-center justify-center"
-                        >
-                          <Col span={12}>
-                            <Statistic
-                              title={
-                                <h1 className="text-[--second-color] font-bold xl:text-[20px]">
-                                  Total Sales
-                                </h1>
-                              }
-                              value={salesCount}
-                              formatter={formatter}
+                      <div className="grid lg:grid-cols-2  xl:grid-cols-3 gap-x-2 gap-y-3 justify-around">
+                        <div className="bg-white rounded-lg shadow-slate-300 flex flex-col justify-center items-center xsm:w-[80vw] lg:w-[35vw] xl:w-[17vw] xl:h-[18vh] py-[1vh] text-center">
+                          <div className="text-[--second-color] font-bold text-[20px] flex flex-col items-center justify-center">
+                            <Image
+                              src="/assets/dasicons/order.png"
+                              alt="sale"
+                              width={70}
+                              height={70}
+                              preview={false}
+                              className="cursor-pointer"
                             />
-                          </Col>
-                        </Row>
-                      </div>
-                    </div>
-                    <div className="bg-white  rounded-lg flex flex-col justify-center items-center shadow-slate-300 xsm:w-[80vw] lg:w-[35vw] xl:w-[17vw] xl:h-[18vh] h-[18vh] py-[1vh] text-center">
-                      <div className="text-[--second-color] font-bold text-[20px] flex flex-col items-center justify-center">
-                        <Image
-                          src="/assets/dasicons/user (1).png"
-                          alt="sale"
-                          width={70}
-                          height={70}
-                          preview={false}
-                          className="cursor-pointer"
-                        />
-                        <Row
-                          gutter={16}
-                          className="xsm:w-[80vw] xl:w-[17vw] flex items-center justify-center"
-                        >
-                          <Col span={12}>
-                            <Statistic
-                              title={
-                                <h1 className="text-[--second-color] font-bold xl:text-[20px]">
-                                  Total Users
-                                </h1>
-                              }
-                              value={users.length}
-                              formatter={formatter}
+                          </div>
+                          <Row
+                            gutter={16}
+                            className="xsm:w-[80vw] xl:w-[17vw] flex items-center justify-center"
+                          >
+                            <Col span={12}>
+                              <Statistic
+                                title={
+                                  <h1 className="text-[--second-color] font-bold xl:text-[20px]">
+                                    Total Orders
+                                  </h1>
+                                }
+                                value={orders.length}
+                                formatter={formatter}
+                              />
+                            </Col>
+                          </Row>
+                        </div>
+                        <div className="bg-white xsm:w-[80vw]  xl:w-[17vw] lg:w-[35vw] xl:h-[18vh] rounded-lg h-[18vh] py-[1vh] text-center flex flex-col justify-center items-center">
+                          <div className="text-[--second-color] font-bold text-[20px] flex flex-col items-center justify-center">
+                            <Image
+                              src="/assets/dasicons/sales.png"
+                              alt="sale"
+                              width={70}
+                              height={70}
+                              preview={false}
+                              className="cursor-pointer"
                             />
-                          </Col>
-                        </Row>
-                      </div>
-                    </div>
-                    <div className="bg-white   rounded-lg flex flex-col justify-center items-center shadow-slate-300 xsm:w-[80vw] lg:w-[35vw] xl:w-[17vw] xl:h-[18vh] h-[18vh] py-[1vh] text-center">
-                      <div className="text-[--second-color] font-bold text-[20px] flex flex-col items-center justify-center">
-                        <Image
-                          src="/assets/dasicons/cat.png"
-                          alt="sale"
-                          width={70}
-                          height={70}
-                          preview={false}
-                          className="cursor-pointer"
-                        />
-                        <Row
-                          gutter={16}
-                          className="xsm:w-[80vw] xl:w-[17vw] flex items-center justify-center"
-                        >
-                          <Col span={12}>
-                            <Statistic
-                              title={
-                                <h1 className="text-[--second-color] font-bold  xl:text-[20px]">
-                                  Total Categories
-                                </h1>
-                              }
-                              value={categories}
-                              formatter={formatter}
+                            <Row
+                              gutter={16}
+                              className="xsm:w-[80vw] xl:w-[17vw] lg:w-[35vw] flex items-center justify-center"
+                            >
+                              <Col span={12}>
+                                <Statistic
+                                  title={
+                                    <h1 className="text-[--second-color] font-bold xl:text-[20px]">
+                                      Total Sales
+                                    </h1>
+                                  }
+                                  value={salesCount}
+                                  formatter={formatter}
+                                />
+                              </Col>
+                            </Row>
+                          </div>
+                        </div>
+                        <div className="bg-white  rounded-lg flex flex-col justify-center items-center shadow-slate-300 xsm:w-[80vw] lg:w-[35vw] xl:w-[17vw] xl:h-[18vh] h-[18vh] py-[1vh] text-center">
+                          <div className="text-[--second-color] font-bold text-[20px] flex flex-col items-center justify-center">
+                            <Image
+                              src="/assets/dasicons/user (1).png"
+                              alt="sale"
+                              width={70}
+                              height={70}
+                              preview={false}
+                              className="cursor-pointer"
                             />
-                          </Col>
-                        </Row>
-                      </div>
-                    </div>
-                    <div className="bg-white  rounded-lg flex flex-col justify-center items-center shadow-slate-300 xsm:w-[80vw] lg:w-[35vw] xl:w-[17vw] xl:h-[18vh] h-[18vh] py-[1vh] text-center">
-                      <div className="text-[--second-color] font-bold text-[20px] flex flex-col items-center justify-center">
-                        <Image
-                          src="/assets/dasicons/user (2).png"
-                          alt="sale"
-                          width={70}
-                          height={70}
-                          preview={false}
-                          className="cursor-pointer"
-                        />
-                        <Row
-                          gutter={16}
-                          className="xsm:w-[80vw] xl:w-[17vw] flex items-center justify-center"
-                        >
-                          <Col span={12}>
-                            <Statistic
-                              title={
-                                <h1 className="text-[--second-color] font-bold xl:text-[20px]">
-                                  Total Subcategories
-                                </h1>
-                              }
-                              value={subCategories}
-                              formatter={formatter}
+                            <Row
+                              gutter={16}
+                              className="xsm:w-[80vw] xl:w-[17vw] flex items-center justify-center"
+                            >
+                              <Col span={12}>
+                                <Statistic
+                                  title={
+                                    <h1 className="text-[--second-color] font-bold xl:text-[20px]">
+                                      Total Users
+                                    </h1>
+                                  }
+                                  value={users.length}
+                                  formatter={formatter}
+                                />
+                              </Col>
+                            </Row>
+                          </div>
+                        </div>
+                        <div className="bg-white   rounded-lg flex flex-col justify-center items-center shadow-slate-300 xsm:w-[80vw] lg:w-[35vw] xl:w-[17vw] xl:h-[18vh] h-[18vh] py-[1vh] text-center">
+                          <div className="text-[--second-color] font-bold text-[20px] flex flex-col items-center justify-center">
+                            <Image
+                              src="/assets/dasicons/cat.png"
+                              alt="sale"
+                              width={70}
+                              height={70}
+                              preview={false}
+                              className="cursor-pointer"
                             />
-                          </Col>
-                        </Row>
-                      </div>
-                    </div>
-                    <div className="bg-white  rounded-lg shadow-slate-300 flex flex-col justify-center items-center  xsm:w-[80vw] lg:w-[35vw] xl:w-[17vw] xl:h-[18vh] h-[18vh] py-[1vh] text-center">
-                      <div className="text-[--second-color] font-bold text-[20px] flex flex-col items-center justify-center">
-                        <Image
-                          src="/assets/dasicons/poducts.png"
-                          alt="sale"
-                          width={80}
-                          height={80}
-                          preview={false}
-                          className="cursor-pointer"
-                        />
-                        <Row
-                          gutter={16}
-                          className="xsm:w-[80vw] xl:w-[17vw] flex items-center justify-center"
-                        >
-                          <Col span={12}>
-                            <Statistic
-                              title={
-                                <h1 className="text-[--second-color] font-bold xl:text-[20px]">
-                                  Total Products
-                                </h1>
-                              }
-                              value={Products}
-                              formatter={formatter}
+                            <Row
+                              gutter={16}
+                              className="xsm:w-[80vw] xl:w-[17vw] flex items-center justify-center"
+                            >
+                              <Col span={12}>
+                                <Statistic
+                                  title={
+                                    <h1 className="text-[--second-color] font-bold  xl:text-[20px]">
+                                      Total Categories
+                                    </h1>
+                                  }
+                                  value={categories}
+                                  formatter={formatter}
+                                />
+                              </Col>
+                            </Row>
+                          </div>
+                        </div>
+                        <div className="bg-white  rounded-lg flex flex-col justify-center items-center shadow-slate-300 xsm:w-[80vw] lg:w-[35vw] xl:w-[17vw] xl:h-[18vh] h-[18vh] py-[1vh] text-center">
+                          <div className="text-[--second-color] font-bold text-[20px] flex flex-col items-center justify-center">
+                            <Image
+                              src="/assets/dasicons/user (2).png"
+                              alt="sale"
+                              width={70}
+                              height={70}
+                              preview={false}
+                              className="cursor-pointer"
                             />
-                          </Col>
-                        </Row>
+                            <Row
+                              gutter={16}
+                              className="xsm:w-[80vw] xl:w-[17vw] flex items-center justify-center"
+                            >
+                              <Col span={12}>
+                                <Statistic
+                                  title={
+                                    <h1 className="text-[--second-color] font-bold xl:text-[20px]">
+                                      Total Subcategories
+                                    </h1>
+                                  }
+                                  value={subCategories}
+                                  formatter={formatter}
+                                />
+                              </Col>
+                            </Row>
+                          </div>
+                        </div>
+                        <div className="bg-white  rounded-lg shadow-slate-300 flex flex-col justify-center items-center  xsm:w-[80vw] lg:w-[35vw] xl:w-[17vw] xl:h-[18vh] h-[18vh] py-[1vh] text-center">
+                          <div className="text-[--second-color] font-bold text-[20px] flex flex-col items-center justify-center">
+                            <Image
+                              src="/assets/dasicons/poducts.png"
+                              alt="sale"
+                              width={80}
+                              height={80}
+                              preview={false}
+                              className="cursor-pointer"
+                            />
+                            <Row
+                              gutter={16}
+                              className="xsm:w-[80vw] xl:w-[17vw] flex items-center justify-center"
+                            >
+                              <Col span={12}>
+                                <Statistic
+                                  title={
+                                    <h1 className="text-[--second-color] font-bold xl:text-[20px]">
+                                      Total Products
+                                    </h1>
+                                  }
+                                  value={Products}
+                                  formatter={formatter}
+                                />
+                              </Col>
+                            </Row>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  {/* <div className="flex flex-col items-center justify-center gap-3 bg-white shadow rounded-lg shadow-slate-300 w-[15vw] h-[37vh]">
+                      {/* <div className="flex flex-col items-center justify-center gap-3 bg-white shadow rounded-lg shadow-slate-300 w-[15vw] h-[37vh]">
                     <Image
                       src="/assets/dasicons/dash2 (1).png"
                       alt="sale"
@@ -683,12 +703,14 @@ const Home = () => {
                       <p className="text-4xl">Stats</p>
                     </div>
                   </div> */}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 };

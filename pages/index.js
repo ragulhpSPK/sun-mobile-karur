@@ -16,6 +16,7 @@ import { getDashProfile } from "@/helper/utilities/apiHelper";
 import { useEffect } from "react";
 import { get } from "lodash";
 import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const isLoading = useSelector((state) => state.loader.isLoading);
@@ -24,6 +25,7 @@ export default function Home() {
   const result = useSelector((data) => {
     return data.search.searches;
   });
+  const router = useRouter();
 
   const fetchData = async () => {
     try {
@@ -49,8 +51,10 @@ export default function Home() {
       "document.documentElement.style"
     );
     fetchData();
+
+    console.log(localStorage?.getItem("email"), "poem");
   }, [colors.primary]);
-  console.log("im indes");
+
   const antIcon = (
     <ReloadOutlined style={{ fontSize: 40 }} className="animate-spin" />
   );
