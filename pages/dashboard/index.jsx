@@ -407,6 +407,7 @@ const Home = () => {
                   pageSize: 3,
                 }}
                 scroll={{ x: 1050 }}
+                id="logoitem"
                 className="xl:w-[35vw] "
               />
             </Skeleton>

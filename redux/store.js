@@ -3,6 +3,7 @@ import cartReducer from "./cartSlice";
 import searchReducer from "./searchSlice";
 import userSlice from "./userSlice";
 import loaderReducer from "./loadingSlice";
+import wishListSlice from "./wishList";
 
 export default configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export default configureStore({
     search: searchReducer,
     user: userSlice,
     loader: loaderReducer,
+    wish: wishListSlice,
   },
 });

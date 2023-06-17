@@ -260,21 +260,21 @@ export default function App() {
                       );
                     })}
 
-                    <div className="pt-10 flex lg:gap-5 xsm:pl-0   !gap-x-[6vw] xsm:w-[80vw]  sm:pr-[8vw] sm:w-[40vw] xl:!pl-0">
+                    <div className="pt-10 flex lg:gap-5 xsm:pl-0 !gap-x-[6vw] xsm:w-[80vw]  sm:pr-[8vw] sm:w-[40vw] xl:!pl-0">
                       {go !== undefined ? (
                         <Link
                           href={`${
                             goCart ? "/profiles/cart" : "/profiles/SideNavbar#2"
                           }`}
                         >
-                          <button className="bg-[--fifth-color] text-[#000] shadow-2xl hover:bg-[--second-color] hover:scale-105 hover:font-medium hover:text-white duration-1000 text-sm rounded-md w-[150px] !h-[40px] px-2">
+                          <button className="bg-[--fifth-color] text-[#000] shadow-2xl hover:bg-[--second-color] hover:scale-105 hover:font-medium  xl:text-md hover:text-white duration-1000 text-sm rounded-md w-[150px] !h-[40px] px-2">
                             <ShoppingCartCheckoutOutlinedIcon />
                             Go to Cart
                           </button>
                         </Link>
                       ) : (
                         <button
-                          className="bg-[var(--second-color)] text-[#fff] hover:bg-[--first-color] hover:scale-105 hover:font-medium hover:text-black duration-1000 xl:text-xl rounded-md w-[140px] !h-[40px] px-2"
+                          className="bg-[var(--second-color)] text-[#fff] hover:bg-[--first-color] hover:scale-105 hover:font-medium hover:text-black duration-1000 xl:text-md rounded-md w-[140px] !h-[40px] px-2"
                           onClick={() => {
                             isEmpty(getUser)
                               ? setLogin(true)
@@ -291,7 +291,7 @@ export default function App() {
                       )}
 
                       <button
-                        className="bg-[var(--second-color)] lg:hidden hover:bg-[--first-color] hover:scale-105  hover:text-black duration-1000 hover:font-medium text-[#fff] xl:text-xl rounded-md w-[100px] !h-[40px] px-2"
+                        className="bg-[var(--second-color)] lg:hidden hover:bg-[--first-color] hover:scale-105   hover:text-black duration-1000 hover:font-medium text-[#fff] xl:text-md rounded-md w-[100px] !h-[40px] px-2"
                         onClick={() => {
                           setopenDraw(true);
                           setSize(260);
@@ -300,7 +300,7 @@ export default function App() {
                         Buy Now
                       </button>
                       <button
-                        className="bg-[var(--second-color)] xsm:hidden lg:block hover:bg-[--first-color] hover:scale-105  hover:text-black duration-1000 hover:font-medium text-[#fff] xl:text-xl rounded-md !h-[40px] px-2"
+                        className="bg-[var(--second-color)] xsm:hidden lg:block hover:bg-[--first-color]  hover:scale-105  hover:text-black duration-1000 hover:font-medium text-[#fff] xl:text-md rounded-md !h-[40px] px-2"
                         onClick={() => {
                           isEmpty(getUser) ? setLogin(true) : setopenDraw(true);
                           setSize(400);

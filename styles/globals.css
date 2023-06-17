@@ -8,7 +8,7 @@
   margin: 0;
   padding: 0;
   user-select: none;
- font-family: 'Poppins', serif;
+ font-family: 'Arial Rounded MT' !important;
  
 }
 
@@ -45,7 +45,11 @@
 input[type="number"]::-webkit-inner-spin-button {
   opacity: 1;
 }
+#logoitem::-webkit-scrollbar {
+  display: none;
 
+  
+}
 button.ant-btn.css-dev-only-do-not-override-1e3x2xa.ant-btn-primary {
   color: black;
   background-color: none;

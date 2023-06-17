@@ -36,6 +36,8 @@ function Bestdeals() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [goCart, setGoGart] = useState([]);
+  const [productId, setProductId] = useState("");
+  const [wishlist, setWishList] = useState("");
 
   const fetchData = async () => {
     try {
@@ -144,6 +146,9 @@ function Bestdeals() {
                         count={1}
                         character={<HeartOutlined />}
                         className="text-[--third-color]"
+                        onChange={(e) => {
+                          handleWishList(e, res._id);
+                        }}
                       />
                     </div>
                     <figure className="xl:px-10   cursor-pointer">

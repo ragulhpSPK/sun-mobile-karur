@@ -17,6 +17,7 @@ import {
   Divider,
   notification,
   Skeleton,
+  Carousel,
 } from "antd";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
@@ -101,75 +102,53 @@ function Navbar() {
   }, [search, cart.products.length]);
 
   return (
-    <div className="flex flex-col justify-center  fixed top-0 w-screen z-50 bg-white">
+    <div className="flex flex-col justify-center  fixed top-0  z-50 bg-white">
       {/* step 1 */}
-      <div className="flex pl-[2vw] justify-between p-2 xsm:hidden lg:flex items-center !font-bold  hover:font-bold ">
+
+      <div className="flex pl-[4vw] w-[80vw] m-auto justify-between p-2 xsm:hidden lg:flex items-center  !font-bold  hover:font-bold ">
+        <Link href="/">
+          <Skeleton loading={loading}>
+            <Image
+              src={dashsettings[0]?.image}
+              width={90}
+              height={90}
+              alt="logo"
+              className="pb-2 xsm:w-[12vw] sm:!w-[8vw] md:w-[8vw] lg:!w-[5vw] flex items-center justify-center mt-2"
+            />
+          </Skeleton>
+        </Link>
         {isEmpty(activeUser) ? (
           ""
         ) : (
-          <div className="flex gap-x-2 text-sm capitalize hover:cursor-pointer hover:text-[--second-color] items-center pl-[5vw]">
-            <div>About Us</div>
+          <div className="flex gap-x-2 text-md capitalize hover:cursor-pointer items-center ">
+            <div className="hover:text-[--second-color]">About Us</div>
             <Divider type="vertical" />
-            <Link href="/profiles/SideNavbar#1">My Account</Link>
+            <Link
+              href="/profiles/SideNavbar#1"
+              className="hover:text-[--second-color]"
+            >
+              My Account
+            </Link>
             <Divider type="vertical" />
-            <div>Wishlist</div>
+            <div className="hover:text-[--second-color]">Wishlist</div>
             <Divider type="vertical" />
-            <Link href="/profiles/SideNavbar#3">Order Tracking</Link>
+            <Link
+              href="/profiles/SideNavbar#3"
+              className="hover:text-[--second-color]"
+            >
+              Order Tracking
+            </Link>
           </div>
         )}
 
-        <div>
-          <div className="hover:!cursor-pointer hover:!text-[--second-color]">
-            free delivery for all orders
-          </div>
-        </div>
-        <div className="flex gap-x-1 text-sm  capitalize items-center pr-[5vw]">
-          <div>
-            <span className="hover:!cursor-pointer hover:!text-[--second-color]">
+        <div className="flex gap-x-4 text-sm  capitalize items-center ">
+          <div className="pr-[3vw]">
+            <span className="hover:!cursor-pointer  hover:!text-[--second-color]">
               call us : 9876543210
             </span>
           </div>
-          {/* <Divider type="vertical" />
-          <FacebookIcon />
-          <Divider type="vertical" />
-          <InstagramIcon />
-          <Divider type="vertical" />
-          <TwitterIcon />
-          <Divider type="vertical" />
-          <WhatsAppIcon /> */}
-        </div>
-      </div>
-      <span className="border-b border-slate-50 p-1"></span>
-      {/* step 2 */}
-      <div className="flex justify-center items-center h-[10vh]">
-        <div className="flex justify-between items-center w-[90vw] h-[10vh]  ">
-          <Link href="/">
-            <Skeleton loading={loading}>
-              <Image
-                src={dashsettings[0]?.image}
-                width={90}
-                height={90}
-                alt="logo"
-                className="pb-2 xsm:w-[12vw] sm:!w-[8vw] md:w-[8vw] lg:!w-[5vw]"
-              />
-            </Skeleton>
-          </Link>
-          <div>
-            <div className="flex items-center justify-between  border border-slate-100  p-2 rounded relative">
-              <input
-                placeholder="I'm looking for...."
-                className="outline-none border-none xsm:!w-[40vw] xsm:!h-[2vh] p-2 lg:w-[30vw] lg:!h-[3.5vh] placeholder:text-slate-200"
-                onChange={(e) => dispatch(addSearch(e.target.value))}
-                onKeyUp={handleKeyDown}
-              />
-              <div className="flex items-center w-[2vw] absolute xsm:right-[9.5vw] sm:right-[5vw] md:right-[2.5vw] lg:right-[1vw]">
-                <Divider type="vertical" />
-                <SearchOutlined className="text-slate-200" />
-              </div>
-            </div>
-          </div>
 
-          <div className="flex gap-x-2 text-sm capitalize  items-center">
+          <div className="flex gap-x-2 text-sm capitalize absolute right-0 items-center ">
             {isEmpty(activeUser) ? (
               ""
             ) : (
@@ -183,11 +162,11 @@ function Navbar() {
                   <div className="flex items-center gap-x-2">
                     <Image
                       src="/assets/icons/cart.png"
-                      width={20}
-                      height={20}
+                      width={30}
+                      height={30}
                       alt="logo"
                     />
-                    <div>cart</div>
+                    <div className="text-md">cart</div>
                   </div>
                 </Badge>
               </Link>
@@ -228,6 +207,66 @@ function Navbar() {
               </Link>
             )}
           </div>
+
+          {/* <Divider type="vertical" />
+          <FacebookIcon />
+          <Divider type="vertical" />
+          <InstagramIcon />
+          <Divider type="vertical" />
+          <TwitterIcon />
+          <Divider type="vertical" />
+          <WhatsAppIcon /> */}
+        </div>
+      </div>
+      <span className="border-b border-slate-50 p-1"></span>
+      {/* step 2 */}
+      <div className="flex justify-center items-center h-[10vh]">
+        <div className="flex justify-between items-center w-[90vw] h-[10vh]  ">
+          {/* <Link href="/">
+            <Skeleton loading={loading}>
+              <Image
+                src={dashsettings[0]?.image}
+                width={90}
+                height={90}
+                alt="logo"
+                className="pb-2 xsm:w-[12vw] sm:!w-[8vw] md:w-[8vw] lg:!w-[5vw]"
+              />
+            </Skeleton>
+          </Link> */}
+          <div className="pl-[20vw] flex gap-x-24">
+            <div>
+              <div className="hover:!cursor-pointer   w-[20vw]">
+                <Carousel
+                  autoplay="true"
+                  dots={false}
+                  className="flex items-center justify-center"
+                >
+                  <p className="hover:!text-[--second-color] text-[22px]  pt-3 text-[--second-color]">
+                    Free Delivery for All Orders
+                  </p>
+                  <p className="hover:!text-[--second-color] text-[22px]  pt-3 text-[--second-color]">
+                    Offers for products
+                  </p>
+                  <p className="hover:!text-[--second-color] text-[22px]  pt-3 text-[--second-color]">
+                    Great Deals Daily
+                  </p>
+                </Carousel>
+              </div>
+            </div>
+            <div className="flex items-center justify-between border border-slate-300 rounded-full  p-2  relative">
+              <input
+                placeholder="I'm looking for...."
+                className="outline-none border-none  xsm:!w-[40vw] xsm:!h-[2vh] p-2 lg:!w-[40vw] lg:!h-[3vh] placeholder:text-slate-400"
+                onChange={(e) => dispatch(addSearch(e.target.value))}
+                onKeyUp={handleKeyDown}
+              />
+              <div className="flex items-center w-[2vw] absolute xsm:right-[9.5vw] sm:right-[5vw] md:right-[2.5vw] lg:right-[1vw]">
+                <Divider type="vertical" />
+                <SearchOutlined className="text-slate-200" />
+              </div>
+            </div>
+          </div>
+
           <Modal
             open={login}
             width={1000}
@@ -236,7 +275,7 @@ function Navbar() {
               setLogin(false);
             }}
           >
-            <Login setLogin={setLogin} />;
+            <Login setLogin={setLogin} />
           </Modal>
 
           <Modal
