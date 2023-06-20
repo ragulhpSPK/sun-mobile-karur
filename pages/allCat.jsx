@@ -314,9 +314,7 @@ function AllCat() {
                   return (
                     <div key={index}>
                       <Checkbox>
-                        <div className="text-[16px] !font-serif">
-                          {res.name}
-                        </div>
+                        <div className="text-[16px] ">{res.name}</div>
                       </Checkbox>
                     </div>
                   );
