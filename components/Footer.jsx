@@ -37,6 +37,8 @@ function Footer() {
     );
   }, [products]);
 
+  console.log(data, "ooookj");
+
   return (
     <div
       className="  w-[100vw] mt-40  pt-2"
@@ -60,9 +62,9 @@ function Footer() {
         </div>
       </div> */}
 
-      <div className="grid xsm:grid-cols-2 lg:grid-cols-5 xsm:gap-x-[20px] pt-[2vh]  xsm:gap-y-[20px] lg:gap-x-40 w-[100vw] px-[5vw] m-auto border-b border-gray-400 pb-5">
-        <div className="flex flex-col gap-2 xsm:text-[12px] lg:text-md font-medium xl:text-[14px] md:w-[20vw]">
-          <h1 className="lg:text-2xl xsm:text-xl xxl:text-2xl font-semibold pb-2">
+      <div className="grid xsm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 xsm:gap-x-[20px] pt-[2vh]  xsm:gap-y-[20px] xl:gap-x-40 w-[100vw] px-[5vw] m-auto border-b border-gray-400 pb-5">
+        <div className="flex flex-col gap-2 xsm:text-[12px] lg:text-md font-medium xl:text-[14px] md:w-[15vw]">
+          <h1 className="lg:text-2xl cursor-pointer xsm:text-xl xxl:text-2xl font-semibold pb-2">
             Flash Deals
           </h1>
           {products
@@ -106,8 +108,8 @@ function Footer() {
           </p> */}
         </div>
 
-        <div className="flex flex-col gap-2 xsm:text-[12px] lg:text-md font-medium xl:text-[14px] md:w-[20vw]">
-          <h1 className="lg:text-2xl xsm:text-xl xxl:text-2xl font-semibold pb-2">
+        <div className="flex flex-col gap-2 xsm:text-[12px] lg:text-md font-medium xl:text-[14px] md:w-[15vw] ">
+          <h1 className="lg:text-2xl cursor-pointer xsm:text-xl xxl:text-2xl font-semibold pb-2 text-ellipsis overflow-hidden">
             Best Deals
           </h1>
           {products
@@ -131,19 +133,19 @@ function Footer() {
               );
             })}
         </div>
-        <div className="flex flex-col xsm:text-[12px] xl:text-[14px] gap-2 text-md font-medium">
-          <h1 className="lg:text-2xl xsm:text-xl xxl:text-2xl font-semibold pb-2">
+        <div className="flex flex-col pl-5 xsm:text-[12px] xl:text-[14px] gap-2 text-md font-medium md:w-[15vw]">
+          <h1 className="lg:text-2xl xsm:text-xl xxl:text-2xl font-semibold pb-2 cursor-pointer">
             About
           </h1>
           <div href="/footers/About">
-            <p className="hover:text-[--third-color] hover:font-semibold">
+            <p className="hover:text-[--third-color] hover:font-semibold cursor-pointer">
               About Us
             </p>
           </div>
 
-          <p className="hover:text-[--third-color] hover:font-semibold">
+          {/* <p className="hover:text-[--third-color] hover:font-semibold">
             Contact Us
-          </p>
+          </p> */}
 
           <Link href="/Allbestdeals">
             <p className="hover:text-[--third-color] hover:font-semibold">
@@ -163,9 +165,34 @@ function Footer() {
             Categories
           </Link>
         </div>
-        <div className="flex flex-col xsm:text-[12px]  xl:text-[14px] gap-2 text-md font-medium">
-          <h1 className="lg:text-2xl xsm:text-xl xxl:text-2xl font-semibold pb-2">
-            Follow Us{" "}
+
+        <div className="flex flex-col  xsm:text-[12px] xl:text-[14px] gap-2 text-md font-medium md:w-[15vw]">
+          <h1 className="lg:text-2xl xsm:text-xl xxl:text-2xl font-semibold pb-2 cursor-pointer">
+            Contact US
+          </h1>
+
+          {data.map((data, i) => {
+            return (
+              <div key={i} className="flex flex-col gap-3">
+                <p className="hover:text-[--third-color] cursor-pointer hover:font-bold">
+                  name:{data.name}
+                </p>
+                <p className="hover:text-[--third-color] cursor-pointer hover:font-bold">
+                  Address:{data.address}
+                </p>
+                <p className="hover:text-[--third-color] cursor-pointer hover:font-bold">
+                  Email:{data.email}
+                </p>
+                <p className="hover:text-[--third-color] cursor-pointer hover:font-bold">
+                  Call Us:{data.number}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+        <div className="flex flex-col xsm:text-[12px]  xl:text-[14px] gap-2 text-md font-medium md:w-[15vw]">
+          <h1 className="lg:text-2xl xsm:text-xl xxl:text-2xl font-semibold pb-2 cursor-pointer">
+            Follow Us
           </h1>
           <a
             href={data[0]?.fblink}
@@ -204,7 +231,7 @@ function Footer() {
           <h1 className="lg:text-2xl xsm:text-xl xxl:text-2xl font-semibold pb-2">
             Sun App Download
           </h1>
-          <p className="hover:text-[--third-color]  hover:font-semibold">
+          <p className="hover:text-[--third-color]  hover:font-semibold cursor-pointer">
             Google play
           </p>
         </div>

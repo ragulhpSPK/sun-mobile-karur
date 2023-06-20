@@ -34,7 +34,7 @@ import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCh
 export default function App() {
   const isLoading = useSelector((state) => state.loader.isLoading);
   const cartSlice = useSelector((state) => state.cart);
-  const [current, setCurrentImage] = useState();
+  const [current, setCurrentImage] = useState(0);
   const router = useRouter();
   const [imgs, setImgs] = useState([]);
   const [product, setProduct] = useState([]);
@@ -195,14 +195,16 @@ export default function App() {
                           <div className="xl:pt-[5vh]  xsm:pl-[3vw] sm:!pl-[5vw]  lg:!pl-[2vw] lg:!pt-[13vh]  flex items-center justify-center">
                             <div
                               className={`${
-                                current && current.includes(image)
-                                  ? "border-4 border-[--third-color] "
+                                image === imgs ||
+                                (current && current.includes(image))
+                                  ? "border-4 !border-[--third-color] "
                                   : "border-none"
-                              }  bg-slate-100 text-center !w-[5vw]`}
+                              }  border border-slate-700 text-center !w-[5vw]`}
                               id={styles.img_wrap}
                               key={i}
                               onMouseEnter={() => {
                                 setCurrentImage(image);
+                                setImgs("");
                               }}
                             >
                               <Image
@@ -210,7 +212,7 @@ export default function App() {
                                 height={300}
                                 alt="logo"
                                 src={image}
-                                className="m-auto "
+                                className="m-auto"
                               />
                             </div>
                           </div>
@@ -226,7 +228,7 @@ export default function App() {
               filterData.map((data, index) => {
                 return (
                   <div className="xsm:pl-[2vw]" key={index}>
-                    <h1 className="xl:text-xl  font-semibold xsm:text-md py-[1vw]">
+                    <h1 className="xl:text-xl xl:w-[38vw] font-semibold xsm:text-md py-[1vw] text-ellipsis overflow-hidden">
                       {data.title}
                     </h1>
                     <p className="text-red-400 pt-1 font-bold">
