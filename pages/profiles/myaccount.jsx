@@ -90,7 +90,7 @@ function Profile() {
         <Descriptions
           column={2}
           title={
-            <div className="!text-2xl flex gap-2 items-center w-[40vw] ">
+            <div className="!text-2xl flex gap-2 items-center w-[40vw]  text-[--text-secondary]">
               <Avatar
                 size="large"
                 style={{ backgroundColor: "var(--third-color)" }}
@@ -104,18 +104,34 @@ function Profile() {
           {/* <Descriptions.Item label="Name">
             {get(profile, "[0].firstName")}
           </Descriptions.Item> */}
-          <Descriptions.Item label="Email">
-            {get(profile, "[0].email")}
+          <Descriptions.Item
+            label={<p className="text-[--text-primary]">Email</p>}
+          >
+            <p className=" text-[--text-secondary]">
+              {get(profile, "[0].email")}
+            </p>
           </Descriptions.Item>
-          <Descriptions.Item label="Mobile Number">
-            {get(profile, "[0].number")}
+          <Descriptions.Item
+            label={<p className="text-[--text-primary]">Mobile Number</p>}
+          >
+            <p className=" text-[--text-secondary]">
+              {get(profile, "[0].number")}
+            </p>
           </Descriptions.Item>
 
-          <Descriptions.Item label="Address">
-            {get(profile, "[0].address")}
+          <Descriptions.Item
+            label={<p className="text-[--text-primary]">Address</p>}
+          >
+            <p className=" text-[--text-secondary]">
+              {get(profile, "[0].address")}
+            </p>
           </Descriptions.Item>
-          <Descriptions.Item label="Alternate Mobile Number">
-            {get(profile, "[0].alternateNumber")}
+          <Descriptions.Item
+            label={<p className="text-[--text-primary]">Alternate Number</p>}
+          >
+            <p className=" text-[--text-secondary]">
+              {get(profile, "[0].alternateNumber")}
+            </p>
           </Descriptions.Item>
         </Descriptions>
         <Drawer

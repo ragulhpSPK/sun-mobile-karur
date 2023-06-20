@@ -218,7 +218,7 @@ function Cart() {
           <div className="flex gap-[4vw]">
             <div className=" m-auto flex flex-col  !gap-6   h-fit xsm:mt-[6vh] lg:mt-[20vh] ">
               <div className="flex justify-between  p-[1vh]">
-                <h1 className="sm:!text-xl xl:text-3xl text-slate-700 ">
+                <h1 className="sm:!text-xl xl:text-3xl text-[--text-secondary] ">
                   Shopping cart
                 </h1>
                 <Button
@@ -256,7 +256,7 @@ function Cart() {
                             width={100}
                             className="xsm:h-[4vh] xsm:w-fit lg:h-[6vh] xl:h-[6vh] rounded-full ml-[10px]"
                           />
-                          <p className="xsm:text-[10px] sm:text-[12px] lg:text-[16px] w-[25vw] font-semibold pl-[8px]">
+                          <p className="xsm:text-[10px] text-[--text-secondary] sm:text-[12px] lg:text-[16px] w-[25vw] font-semibold pl-[8px]">
                             {data.name}
                           </p>
                           <div
@@ -314,7 +314,7 @@ function Cart() {
                     </>
                   );
                 })}
-              <div className="flex flex-row-reverse shadow-sm bg-[#E5E9EA] justify-between  ">
+              <div className="flex flex-row-reverse shadow-sm bg-[#E5E9EA] justify-between  text-[--text-secondary]">
                 <div className="flex  p-[10px] xsm:text-lg sm:text-xl">
                   <p>Total Price:</p>
                   <p>{prices}</p>

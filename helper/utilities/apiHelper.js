@@ -75,7 +75,6 @@ export const deleteBanner = (formData) => {
 
 //Cart Starting...
 export const createCart = (formData) => {
-  console.log(formData);
   return axios.post("/api/cart", formData);
 };
 

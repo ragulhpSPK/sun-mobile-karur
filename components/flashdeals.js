@@ -85,11 +85,11 @@ const TopRated = () => {
     <div className="flex flex-col mt-[5vh] !w-[90vw] xl:!w-[80vw]  m-auto justify-center">
       <div className=" flex items-center xl:!w-[80vw] justify-center">
         <div className="flex flex-row w-[90vw] justify-between  ">
-          <div className="xl:text-2xl  font-bold text-[--second-color]">
+          <div className="xl:text-2xl  font-bold text-[--text-primary]">
             Flash Deals
           </div>
           <Link href="/flashDeals">
-            <div className="xl:text-2xl font-bold text-[--second-color]">
+            <div className="xl:text-2xl font-bold text-[--text-primary]">
               see more
             </div>
           </Link>
@@ -156,7 +156,7 @@ const TopRated = () => {
                     <div className="card-body ">
                       <div className="h-[6vh]">
                         <h2
-                          className="font-bold text-center pt-[1vh] xsm:text-[12px] cursor-pointer lg:text-[16px]"
+                          className="font-bold text-center pt-[1vh] xsm:text-[12px] text-[--text-secondary] cursor-pointer lg:text-[16px]"
                           onClick={() =>
                             router.push({
                               pathname: `/product/${res._id}`,

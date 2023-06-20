@@ -30,7 +30,7 @@ function Categories() {
 
   return (
     <div className="w-[80vw] pt-4 m-auto">
-      <div className="xsm:text-sm md:text-lg xl:text-2xl font-bold text-[--second-color] flex justify-between items-center">
+      <div className="xsm:text-sm md:text-lg xl:text-2xl font-bold text-[--text-primary] flex justify-between items-center">
         <div>Featured Categories</div>
         <Link href="/products">View all</Link>
       </div>
@@ -83,7 +83,7 @@ function Categories() {
                   </figure>
                   <div className="card-body items-center text-center ">
                     <div className="flex flex-col items-center">
-                      <div className="text-lg text-slate-500 capitalize">
+                      <div className="text-lg text-[--text-secondary] capitalize">
                         {data.name}
                       </div>
                       {/* <div className="text-sm  text-slate-300">12 Items</div> */}

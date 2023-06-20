@@ -1,154 +1,224 @@
-import Image from "next/image";
-import React, { useState } from "react";
-import {
-  EnvironmentOutlined,
-  PhoneOutlined,
-  AliwangwangOutlined,
-  FieldTimeOutlined,
-  FacebookOutlined,
-  InstagramOutlined,
-  TwitterOutlined,
-  WhatsAppOutlined,
-} from "@ant-design/icons";
-import { getDashProfile } from "../helper/utilities/apiHelper";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import Link from "next/link";
+import { getDashProfile, getAllproducts } from "../helper/utilities/apiHelper";
 import { get } from "lodash";
+import { useRouter } from "next/router";
 
-const CustomerFooters = () => {
+function Footer() {
   const [data, setData] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [topProducts, setTopProducts] = useState([]);
+  const router = useRouter();
 
   const fetchData = async () => {
-    const result = await getDashProfile();
-    setData(get(result, "data.data[0]"));
+    try {
+      const result = [await getDashProfile(), await getAllproducts()];
+
+      setData(get(result[0], "data.data"));
+      setProducts(get(result[1], "data.data"));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  const footersData = [
-    {
-      id: 1,
-      title: "Address",
-      subTitle: data.address,
-      icon: <EnvironmentOutlined className="text-sm" />,
-    },
-    {
-      id: 2,
-      title: "Call Us",
-      subTitle: `(+91) - ${data.number}`,
-      icon: <PhoneOutlined className="text-sm" />,
-    },
-    {
-      id: 3,
-      title: "Email",
-      subTitle: data.email,
-      icon: <AliwangwangOutlined className="text-sm" />,
-    },
-    {
-      id: 4,
-      title: "Hours",
-      subTitle: data.workinghours,
-      icon: <FieldTimeOutlined className="text-sm" />,
-    },
-  ];
+  useEffect(() => {
+    setTopProducts(
+      products.filter((data) => {
+        return data.status === true;
+      })
+    );
+  }, [products]);
+
   return (
-    <div className="flex flex-col lg:flex-row lg:justify-center xl:text-[18px] lg:items-center xsm:w-[90vw] lg:w-[80vw] xsm:pl-[12vw] lg:pl-0 lg:m-auto !mt-[8vh]">
-      {/* Locations */}
-      <div className="lg:w-[30vw] flex-col  pt-2 gap-y-4 h-[20vh] p-2">
-        {/* <div className="text-lg font-bold ">Sun Mobiles</div> */}
-        <div className="pt-2 flex gap-y-2 gap-x-2 xsm:text-sm xl:text-[18px] flex-col ">
-          {footersData.map((res, index) => {
+    <div
+      className="  w-[100vw] mt-40  pt-2"
+      style={{
+        backgroundColor: get(data, "[0].footercolor", ""),
+        color: "white",
+      }}
+    >
+      {/* <div className="w-[100vw] m-auto px-[5vw]">
+        <p>Top products</p>
+        <div className="flex flex-wrap gap-x-1 gap-y-1">
+          {topProducts.map((data) => {
             return (
-              <div
-                key={index}
-                className="flex gap-x-2 items-start justify-start"
-              >
-                <div>{res.icon}</div>
-                <div className="font-bold hover:text-[--third-color] hover:font-bold  cursor-pointer">
-                  {res.title}:
+              <>
+                <div className=" text-sm !capitalize cursor-pointer !font-serif text-ellipsis overflow-hidden">
+                  {data.title.slice(0, 30)}.... &nbsp; |
                 </div>
-                <div className="text-md lg:w-[15vw]  hover:text-[--third-color] hover:font-bold  cursor-pointer">
-                  {res.subTitle}
-                </div>
-              </div>
+              </>
             );
           })}
         </div>
-      </div>
-      {/* Tours */}
-      <div className="lg:w-[20vw] flex-col  items-center pt-2 gap-y-4 h-[20vh] p-2">
-        <div className="text-lg font-bold hover:text-[--third-color] cursor-pointer">
-          Website Tour
-        </div>
-        <div className="pt-2 flex gap-y-2 flex-col  ">
-          {["Home", "Categories", "Profile", "Orders", "Abous us"].map(
-            (res, index) => {
+      </div> */}
+
+      <div className="grid xsm:grid-cols-2 lg:grid-cols-5 xsm:gap-x-[20px] pt-[2vh]  xsm:gap-y-[20px] lg:gap-x-40 w-[100vw] px-[5vw] m-auto border-b border-gray-400 pb-5">
+        <div className="flex flex-col gap-2 xsm:text-[12px] lg:text-md font-medium xl:text-[14px] md:w-[20vw]">
+          <h1 className="lg:text-2xl xsm:text-xl xxl:text-2xl font-semibold pb-2">
+            Flash Deals
+          </h1>
+          {products
+            .filter((data, i) => {
+              return data.flashStatus === true;
+            })
+            .map((res, i) => {
               return (
-                <div key={index} className="flex gap-x-2 items-start">
-                  <div className="hover:text-[--third-color] hover:font-bold cursor-pointer font-normal">
-                    {res}
-                  </div>
-                </div>
+                <p
+                  className="hover:text-[--third-color] hover:font-semibold cursor-pointer"
+                  key={i}
+                  onClick={() =>
+                    router.push({
+                      pathname: `/product/${res._id}`,
+                      query: { id: res._id },
+                    })
+                  }
+                >
+                  {res.title.split("(")[0]}
+                </p>
               );
-            }
-          )}
+            })}
+
+          {/* <p className="hover:text-[--third-color] hover:font-semibold">
+            Payment Methods
+          </p> */}
+          {/* <p className="hover:text-[--third-color] hover:font-semibold">
+            Free Shipping
+          </p>
+          <p className="hover:text-[--third-color] hover:font-semibold">
+            Return & Refund
+          </p>
+          <p className="hover:text-[--third-color] hover:font-semibold">
+            Sun Guarantee
+          </p>
+          <p className="hover:text-[--third-color] hover:font-semibold">
+            OverSeas Products
+          </p>
+          <p className="hover:text-[--third-color] hover:font-semibold">
+            Contact Us
+          </p> */}
         </div>
-      </div>
-      {/* follow */}
-      <div className="lg:w-[20vw] flex-col items-center pt-2 gap-y-4 h-[20vh] p-2">
-        <div className="text-lg font-bold h-[5vh] hover:font-semibold cursor-pointer hover:text-[--third-color]">
-          Follow Us
+
+        <div className="flex flex-col gap-2 xsm:text-[12px] lg:text-md font-medium xl:text-[14px] md:w-[20vw]">
+          <h1 className="lg:text-2xl xsm:text-xl xxl:text-2xl font-semibold pb-2">
+            Best Deals
+          </h1>
+          {products
+            .filter((data, i) => {
+              return data.bestStatus === true;
+            })
+            .map((res, i) => {
+              return (
+                <p
+                  className="hover:text-[--third-color] hover:font-semibold cursor-pointer"
+                  key={i}
+                  onClick={() =>
+                    router.push({
+                      pathname: `/product/${res._id}`,
+                      query: { id: res._id },
+                    })
+                  }
+                >
+                  {res.title.split("(")[0]}
+                </p>
+              );
+            })}
         </div>
-        <div className="pt-2 flex gap-y-2 flex-col h-[20vh] ">
-          <div className="group hover:font-semibold hover:text-[--third-color]  cursor-pointer flex flex-row items-center gap-x-2">
-            <FacebookOutlined className="group-hover:text-[#1673eb] " />
+        <div className="flex flex-col xsm:text-[12px] xl:text-[14px] gap-2 text-md font-medium">
+          <h1 className="lg:text-2xl xsm:text-xl xxl:text-2xl font-semibold pb-2">
+            About
+          </h1>
+          <div href="/footers/About">
+            <p className="hover:text-[--third-color] hover:font-semibold">
+              About Us
+            </p>
+          </div>
+
+          <p className="hover:text-[--third-color] hover:font-semibold">
+            Contact Us
+          </p>
+
+          <Link href="/Allbestdeals">
+            <p className="hover:text-[--third-color] hover:font-semibold">
+              Best Deals
+            </p>
+          </Link>
+          <Link
+            href="flashDeals"
+            className="hover:text-[--third-color] hover:font-semibold"
+          >
+            Flash Deals
+          </Link>
+          <Link
+            href="/allCat?_id=123"
+            className="hover:text-[--third-color] hover:font-semibold"
+          >
+            Categories
+          </Link>
+        </div>
+        <div className="flex flex-col xsm:text-[12px]  xl:text-[14px] gap-2 text-md font-medium">
+          <h1 className="lg:text-2xl xsm:text-xl xxl:text-2xl font-semibold pb-2">
+            Follow Us{" "}
+          </h1>
+          <a
+            href={data[0]?.fblink}
+            target="_blank"
+            className="group hover:font-semibold cursor-pointer flex flex-row items-center gap-x-2"
+          >
+            <FacebookIcon className="group-hover:text-[#1673eb] " />
             <h1 className="text-md">Facebook</h1>
-          </div>
-          <div className="group hover:font-semibold cursor-pointer hover:text-[--third-color] flex flex-row items-center gap-x-2">
-            <InstagramOutlined className="group-hover:text-[#f40873] " />
+          </a>
+          <a
+            href={data[0]?.inlink}
+            target="_blank"
+            className="group hover:font-semibold cursor-pointer flex flex-row items-center gap-x-2"
+          >
+            <InstagramIcon className="group-hover:text-[#f40873] " />
             <h1 className="text-md">Instagram</h1>
-          </div>
-          <div className="group hover:font-semibold cursor-pointer hover:text-[--third-color] flex flex-row items-center gap-x-2">
-            <TwitterOutlined className="group-hover:text-[#1c96e8] " />
+          </a>
+          <a
+            href={data[0]?.twlink}
+            target="_blank"
+            className="group hover:font-semibold cursor-pointer flex flex-row items-center gap-x-2"
+          >
+            <TwitterIcon className="group-hover:text-[#1c96e8] " />
             <h1 className="text-md">Twitter</h1>
-          </div>
-          <div className="group hover:font-semibold cursor-pointer hover:text-[--third-color] flex flex-row items-center gap-x-2">
-            <WhatsAppOutlined className="group-hover:text-[#1ad03f] " />
+          </a>
+          <a
+            href={data[0]?.wplink}
+            target="_blank"
+            className="group hover:font-semibold cursor-pointer flex flex-row items-center gap-x-2"
+          >
+            <WhatsAppIcon className="group-hover:text-[#1ad03f] " />
             <h1 className="text-md">Whatsapp</h1>
-          </div>
-          <div className="group invisible hover:font-semibold cursor-pointer hover:text-[--third-color] flex flex-row items-center gap-x-2">
-            <WhatsAppOutlined className="group-hover:text-[#1ad03f] " />
-            <h1 className="text-md">Whatsapp</h1>
-          </div>
+          </a>
+        </div>
+        <div className="flex flex-col xsm:text-[12px]  xl:text-[14px] gap-2 text-md font-medium">
+          <h1 className="lg:text-2xl xsm:text-xl xxl:text-2xl font-semibold pb-2">
+            Sun App Download
+          </h1>
+          <p className="hover:text-[--third-color]  hover:font-semibold">
+            Google play
+          </p>
         </div>
       </div>
-      {/* React Us */}
-      <div className="lg:w-[20vw] flex-col items-center pt-2 gap-y-4 h-[20vh] p-2">
-        <div className="text-lg font-bold h-[5vh] hover:font-semibold cursor-pointer hover:text-[--third-color]">
-          Reach Us
-        </div>
-        <div className="pt-2 flex gap-y-2 flex-col h-[20vh] ">
-          <div className="cursor-pointer flex flex-row items-center gap-x-2">
-            <Image
-              src="/assets/tags/app-store.avif"
-              width={90}
-              height={90}
-              alt="logo"
-              className="pb-2 "
-            />
-            <Image
-              src="/assets/tags/google-play.avif"
-              width={90}
-              height={90}
-              alt="logo"
-              className="pb-2 "
-            />
+      <div>
+        <div className="w-[80vw] m-auto pt-10">
+          <div className="text-center">
+            <span className="text-2xl">&#169;</span> Sun All Rights reserved
+            2023
           </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
-export default CustomerFooters;
+export default Footer;

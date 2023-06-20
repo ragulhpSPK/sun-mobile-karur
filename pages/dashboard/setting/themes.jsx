@@ -45,13 +45,37 @@ function Themes({ data, fetchData }) {
     }
   };
 
+  const handleChangeTpc = async (tpc) => {
+    try {
+      await createDasProfile({
+        textprimarycolor: tpc.hex,
+      });
+      notification.success({ message: "color added succesfully" });
+      fetchData();
+    } catch (e) {
+      notification.success({ message: "something went wrong" });
+    }
+  };
+
+  const handleChangeTsc = async (tsc) => {
+    try {
+      await createDasProfile({
+        textsecondarycolor: tsc.hex,
+      });
+      notification.success({ message: "color added succesfully" });
+      fetchData();
+    } catch (e) {
+      notification.success({ message: "something went wrong" });
+    }
+  };
+
   return (
     <Form
       // onFinish={handleOnFinish}
       initialValues={initialValues}
       layout="vertical"
     >
-      <div className="flex gap-10 items-center justify-center">
+      <div className="flex gap-2 items-center justify-center">
         <Form.Item label={"Primary Color"} name="primary">
           <Colorpicker
             onChange={(e) => {
@@ -63,6 +87,20 @@ function Themes({ data, fetchData }) {
           <Colorpicker
             onChange={(e) => {
               handleChangeSc(e);
+            }}
+          />
+        </Form.Item>
+        <Form.Item label={"Text Primary Color"} name="textprimarycolor">
+          <Colorpicker
+            onChange={(e) => {
+              handleChangeTpc(e);
+            }}
+          />
+        </Form.Item>
+        <Form.Item label={"Text secondary Color"} name="textsecondarycolor">
+          <Colorpicker
+            onChange={(e) => {
+              handleChangeTsc(e);
             }}
           />
         </Form.Item>

@@ -1,3 +1,4 @@
+import { Carousel } from "antd";
 import Image from "next/image";
 import React from "react";
 
@@ -35,8 +36,8 @@ const Offers = () => {
     },
   ];
   return (
-    <div className="xsm:w-[90vw] xl:w-[80vw] m-auto mt-[2vh]">
-      <div className="xsm:flex xsm:flex-col md:grid md:grid-cols-2 xl:flex  xl:flex-row gap-3 justify-between">
+    <div className="xsm:w-[90vw] xl:w-[80vw] m-auto mt-[1vh]">
+      <div className="xsm:flex xsm:flex-col  md:grid md:grid-cols-2 xl:flex  xl:flex-row gap-3 justify-between">
         {offerDats.map((res, index) => {
           return (
             <div
@@ -50,8 +51,10 @@ const Offers = () => {
                 className="rounded-xl xsm:!w-[50px] sm:!w-[10%] xl:!w-[20%]"
                 alt="logo"
               />
-              <div className="flex flex-col">
-                <div>{res.title}</div>
+              <div className="flex flex-col text-[--text-secondary]">
+                <div className="!font-bold text-[--text-secondary] text-[20px]">
+                  {res.title}
+                </div>
                 <div>{res.subTitle}</div>
               </div>
             </div>

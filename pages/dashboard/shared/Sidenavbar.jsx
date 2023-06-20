@@ -33,7 +33,7 @@ function Sidenavbar() {
   const Items = [
     getItem(
       <Link href="/dashboard">
-        <h1 className="!text-xl">Dashboard</h1>
+        <h1 className="!text-lg">Dashboard</h1>
       </Link>,
       "dashboard",
       <DashboardCustomizeIcon className="!text-xl" />
@@ -41,7 +41,7 @@ function Sidenavbar() {
     ),
     getItem(
       <Link href="/dashboard/product/products">
-        <h1 className="!text-xl">Products</h1>
+        <h1 className="!text-lg">Products</h1>
       </Link>,
       "products",
       <Inventory2Icon className="!text-xl" />
@@ -49,7 +49,7 @@ function Sidenavbar() {
     ),
     getItem(
       <Link href="/dashboard/category">
-        <h1 className="!text-xl">Category</h1>
+        <h1 className="!text-lg">Category</h1>
       </Link>,
       "category",
       <CategoryIcon className="!text-xl" />
@@ -65,7 +65,7 @@ function Sidenavbar() {
     ),
     getItem(
       <Link href="/dashboard/order/order">
-        <h1 className="!text-xl">Orders</h1>
+        <h1 className="!text-lg">Orders</h1>
       </Link>,
       "order",
       <FormatListNumberedIcon className="!text-xl" />
@@ -73,7 +73,7 @@ function Sidenavbar() {
     ),
     getItem(
       <Link href="/dashboard/Users/user">
-        <h1 className="!text-xl">Users</h1>
+        <h1 className="!text-lg">Users</h1>
       </Link>,
       "user",
       <GroupIcon className="!text-xl" />
@@ -81,7 +81,7 @@ function Sidenavbar() {
 
     getItem(
       <Link href="/dashboard/setting/Settings">
-        <h1 className="!text-xl">Settings</h1>
+        <h1 className="!text-lg">Settings</h1>
       </Link>,
       "Settings",
       <SettingsSuggestIcon className="!text-xl" />

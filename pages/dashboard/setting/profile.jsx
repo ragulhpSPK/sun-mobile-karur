@@ -167,7 +167,7 @@ function Profile({ data, fetchData, loading }) {
   ];
 
   return (
-    <div className="xl:h-[60vh] xl:w-[50vw] bg-white pl-2 shadow-2xl rounded-lg">
+    <div className="xl:h-[70vh] xl:w-[50vw] bg-white pl-2 shadow-2xl rounded-lg">
       <Tabs defaultActiveKey="1" items={items} />
     </div>
   );

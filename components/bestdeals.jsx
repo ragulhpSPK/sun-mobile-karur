@@ -97,11 +97,11 @@ function Bestdeals() {
     >
       <div className=" flex items-center justify-center">
         <div className="flex flex-row w-[90vw] justify-between  ">
-          <div className="xl:text-2xl  font-bold text-[--second-color] ">
+          <div className="xl:text-2xl  font-bold text-[--text-primary] ">
             Best Deals Today
           </div>
           <Link href="/Allbestdeals">
-            <div className={`xl:text-2xl font-bold text-[--second-color]`}>
+            <div className={`xl:text-2xl font-bold text-[--text-primary]`}>
               see more
             </div>
           </Link>
@@ -172,7 +172,7 @@ function Bestdeals() {
                     <div className="card-body ">
                       <div className="h-[8vh] ">
                         <h2
-                          className="font-bold xsm:text-[12px] text-center pt-[1vh] lg:text-[16px] cursor-pointer "
+                          className="font-bold xsm:text-[12px] text-center pt-[1vh] lg:text-[16px] cursor-pointer text-[--text-secondary]"
                           onClick={() =>
                             router.push({
                               pathname: `/product/${res._id}`,

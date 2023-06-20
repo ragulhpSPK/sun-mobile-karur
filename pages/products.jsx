@@ -76,7 +76,7 @@ function AllProducts() {
                   />
                 </figure>
                 <div className="card-body">
-                  <h2 className="card-title m-auto w-fit cursor-pointer">
+                  <h2 className="card-title m-auto w-fit cursor-pointer text-[--text-secondary]">
                     {data.name}
                   </h2>
                 </div>

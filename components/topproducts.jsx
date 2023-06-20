@@ -82,7 +82,7 @@ function Topproducts() {
   return (
     <div className="mt-[4vh]">
       <div className="w-[80vw] m-auto ">
-        <div className="xl:text-2xl font-bold text-[--second-color]">
+        <div className="xl:text-2xl font-bold text-[--text-primary]">
           Popular Products
         </div>
         <div className="w-[80vw] pt-4  justify-start grid xsm:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
@@ -116,7 +116,7 @@ function Topproducts() {
                 </figure>
                 <div className="card-body ">
                   <h2
-                    className="font-bold xsm:text-[12px] cursor-pointer lg:text-[16px] text-center"
+                    className="font-bold xsm:text-[12px] cursor-pointer lg:text-[16px] text-center text-[--text-secondary]"
                     onClick={() =>
                       router.push({
                         pathname: `/product/${res._id}`,

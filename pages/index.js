@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import { get } from "lodash";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import AllCat from "./allCat";
 
 export default function Home() {
   const isLoading = useSelector((state) => state.loader.isLoading);
@@ -46,20 +47,28 @@ export default function Home() {
       colors.secondary
     );
     document.documentElement.style.setProperty("--third-color", colors.primary);
-    console.log(
-      document.documentElement.style,
-      "document.documentElement.style"
+
+    document.documentElement.style.setProperty(
+      "--text-primary",
+      colors.textprimarycolor
     );
+    document.documentElement.style.setProperty(
+      "--text-secondary",
+      colors.textsecondarycolor
+    );
+
     fetchData();
 
-    console.log(localStorage?.getItem("email"), "poem");
+    if (router.pathname === "/") {
+      localStorage.removeItem("email");
+    }
+
+    console.log(router.pathname);
   }, [colors.primary]);
 
   const antIcon = (
     <ReloadOutlined style={{ fontSize: 40 }} className="animate-spin" />
   );
-
-  console.log(router, "router");
 
   return (
     <>

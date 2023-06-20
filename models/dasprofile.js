@@ -43,6 +43,18 @@ const profileSchema = new mongoose.Schema({
   coverphto: {
     type: String,
   },
+  footercolor: {
+    type: String,
+  },
+  navColor: {
+    type: String,
+  },
+  textprimarycolor: {
+    type: String,
+  },
+  textsecondarycolor: {
+    type: String,
+  },
 });
 
 module.exports =

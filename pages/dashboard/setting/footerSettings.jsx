@@ -4,7 +4,9 @@ import { createDasProfile } from "../../../helper/utilities/apiHelper";
 import { isEmpty } from "lodash";
 
 function FooterSettings({ data, fetchData }) {
-  const { form } = Form.useForm;
+  const { form } = Form.useForm();
+
+  console.log(data);
 
   const handleFooter = async (value) => {
     try {
@@ -13,6 +15,8 @@ function FooterSettings({ data, fetchData }) {
         number: value.number,
         alternatenumber: value.alternatenumber,
         workinghours: value.workinghours,
+        footercolor: value.footercolor,
+        navColor: value.navColor,
       };
 
       await createDasProfile(formData);
@@ -23,10 +27,11 @@ function FooterSettings({ data, fetchData }) {
       notification.error({ message: "something went wrong" });
     }
   };
+
   return (
     <div>
       <Form
-        className=" p-1 flex flex-col"
+        className=" p-1 flex flex-col  "
         layout="vertical"
         form={form}
         initialValues={{
@@ -34,57 +39,96 @@ function FooterSettings({ data, fetchData }) {
           number: data?.number,
           alternatenumber: data?.alternatenumber,
           workinghours: data?.workinghours,
+          workinghours: data?.workinghours,
+          workinghours: data?.workinghours,
+          navColor: data?.navColor,
+          footercolor: data?.footercolor,
         }}
         onFinish={handleFooter}
       >
-        <Form.Item
-          name="address"
-          label="Address"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input.TextArea placeholder="Enter Address here" size="small" />
-        </Form.Item>
+        <div className="grid grid-cols-2 gap-1">
+          <Form.Item
+            name="address"
+            label={
+              <span>
+                Address
+                <span className="text-slate-400">(optional)</span>
+              </span>
+            }
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input.TextArea placeholder="Enter Address here" size="small" />
+          </Form.Item>
 
-        <Form.Item
-          name="number"
-          label="Phone Number"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-          className="mt-[-2vh]"
-        >
-          <Input size="large" placeholder="Enter Number" />
-        </Form.Item>
+          <Form.Item
+            name="number"
+            label={
+              <span>
+                Alternate Mobile number
+                <span className="text-slate-400">(optional)</span>
+              </span>
+            }
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input size="small" placeholder="Enter Number" />
+          </Form.Item>
 
-        <Form.Item
-          name="alternatenumber"
-          label={
-            <span>
-              Alternate Mobile number
-              <span className="text-slate-400">(optional)</span>
-            </span>
-          }
-        >
-          <Input placeholder="Enter Your Alternate Mobile number" />
-        </Form.Item>
+          <Form.Item
+            name="alternatenumber"
+            label={
+              <span>
+                Alternate Mobile number
+                <span className="text-slate-400">(optional)</span>
+              </span>
+            }
+          >
+            <Input placeholder="Enter Your Alternate Mobile number" />
+          </Form.Item>
 
-        <Form.Item
-          name="workinghours"
-          label={
-            <span>
-              Working Hours
-              <span className="text-slate-400">(optional)</span>
-            </span>
-          }
-        >
-          <Input size="large" placeholder="Enter Working hours" />
-        </Form.Item>
+          <Form.Item
+            name="workinghours"
+            label={
+              <span>
+                Working Hours
+                <span className="text-slate-400">(optional)</span>
+              </span>
+            }
+          >
+            <Input size="small" placeholder="Enter Working hours" />
+          </Form.Item>
+
+          <Form.Item
+            name="footercolor"
+            label={
+              <span>
+                Footer Color
+                <span className="text-slate-400">(optional)</span>
+              </span>
+            }
+          >
+            <Input size="small" placeholder="Enter Working hours" />
+          </Form.Item>
+          <Form.Item
+            name="navColor"
+            label={
+              <span>
+                NavBar Color
+                <span className="text-slate-400">(optional)</span>
+              </span>
+            }
+          >
+            <Input size="small" placeholder="Enter Working hours" />
+          </Form.Item>
+        </div>
+
         <div className="!w-[50vw] !text-2xl flex items-center justify-center">
           <Button
             type="primary"

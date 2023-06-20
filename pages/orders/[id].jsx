@@ -144,13 +144,13 @@ function Orders() {
               <div className="flex flex-col items-center">
                 <div className="flex flex-col xsm:!w-[90vw] px-[1vw] lg:shadow-lg  gap-[15px] bg-white p-1  xsm:self-center  steps:!w-[100vw] xl:!w-[75vw]">
                   <div className="flex xsm:flex-col  md:flex-row xsm:items-center  xsm:!justify-between">
-                    <h1 className="xsm:text-[16px] md:text-3xl text-slate-600">
+                    <h1 className="xsm:text-[16px] md:text-3xl text-[--text-primary]">
                       Purchased Items
                     </h1>
                     {res.status === "Delivered" ? (
-                      <p className="xsm:text-[14px] xsm:!pt-1  lg:text-xl text-slate-600 lg:mt-10    flex items-center justify-center">
+                      <p className="xsm:text-[14px] xsm:!pt-1  lg:text-xl text-[--text-secondary] lg:mt-10    flex items-center justify-center">
                         <span>
-                          <DoneIcon className="bg-[green] rounded-3xl xsm:!h-[16px] xsm:!w-[16px] lg:!h-[26px] lg:!w-[26px] lg:!text-sm text-white" />
+                          <DoneIcon className="bg-[green]  rounded-3xl xsm:!h-[16px] xsm:!w-[16px] lg:!h-[26px] lg:!w-[26px] lg:!text-sm text-white" />
                           Order Reached You SuccessFully!
                         </span>
                       </p>
@@ -197,13 +197,13 @@ function Orders() {
                     })}
                   </div>
                   <h1
-                    className={`xsm:text-md md:text-xl xl:text-3xl pt-[5px] text-slate-600 xsm:text-center ${
+                    className={`xsm:text-md md:text-xl xl:text-3xl pt-[5px] text-[--text-secondary] xsm:text-center ${
                       res.total === null ? "hidden" : "block"
                     }`}
                   >
                     Total Price:&#8377;{res.total}
                   </h1>
-                  <div className="text-slate-600 xsm:text-[12px] lg:text-2xl flex items-center justify-center">
+                  <div className="text-[--text-secondary] xsm:text-[12px] lg:text-2xl flex items-center justify-center">
                     <Badge
                       dot
                       color={`${res.status === "Cancelled" ? "red" : "green"}`}

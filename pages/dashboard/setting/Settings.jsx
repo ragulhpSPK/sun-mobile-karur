@@ -3,10 +3,23 @@ import React, { useEffect } from "react";
 import SideNavebar from "../shared/Sidenavbar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Image from "next/image";
-import { Avatar, Modal, Tabs, notification, Result } from "antd";
+import {
+  Avatar,
+  Modal,
+  Tabs,
+  notification,
+  Result,
+  Space,
+  Badge,
+  Switch,
+} from "antd";
 import { Button, Form, Input, InputNumber, Upload, Skeleton } from "antd";
 import { useState } from "react";
-import { PlusOutlined, CameraOutlined } from "@ant-design/icons";
+import {
+  PlusOutlined,
+  CameraOutlined,
+  ClockCircleOutlined,
+} from "@ant-design/icons";
 import {
   FacebookOutlined,
   InstagramOutlined,
@@ -129,7 +142,7 @@ function Settings() {
               </div>
             </div>
             <div className="flex flex-col xl:flex-row items-center justify-center xl:gap-10 !z-20 !opacity-100">
-              <div className="xl:h-[60vh] xl:w-[25vw] bg-white shadow-2xl rounded-lg">
+              <div className="xl:h-[70vh] xl:w-[25vw] bg-white shadow-2xl rounded-lg">
                 <Skeleton loading={loading} className="!h-[60vh] !w-[25vw]">
                   {dashProfileData.map((data, i) => {
                     return (
@@ -173,27 +186,67 @@ function Settings() {
                               </span>
                               {data.workinghours}
                             </p>
-                            <p className="text-lg flex items-center gap-1 ">
-                              <div className="font-semibold">Colors:</div>
-                              <div
-                                className="w-[30%]"
+                            <div className="text-lg flex items-center gap-1 ">
+                              <div className="font-semibold">
+                                background Colors:
+                              </div>
+
+                              <Badge
+                                className="site-badge-count-109"
+                                count="primary"
                                 style={{
                                   backgroundColor: get(data, "primary", ""),
-                                  width: "25px",
-                                  height: "25px",
-                                  borderRadius: "50%  ",
                                 }}
-                              ></div>
-                              <div
-                                className="w-[30%]"
+                              />
+
+                              <Badge
+                                className="site-badge-count-109"
+                                count="secondary"
                                 style={{
                                   backgroundColor: get(data, "secondary", ""),
-                                  width: "25px",
-                                  height: "25px",
-                                  borderRadius: "50%  ",
                                 }}
-                              ></div>
-                            </p>
+                              />
+
+                              <Badge
+                                className="site-badge-count-109"
+                                count={<p className="text-black">navbg</p>}
+                                style={{
+                                  backgroundColor: get(data, "navColor", ""),
+                                }}
+                              />
+                              <Badge
+                                className="site-badge-count-109"
+                                count="footer"
+                                style={{
+                                  backgroundColor: get(data, "footercolor", ""),
+                                }}
+                              />
+                            </div>
+                            <div className="text-lg flex items-center gap-1 ">
+                              <div className="font-semibold">Text Colors:</div>
+                              <Badge
+                                className="site-badge-count-109"
+                                count="textprimarycolor"
+                                style={{
+                                  backgroundColor: get(
+                                    data,
+                                    "textprimarycolor",
+                                    ""
+                                  ),
+                                }}
+                              />
+                              <Badge
+                                className="site-badge-count-109"
+                                count="textsecondarycolor"
+                                style={{
+                                  backgroundColor: get(
+                                    data,
+                                    "textsecondarycolor",
+                                    ""
+                                  ),
+                                }}
+                              />
+                            </div>
 
                             <div className=" hover:font-semibold cursor-pointer flex flex-row items-center justify-center gap-x-3">
                               <div className="group">

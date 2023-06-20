@@ -153,7 +153,7 @@ function FlashDeals() {
                   </figure>
                   <div className="card-body ">
                     <h2
-                      className="font-bold m-auto text-center cursor-pointer"
+                      className="font-bold m-auto text-center cursor-pointer  text-[--text-secondary]"
                       onClick={() =>
                         router.push({
                           pathname: `/product/${data._id}`,

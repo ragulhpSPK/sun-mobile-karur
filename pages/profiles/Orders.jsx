@@ -63,7 +63,7 @@ function Orders() {
         ) : (
           <>
             <div className=" p-[10px] rounded-md  w-[90%]  overflow-y-scroll">
-              <h1 className="text-black xsm:text-[18px] !mt-[2vh] sm:text-[32px] text-center p-[2vh] ">
+              <h1 className="text-black xsm:text-[18px] text-[--text-primary] !mt-[2vh] sm:text-[32px] text-center p-[2vh] ">
                 My Orders
               </h1>
             </div>
@@ -92,7 +92,7 @@ function Orders() {
                               }`}
                               className="!text-xl"
                             />
-                            <span className="pl-[3px]  sm:text-sm md:text-md xl:text-xl tracking-wider">
+                            <span className="pl-[3px] text-[--text-secondary] sm:text-sm md:text-md xl:text-xl tracking-wider">
                               {data.status} on{" "}
                               {moment(data.updatedAt).format("LLLL")}
                             </span>
@@ -106,7 +106,9 @@ function Orders() {
                                 className=" xsm:w-[90vw] sm:w-[70vw]  flex items-center justify-center"
                               >
                                 <div className="flex flex-row-reverse items-center justify-end pl-[2vw] gap-5  xsm:!w-[90vw] xsm:px-[3vw]  sm:w-[50vw] xsm:p-[6vw] sm:p-[4vh]  m-auto">
-                                  <p className="text-slate-600 ">{name}</p>
+                                  <p className="text-[--text-secondary] ">
+                                    {name}
+                                  </p>
                                   <div>
                                     <Image
                                       src={data.image[i]}
