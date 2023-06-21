@@ -112,22 +112,29 @@ function Navbar() {
         {/* step 1 */}
 
         <div className="flex  lg:w-[100vw] xl:w-[100vw] m-auto justify-between p-2 h-[10vh]  items-center  !font-bold  hover:font-bold ">
-          <Link href="/" className="ml-[5vw]">
-            <Skeleton loading={loading}>
-              <Image
-                src={dashsettings[0]?.image}
-                width={90}
-                height={90}
-                alt="logo"
-                className="pb-2 xsm:h-[8vh] md:h-fit w-fit flex items-center justify-center mt-2 xsm:ml-[-3vw]"
-              />
-            </Skeleton>
-          </Link>
+          <div>
+            <Link href="/">
+              <Skeleton loading={loading}>
+                <Image
+                  src={dashsettings[0]?.image}
+                  width={90}
+                  height={90}
+                  alt="logo"
+                  className="pb-2 xsm:h-[8vh] md:h-fit w-fit flex items-center justify-center mt-2 xsm:ml-[-3vw] lg:ml-0"
+                />
+              </Skeleton>
+            </Link>
+          </div>
           {isEmpty(activeUser) ? (
             ""
           ) : (
-            <div className="flex gap-x-2 text-[--text-secondary] w-[30vw] xsm:hidden md:flex text-md capitalize hover:cursor-pointer items-center ">
-              <div className="hover:text-[--second-color]">About Us</div>
+            <div className="flex gap-x-2 text-[--text-secondary]  xsm:hidden md:flex text-md md:text-[12px] xl:text-[16px] xxl:pl-[3vw] md:w-[40vw] xl:w-[30vw] capitalize hover:cursor-pointer items-center ">
+              <Link
+                href="/footers/About"
+                className="hover:text-[--second-color]"
+              >
+                About Us
+              </Link>
               <Divider type="vertical" />
               <Link
                 href="/profiles/SideNavbar#1"
@@ -147,28 +154,28 @@ function Navbar() {
             </div>
           )}
 
-          <div className="flex md:gap-x-4 text-sm  w-[60vw] capitalize items-center ">
-            <div className="flex items-center justify-between border border-slate-300  rounded-full pr-1 xsm:h-[35px] xl:h-[5.5vh] !bg-white p-2  relative">
+          <div className="flex md:gap-x-4 text-sm xsm:w-[70vw] md:w-[50vw] lg:w-[60vw] xl:w-[65vw] capitalize items-center ">
+            <div className="flex items-center justify-between border border-slate-300  rounded-full pr-1 xsm:h-[35px] xl:h-[5vh] !bg-white p-2  relative">
               <input
                 placeholder="I'm looking for...."
-                className="outline-none border-none xsm:!w-[46vw] xsm:!h-[14px]   md:!w-[380px] xl:p-2 lg:!w-[35vw]  lg:!h-[3vh] placeholder:text-slate-400"
+                className="outline-none border-none xsm:!w-[46vw] xsm:!h-[14px] md:!w-[250px] xl:p-2 lg:!w-[30vw] xxl:!w-[38vw]  lg:!h-[3vh] placeholder:text-slate-400"
                 onChange={(e) => dispatch(addSearch(e.target.value))}
                 onKeyUp={handleKeyDown}
               />
-              <div className="flex items-center w-[2vw] absolute xsm:right-[9.5vw] sm:right-[5vw] md:right-[2.5vw] lg:right-[1vw]">
+              <div className="flex items-center w-[2vw] absolute xsm:right-[9.5vw] sm:right-[5vw] md:right-[2.5vw] lg:right-[1.5vw]">
                 <Divider type="vertical" />
                 <SearchOutlined className="text-slate-200" />
               </div>
             </div>
-            <div className="text-center  items-center justify-center hidden md:flex">
-              <div className="hover:!cursor-pointer xsm:w-[40vw]  xl:w-[15vw]  pl-2 text-center pt-1 ">
+            <div className="text-center  items-center justify-center hidden lg:flex">
+              <div className="hover:!cursor-pointer xsm:w-[40vw] md:w-[25vw] xl:w-[20vw]   text-center pt-1 ">
                 <Carousel
                   autoplay="true"
                   dots={false}
                   className="flex items-center justify-center h-[20px]"
                   dotPosition="right"
                 >
-                  <p className="hover:!text-[--second-color] xl:text-[15px] h-[20px]  text-[--text-secondary]">
+                  <p className="hover:!text-[--second-color] xl:text-[15px]  h-[20px]  text-[--text-secondary]">
                     Free Delivery for All Orders
                   </p>
                   <p className="hover:!text-[--second-color] xl:text-[15px]  h-[20px]  text-[--text-secondary]">
@@ -190,7 +197,7 @@ function Navbar() {
                     count={get(product, "length", "")}
                     size="small"
                     color="#9843A1"
-                    className="xsm:!hidden lg:!flex"
+                    className="xsm:!hidden xl:!flex"
                   >
                     <div className="flex items-center gap-x-2">
                       <Image

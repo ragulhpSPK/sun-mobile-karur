@@ -3,6 +3,7 @@ import "tailwindcss/tailwind.css";
 import "@/styles/globals.css";
 import store from "@/redux/store";
 import { Provider } from "react-redux";
+import React from "react";
 
 function App({ Component, pageProps }) {
   return (

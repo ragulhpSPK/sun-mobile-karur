@@ -1,11 +1,7 @@
 import { Button, Form, Input, notification } from "antd";
 import React, { useEffect } from "react";
-import { useState } from "react";
 import { useRouter } from "next/router";
-import {
-  createDashboardUsers,
-  getDashBoardUsers,
-} from "../../helper/utilities/apiHelper";
+import { getDashBoardUsers } from "../../helper/utilities/apiHelper";
 import { get } from "lodash";
 
 function Admin() {
@@ -20,7 +16,7 @@ function Admin() {
       ) {
         localStorage.setItem("email", get(result, "data.message[0].email"));
       } else {
-        notification.error({ message: "Invalid user" });
+        notification.error({ message: "You are not authorized user" });
       }
 
       if (localStorage.getItem("email") === "Admin1234@gmail.com") {
@@ -36,8 +32,8 @@ function Admin() {
   };
 
   return (
-    <div className="flex items-center justify-center w-[100vw] h-screen bg-no-repeat bg-cover bg-[url('/assets/admin/admin1.avif')]">
-      <div className="flex flex-col">
+    <div className="flex items-center justify-center w-[100vw] h-screen bg-cover backdrop-blur-sm  bg-[url('/assets/admin/admin2.avif')]">
+      <div className="flex flex-col bg-white/70 backdrop-blur-sm  p-10 rounded-md">
         <h1 className="xsm:text-2xl xl:text-6xl pb-[2vh]">Admin Login</h1>
         <Form layout="vertical" onFinish={handleFinish}>
           <Form.Item

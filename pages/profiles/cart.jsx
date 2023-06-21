@@ -202,16 +202,16 @@ function Cart() {
       <div
         className={`${
           isLoading === true ? "invisible" : "visible"
-        } bg-[#ecf0f1] overflow-y-scroll xsm:!w-[100vw] xsm:p-[1vh] xsm:pt-[10vh] sm:pt-0 sm:p-0 sm:w-[80vw] sm:h-[88vh]`}
+        } bg-[#ecf0f1] overflow-y-scroll xsm:!w-[100vw] min-h-screen xsm:p-[1vh] xsm:pt-[10vh]  sm:pt-0 sm:p-0 sm:w-[80vw] `}
       >
         {products && products.length === 0 ? (
-          <div>
+          <div className="flex items-center justify-center">
             <Image
               alt="cart"
               src="/assets/No_Product_Found.png"
               width={300}
               height={300}
-              className="absolute  sm:left-[40vw] top-[30vh] animate-pulse"
+              className=" animate-pulse"
             />
           </div>
         ) : (

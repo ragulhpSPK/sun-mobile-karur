@@ -18,8 +18,6 @@ function User() {
     }
   };
 
-  console.log(users, "dfj");
-
   useEffect(() => {
     fetchData();
   }, []);

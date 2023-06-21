@@ -7,7 +7,7 @@ export default async function dashboardUserController(req, res) {
     case "GET": {
       try {
         const result = await DashboardUser.find();
-        console.log(result, "pooo");
+
         res.send({ message: result });
       } catch (err) {
         console.log(e);

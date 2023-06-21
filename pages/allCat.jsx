@@ -508,8 +508,10 @@ function AllCat() {
                               preview={false}
                               className="!h-[100px] !w-fit m-auto hover:scale-110 duration-1000"
                             />
-                            <h1 className="text-[16px] pt-[2vh] font-bold text-center  text-[--text-secondary]">
-                              {data.title}
+                            <h1 className="text-[16px] pt-[2vh] w-[150px]  font-bold text-center  text-[--text-secondary]">
+                              <span className="text-ellipsis  overflow-hidden line-clamp-1">
+                                {data.title}
+                              </span>
                             </h1>
                             <div className="flex gap-x-10 justify-between items-center m-auto">
                               {data.offer !== null || 0 ? (

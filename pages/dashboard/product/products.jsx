@@ -57,6 +57,7 @@ import {
   uploadBytes,
   list,
 } from "firebase/storage";
+import { ImageList } from "@mui/material";
 
 function Products({ content }) {
   const [edit, setEdit] = useState(false);
@@ -157,16 +158,24 @@ function Products({ content }) {
     );
   });
 
-  const handleUpload = (file) => {
-    const imageRef = ref(storage, `imageList/${v4()}-${file && file.name}`);
+  const handleUpload = async (file) => {
+    try {
+      const { status } = file.file;
+      console.log(file);
+      if (status !== "uploading") {
+        const imageRef = ref(storage, `imageList/${v4()}-${file && file.name}`);
+        const result = await uploadBytes(
+          imageRef,
+          get(file, "file.originFileObj", "")
+        );
+        const urls = await getDownloadURL(result.ref);
 
-    uploadBytes(imageRef, file).then((snaphsot) => {
-      getDownloadURL(snaphsot.ref).then((url) => {
-        console.log(url);
-        setImageList((prevList) => [...prevList, url]);
-      });
-      notification.success({ message: "image uploaded successfully" });
-    });
+        setImageList((prevList) => [...prevList, urls]);
+        notification.success({ message: "image uploaded successfully" });
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleFinish = async (value) => {
@@ -202,7 +211,7 @@ function Products({ content }) {
       } catch (err) {
         setOpen(false);
 
-        notification.success({ message: "Something went wrong" });
+        notification.error({ message: "Something went wrong" });
       }
     } else {
       try {
@@ -323,7 +332,6 @@ function Products({ content }) {
   };
 
   const toggleBestDeals = async (res, id) => {
-    console.log(res, id);
     setLoading(true);
     try {
       const formData = {
@@ -565,12 +573,12 @@ function Products({ content }) {
             <div className="flex flex-col">
               <div className="relative lg:w-[60vw] h-[10vh] pl-[20vw] xsm:pr-2 mt-10">
                 {/* <input
-              type="search"
-              placeholder="Type here"
-              className="input input-bordered  !w-[100%] "
-              onChange={(e) => setData(e.target.value)}
-            />
-            <SearchIcon className="absolute top-[8px] right-1 text-3xl" />*/}
+                type="search"
+                placeholder="Type here"
+                className="input input-bordered  !w-[100%] "
+                onChange={(e) => setData(e.target.value)}
+              />
+              <SearchIcon className="absolute top-[8px] right-1 text-3xl" />*/}
                 <Select
                   mode="tags"
                   style={{
@@ -630,7 +638,7 @@ function Products({ content }) {
                     className="flex flex-col relative"
                     form={form}
                     onFinish={(values) => {
-                      handleFinish();
+                      handleFinish(values);
                     }}
                     // style={{
                     //   maxWidth: 600,
@@ -763,34 +771,34 @@ function Products({ content }) {
                       />
                     </Form.Item>
                     {/* 
-                <Upload
-                  {...props}
-                  // listType="picture"
-                  // onRemove={(e) => {
-                  //   setImageList("");
-                  // }}
-                  // fileList={
-                  //   imageList !== ""
-                  //     ? [
-                  //         {
-                  //           url: imageList,
-                  //         },
-                  //       ]
-                  //     : []
-                  // }
-                  maxCount={1}
-                  onChange={(e) => handleUpload(e.file.originFileObj)}
-                >
-                  <div>
-                    <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>Upload</div>
-                  </div>
-                </Upload> */}
+                  <Upload
+                    {...props}
+                    // listType="picture"
+                    // onRemove={(e) => {
+                    //   setImageList("");
+                    // }}
+                    // fileList={
+                    //   imageList !== ""
+                    //     ? [
+                    //         {
+                    //           url: imageList,
+                    //         },
+                    //       ]
+                    //     : []
+                    // }
+                    maxCount={1}
+                    onChange={(e) => handleUpload(e.file.originFileObj)}
+                  >
+                    <div>
+                      <PlusOutlined />
+                      <div style={{ marginTop: 8 }}>Upload</div>
+                    </div>
+                  </Upload> */}
                     {props.defaultFileList[0].url === undefined ? (
                       <div className="flex flex-col">
                         <Upload
                           multiple
-                          onChange={(e) => handleUpload(e.file.originFileObj)}
+                          onChange={(e) => handleUpload(e)}
                           className="flex flex-col w-[100%] items-center justify-center"
                           listType="picture"
                           onRemove={() => {

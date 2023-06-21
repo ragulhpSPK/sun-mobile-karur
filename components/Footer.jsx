@@ -71,6 +71,7 @@ function Footer() {
             .filter((data, i) => {
               return data.flashStatus === true;
             })
+            .slice(0, 10)
             .map((res, i) => {
               return (
                 <p
@@ -116,6 +117,7 @@ function Footer() {
             .filter((data, i) => {
               return data.bestStatus === true;
             })
+            .slice(0, 10)
             .map((res, i) => {
               return (
                 <p
@@ -137,15 +139,11 @@ function Footer() {
           <h1 className="lg:text-2xl xsm:text-xl xxl:text-2xl font-semibold pb-2 cursor-pointer">
             About
           </h1>
-          <div href="/footers/About">
+          <Link href="/footers/About">
             <p className="hover:text-[--third-color] hover:font-semibold cursor-pointer">
               About Us
             </p>
-          </div>
-
-          {/* <p className="hover:text-[--third-color] hover:font-semibold">
-            Contact Us
-          </p> */}
+          </Link>
 
           <Link href="/Allbestdeals">
             <p className="hover:text-[--third-color] hover:font-semibold">

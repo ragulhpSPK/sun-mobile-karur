@@ -48,7 +48,6 @@ function Order() {
   };
 
   const handleConfirm = () => {
-    console.log(order, "dk");
     setDataSource(
       order.filter((data) => {
         return data.status === "Confirmed";
@@ -56,7 +55,6 @@ function Order() {
     );
   };
   const handleShipped = () => {
-    console.log(order, "dk");
     setDataSource(
       order.filter((data) => {
         return data.status === "Shipped";
@@ -64,7 +62,6 @@ function Order() {
     );
   };
   const handleOutForDelivery = () => {
-    console.log(order, "dk");
     setDataSource(
       order.filter((data) => {
         return data.status === "Out_For_Delivery";
@@ -79,19 +76,12 @@ function Order() {
     );
   };
   const handleCancelled = () => {
-    console.log(order, "dk");
     setDataSource(
       order.filter((data) => {
         return data.status === "Cancelled";
       })
     );
   };
-
-  console.log(
-    order.filter((data) => {
-      return data.status === "Cancelled";
-    }).length
-  );
 
   const columns = [
     {
@@ -187,8 +177,6 @@ function Order() {
       },
     },
   ];
-
-  console.log(dataSource, "sourde");
 
   return (
     <div className="flex flex-col">

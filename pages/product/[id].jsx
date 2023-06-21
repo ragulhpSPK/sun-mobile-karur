@@ -5,7 +5,7 @@ import styles from "../../styles/zoom.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import cartSlice, { addproduct } from "@/redux/cartSlice";
 import { useRouter } from "next/router";
-import { AddCart } from "@/helper/Addcart";
+
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -48,10 +48,6 @@ export default function App() {
   const [getUser, setGetUser] = useState([]);
   const [go, setGo] = useState("");
   const [address, setAddress] = useState("");
-
-  const result = AddCart.filter((data) => {
-    return data.product_id == router.query.id;
-  });
 
   const fetchData = async () => {
     try {
@@ -129,6 +125,18 @@ export default function App() {
     window.innerWidth < 640 ? setGoGart(true) : setGoGart(false);
   }, [goCart]);
 
+  React.useEffect(() => {
+    const loadImageZoom = async () => {
+      const imageZoom = await import("fast-image-zoom").then(
+        (mod) => mod.default
+      );
+      imageZoom({
+        selector: `img[alt]:not([alt=""]):not([data-image-zoom-disabled])`,
+      });
+    };
+    loadImageZoom();
+  }, []);
+
   return (
     <Spin
       spinning={isLoading}
@@ -150,7 +158,7 @@ export default function App() {
               className="mySwiper"
             >
               {filterData.map((data) => {
-                return data.image.map((res, i) => {
+                return data.image.slice(0, 5).map((res, i) => {
                   return (
                     <SwiperSlide key={i} className="swiper-slide">
                       <div>
@@ -182,14 +190,14 @@ export default function App() {
                   width={300}
                   height={300}
                   alt="logo"
-                  src={current || imgs}
+                  src={imgs ? imgs : current}
                   className=" flex items-center justify-center xsm:!h-[15vh] w-fit sm:!h-[25vh] md:h-[30vh] lg:!h-[35vh] xl:!h-[40vh]"
                 />
               </div>
               <div className={`${styles.left_1}`}>
-                {result &&
+                {filterData &&
                   filterData.map((img) => {
-                    return img.image.map((image, i) => {
+                    return img.image.slice(0, 5).map((image, i) => {
                       return (
                         <>
                           <div className="xl:pt-[5vh]  xsm:pl-[3vw] sm:!pl-[5vw]  lg:!pl-[2vw] lg:!pt-[13vh]  flex items-center justify-center">
@@ -224,7 +232,7 @@ export default function App() {
             </div>
           </div>
           <div className="xsm:pt-[1vh]  lg:!pt-[8vh] xl:pt-[3vh] !self-center bg-slate-100  lg:min-h-[70vh] h-fit lg:!mt-[-7vh] xxl:!mt-[-5vh] py-[2vh] xsm:w-[90vw] lg:w-[40vw] flex ">
-            {result &&
+            {filterData &&
               filterData.map((data, index) => {
                 return (
                   <div className="xsm:pl-[2vw]" key={index}>

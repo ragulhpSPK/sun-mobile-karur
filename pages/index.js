@@ -62,8 +62,6 @@ export default function Home() {
     if (router.pathname === "/") {
       localStorage.removeItem("email");
     }
-
-    console.log(router.pathname);
   }, [colors.primary]);
 
   const antIcon = (

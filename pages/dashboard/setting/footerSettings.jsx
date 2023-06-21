@@ -6,8 +6,6 @@ import { isEmpty } from "lodash";
 function FooterSettings({ data, fetchData }) {
   const { form } = Form.useForm();
 
-  console.log(data);
-
   const handleFooter = async (value) => {
     try {
       const formData = {

@@ -78,14 +78,15 @@ const Subcategories = (properties) => {
       }
     } else {
       setLoading(true);
+
       try {
         const formdata = {
           data: {
             categoryId: value.categoryId,
             subcategoryname: value.subcategoryname,
             image: imageList,
-            categoryname: category.filter((category) => {
-              return category._id === selectedcategorieName;
+            categoryname: category.filter((data) => {
+              return data._id === value.categoryId;
             })[0].name,
           },
           id: update,

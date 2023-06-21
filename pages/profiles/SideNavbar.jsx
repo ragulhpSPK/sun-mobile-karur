@@ -17,6 +17,7 @@ import { changeUserValues } from "../../redux/userSlice";
 
 function SideNavebar() {
   const [current, setProfileCurrent] = useState(1);
+  const [currenttwo, setProfileCurrenttwo] = useState("");
   const router = useRouter();
   const dispatch = useDispatch();
   const sidenavData = [
@@ -136,11 +137,11 @@ function SideNavebar() {
               <div key={index}>
                 <div
                   onClick={() => {
-                    setProfileCurrent(res.id);
+                    setProfileCurrenttwo(res.id);
                   }}
                   key={index}
                   className={`${
-                    current === res.id
+                    currenttwo === res.id
                       ? "bg-[--third-color] text-white "
                       : "bg-white"
                   } h-[6vh] rounded`}

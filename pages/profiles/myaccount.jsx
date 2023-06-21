@@ -58,9 +58,9 @@ function Profile() {
   };
 
   return (
-    <div className="xsm:!w-[100vw] sm:!w-[80vw] h-screen bg-[#ecf0f1] flex overflow-x-hidden justify-center xsm:pt-[12vh] sm:pt-[10vh]">
-      <div className="xsm:w-[90vw] sm:w-[50vw]">
-        <div className="flex justify-end float-right w-[20vw]">
+    <div className="xsm:!w-[100vw] sm:!w-[80vw] h-screen bg-[#ecf0f1] flex overflow-x-hidden justify-center xsm:pt-[14vh] sm:pt-[12vh]">
+      <div className="xsm:w-[90vw] sm:w-[50vw] ">
+        <div className="flex justify-end float-right !w-[20vw] h-[4vh] ">
           <Button
             onClick={() => {
               setOpenDrawer(true);
@@ -68,10 +68,10 @@ function Profile() {
               setSize(260);
             }}
             type="primary"
-            className="flex flex-row gap-x-1 items-center justify-center md:hidden"
+            className="flex flex-row gap-x-1 items-center z-50 justify-center md:hidden cursor-pointer"
           >
             <EditOutlined />
-            <div> Edit</div>
+            <div>Edit</div>
           </Button>
           <Button
             onClick={() => {
