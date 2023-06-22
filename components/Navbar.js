@@ -117,10 +117,10 @@ function Navbar() {
               <Skeleton loading={loading}>
                 <Image
                   src={dashsettings[0]?.image}
-                  width={120}
-                  height={120}
+                  width={100}
+                  height={100}
                   alt="logo"
-                  className="pb-2  flex items-center justify-center mt-2 xsm:ml-[-3vw] lg:ml-10"
+                  className="!pointer-none !ml-[4vw]"
                 />
               </Skeleton>
             </Link>
