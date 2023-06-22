@@ -35,6 +35,8 @@ function Orders() {
     <ReloadOutlined style={{ fontSize: 40 }} className="animate-spin" />
   );
 
+  console.log(orders, "ooo");
+
   return (
     <Spin
       spinning={isLoading}
@@ -42,12 +44,12 @@ function Orders() {
       size="large"
       indicator={antIcon}
     >
-      <div className="bg-[#ecf0f1] xsm:h-[90vh] sm:!h-[88vh] overflow-y-scroll w-screen xsm:p-[3vw] xsm:mt-[10vh]  xl:mt-0 xl:pt-[10vh]">
+      <div className="bg-[#ecf0f1] xsm:h-[90vh] sm:!h-[88vh] overflow-x-hidden overflow-y-scroll w-screen md:w-[80vw] xsm:p-[3vw] xsm:mt-[10vh]  xl:mt-0 xl:pt-[10vh]">
         {orders && orders.length === 0 ? (
           <div
             className={`${
               isLoading === true ? "hidden" : "flex"
-            } text-center !pt-[15vh] animate-pulse   text-5xl flex flex-col sm:flex-row items-center justify-center`}
+            } text-center !pt-[15vh] animate-pulse text-[--text-secondary]  text-5xl flex flex-col sm:flex-row items-center justify-center`}
           >
             <div>
               <Image
@@ -61,75 +63,59 @@ function Orders() {
             <div className="text-slate-600">No orders found</div>
           </div>
         ) : (
-          <>
-            <div className=" p-[10px] rounded-md  w-[90%]  overflow-y-scroll">
-              <h1 className="text-black xsm:text-[18px] text-[--text-primary] !mt-[2vh] sm:text-[32px] text-center p-[2vh] ">
-                My Orders
-              </h1>
+          <div className="xsm:w-[100vw] md:w-[60vw] m-auto">
+            <div className="flex justify-between items-center text-[--text-secondary] xl:text-[22px] font-bold p-5">
+              <h1 className="xl:pl-10">Image</h1>
+              <h1>Product Name</h1>
+              <h1 className="sm:pr-8">Order Status</h1>
             </div>
-
-            <div className="flex flex-col  gap-[2vw]    pt-[1vh]">
-              {orders.map((data, index) => {
-                return (
-                  <div
-                    className=" lg:m-auto   lg:px-[4vh] xsm:!w-[100vw] md:!w-[100vw] xl:!w-[70vw] flex flex-col "
-                    key={index}
-                    onClick={() => {
-                      router.push({
-                        pathname: `/orders/${data._id}`,
-                        query: { id: data._id },
-                      });
-                    }}
-                  >
-                    <div className="flex  gap-[2vw] pt-[2vh]">
-                      <div className="xsm:text-[12px] sm:text-sm bg-white/50 xsm:!w-[100vw] sm:!w-[70vw] pb-5 shadow-inner items-center justify-center  m-auto shadow-slate-200  md:text-md xl:text-xl flex flex-col-reverse  gap-[2vw]">
-                        <div className="flex items-center xsm:!w-[90vw]  sm:!w-[70vw] justify-center">
-                          <p className="text-slate-600 pt-2">
-                            <Badge
-                              dot
-                              color={`${
-                                data.status === "Cancelled" ? "red" : "green"
-                              }`}
-                              className="!text-xl"
+            {orders.map((data, i) => {
+              console.log(data, "POOO");
+              return (
+                <div
+                  className="flex justify-between items-center pt-5  xl:p-10"
+                  key={i}
+                >
+                  <div className="bg-[#E5E9EA] flex justify-center items-center gap-4 sm:gap-28 md:gap-8 xxl:gap-28 xl:p-10">
+                    <div className="flex flex-col  gap-5 ">
+                      {data.image.map((img, i) => {
+                        return (
+                          <div
+                            key={i}
+                            className="flex items-center justify-center gap-4 text-[--text-secondary] sm:gap-[8vw] xxl:gap-[15vw] cursor-pointer"
+                            onClick={() => {
+                              router.push({
+                                pathname: `/orders/${data._id}`,
+                                query: { id: data._id },
+                              });
+                            }}
+                          >
+                            <Image
+                              src={img || img[i]}
+                              alt="no found"
+                              width={80}
+                              height={80}
+                              preview={false}
                             />
-                            <span className="pl-[3px] text-[--text-secondary] sm:text-sm md:text-md xl:text-xl tracking-wider">
-                              {data.status} on{" "}
-                              {moment(data.updatedAt).format("LLLL")}
-                            </span>
-                          </p>
-                        </div>
-                        <div className="flex flex-col items-center justify-center gap-[5vh] w-[70vw] m-auto">
-                          {data.productname.map((name, i) => {
-                            return (
-                              <div
-                                key={i}
-                                className=" xsm:w-[90vw] sm:w-[70vw]  flex items-center justify-center"
-                              >
-                                <div className="flex flex-row-reverse items-center justify-end pl-[2vw] gap-5  xsm:!w-[90vw] xsm:px-[3vw]  sm:w-[50vw] xsm:p-[6vw] sm:p-[4vh]  m-auto">
-                                  <p className="text-[--text-secondary] ">
-                                    {name}
-                                  </p>
-                                  <div>
-                                    <Image
-                                      src={data.image[i]}
-                                      alt="ordered image"
-                                      height={50}
-                                      width={50}
-                                      className="!h-[8vh] !w-fit !rounded-md"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
+                            <h1 className="w-[25vw]" key={i}>
+                              <span className="text-ellipsis overflow-hidden font-bold md:font-medium text-[10px] sm:text-[16px]  md:pr-5 line-clamp-2 xl:text-lg ">
+                                {data.productname[i]}
+                              </span>
+                            </h1>
+                          </div>
+                        );
+                      })}
                     </div>
+                    <h1 className="font-bold md:font-medium text-[10px] sm:text-[16px]  xl:text-lg pr-2 md:p-2 xl:pr-5">
+                      <span>
+                        {data.status} on {moment(data.updatedAt).format("LLLL")}
+                      </span>
+                    </h1>
                   </div>
-                );
-              })}
-            </div>
-          </>
+                </div>
+              );
+            })}
+          </div>
         )}
       </div>
     </Spin>

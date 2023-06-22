@@ -90,7 +90,7 @@ const TopRated = () => {
           </div>
           <Link href="/flashDeals">
             <div className="xl:text-2xl font-bold text-[--text-primary]">
-              see more
+              View all
             </div>
           </Link>
         </div>
@@ -154,9 +154,9 @@ const TopRated = () => {
                       </div>
                     </figure>
                     <div className="card-body ">
-                      <div className="h-[6vh]">
+                      <div className="h-[6vh] flex items-center justify-center">
                         <h2
-                          className="font-bold text-center pt-[1vh] xsm:text-[12px] text-[--text-secondary] cursor-pointer lg:text-[16px]"
+                          className="font-bold text-center pt-[1vh] w-[180px] xsm:text-[12px] text-[--text-secondary] cursor-pointer lg:text-[16px]"
                           onClick={() =>
                             router.push({
                               pathname: `/product/${res._id}`,
@@ -164,7 +164,9 @@ const TopRated = () => {
                             })
                           }
                         >
-                          {res.title}
+                          <span className="text-ellipsis overflow-clip line-clamp-2">
+                            {res.title}
+                          </span>
                         </h2>
                       </div>
 

@@ -81,7 +81,7 @@ function SideNavebar() {
 
   return (
     <div>
-      <div className="flex justify-between w-[100vw] pt-[7vh]  flex-row-reverse xsm:hidden  sm:flex">
+      <div className="flex justify-between w-[100vw] pt-[7vh]  flex-row-reverse xsm:hidden  md:flex">
         <div className="xl:w-[20vw] h-[85vh] flex flex-col gap-y-3  pt-[10vh]  p-10 overflow-y-hidden">
           {sidenavData.map((res, index) => {
             return (
@@ -130,7 +130,7 @@ function SideNavebar() {
         </div>
       </div>
 
-      <div className="flex justify-between w-[100vw] pt-[7vh]  flex-row-reverse sm:hidden">
+      <div className="flex justify-between w-[100vw] pt-[7vh]  flex-row-reverse md:hidden">
         <div className="!w-[100vw] h-[85vh] flex flex-col gap-y-3  pt-[10vh]  p-10 overflow-y-hidden">
           {sidenavDataMob.map((res, index) => {
             return (

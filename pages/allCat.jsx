@@ -503,13 +503,13 @@ function AllCat() {
                             <Image
                               alt="example"
                               src={data.image[0]}
-                              width={80}
-                              height={80}
+                              width={100}
+                              height={100}
                               preview={false}
-                              className="!h-[100px] !w-fit m-auto hover:scale-110 duration-1000"
+                              className=" m-auto hover:scale-110 duration-1000"
                             />
-                            <h1 className="text-[16px] pt-[2vh] w-[150px]  font-bold text-center  text-[--text-secondary]">
-                              <span className="text-ellipsis  overflow-hidden line-clamp-1">
+                            <h1 className="text-[16px] pt-[2vh] w-[180px]  font-bold text-center  text-[--text-secondary]">
+                              <span className="text-ellipsis  overflow-hidden line-clamp-2">
                                 {data.title}
                               </span>
                             </h1>
@@ -807,13 +807,15 @@ function AllCat() {
                       <Image
                         alt="example"
                         src={data.image[0]}
-                        width={50}
-                        height={50}
+                        width={80}
+                        height={80}
                         preview={false}
-                        className="xsm:!h-[10vh] md:!h-[10vh] pt-[1vh]  xl:!h-[10vh] w-fit hover:scale-110 duration-1000"
+                        className=" hover:scale-110 duration-1000"
                       />
-                      <h1 className="xsm:text-[14px]  text-[--text-secondary] md:text-[14px] md:leading-tight md:tracking-tight xsm:!pt-[5vh] md:!pt-[5vh] lg:pt-[1vh] xl:pt-[2vh]">
-                        {data.title}
+                      <h1 className="xsm:text-[14px] flex items-center justify-center w-[180px] text-[--text-secondary] md:text-[14px] md:leading-tight md:tracking-tight xsm:!pt-[5vh] md:!pt-[5vh] lg:pt-[1vh] xl:pt-[2vh]">
+                        <span className="text-ellipsis overflow-hidden line-clamp-2 text-center">
+                          {data.title}
+                        </span>
                       </h1>
 
                       <div className="flex gap-x-10 justify-between items-center m-auto">

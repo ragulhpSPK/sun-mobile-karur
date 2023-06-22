@@ -166,7 +166,7 @@ function Allbestdeals() {
                 </figure>
                 <div className="card-body ">
                   <h2
-                    className="font-bold m-auto text-center cursor-pointer  text-[--text-secondary]"
+                    className="font-bold m-auto w-[180px] text-center cursor-pointer  text-[--text-secondary]"
                     onClick={() =>
                       router.push({
                         pathname: `/product/${data._id}`,
@@ -174,7 +174,10 @@ function Allbestdeals() {
                       })
                     }
                   >
-                    {data.title}
+                    <span className="text-ellipsis overflow-hidden line-clamp-2">
+                      {" "}
+                      {data.title}
+                    </span>
                   </h2>
                   <Rate
                     allowHalf

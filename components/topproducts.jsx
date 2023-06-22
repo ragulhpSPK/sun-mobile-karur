@@ -116,7 +116,7 @@ function Topproducts() {
                 </figure>
                 <div className="card-body ">
                   <h2
-                    className="font-bold xsm:text-[12px] cursor-pointer lg:text-[16px] text-center text-[--text-secondary]"
+                    className="font-bold xsm:text-[12px] flex items-center justify-center cursor-pointer lg:text-[16px] text-center text-[--text-secondary]"
                     onClick={() =>
                       router.push({
                         pathname: `/product/${res._id}`,
@@ -124,7 +124,9 @@ function Topproducts() {
                       })
                     }
                   >
-                    {res.title}
+                    <span className="text-ellipsis overflow-hidden line-clamp-2">
+                      {res.title}
+                    </span>
                   </h2>
                   <Rate
                     allowHalf

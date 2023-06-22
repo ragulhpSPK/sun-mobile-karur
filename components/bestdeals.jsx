@@ -1,4 +1,3 @@
-import { BestDeals } from "@/helper/bestDeals";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -36,8 +35,6 @@ function Bestdeals() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [goCart, setGoGart] = useState([]);
-  const [productId, setProductId] = useState("");
-  const [wishlist, setWishList] = useState("");
 
   const fetchData = async () => {
     try {
@@ -102,7 +99,7 @@ function Bestdeals() {
           </div>
           <Link href="/Allbestdeals">
             <div className={`xl:text-2xl font-bold text-[--text-primary]`}>
-              see more
+              View all
             </div>
           </Link>
         </div>
@@ -164,15 +161,15 @@ function Bestdeals() {
                           width={100}
                           height={100}
                           src={res.image[0]}
-                          alt="Shoes"
+                          alt="best deals"
                           className="rounded-xl xsm:!h-[14vh] xl:!h-[18vh] !w-fit m-auto hover:scale-110 duration-1000"
                         />
                       </div>
                     </figure>
                     <div className="card-body ">
-                      <div className="h-[8vh] ">
+                      <div className="h-[8vh] flex items-center justify-center">
                         <h2
-                          className="font-bold xsm:text-[12px] text-center pt-[1vh] lg:text-[16px] cursor-pointer text-[--text-secondary]"
+                          className="font-bold xsm:text-[12px] w-[180px] text-center pt-[1vh] lg:text-[16px] cursor-pointer text-[--text-secondary]"
                           onClick={() =>
                             router.push({
                               pathname: `/product/${res._id}`,
@@ -180,7 +177,9 @@ function Bestdeals() {
                             })
                           }
                         >
-                          {res.title}
+                          <span className="text-ellipsis overflow-hidden line-clamp-2">
+                            {res.title}
+                          </span>
                         </h2>
                       </div>
 
