@@ -197,11 +197,11 @@ function Order() {
         <div className="xl:w-[90vw] m-auto  xl:p-5 xl:!pt-[12vh] bg-gradient-to-r from-white via-[#f5f7f6] to-white">
           <div className="flex flex-wrap pl-[5vw] gap-10 pb-3 text-white text-md">
             <p
-              className="lg:h-[5vh] lg:w-[10vw] xsm:p-3 lg:p-0 cursor-pointer bg-pink-400  flex items-center justify-center rounded-md"
+              className="lg:h-[5vh] lg:w-[10vw] xsm:p-3 lg:p-0 cursor-pointer bg-pink-400  flex gap-1 items-center justify-center rounded-md"
               onClick={handleConfirm}
             >
-              Confirmed
-              <span className="pl-2">
+              <span> Confirmed</span>
+              <span className=" bg-white rounded-full px-1 text-sm text-black">
                 {
                   order.filter((data) => {
                     return data.status === "Confirmed";
@@ -210,11 +210,11 @@ function Order() {
               </span>
             </p>
             <p
-              className="lg:h-[5vh] lg:w-[10vw] xsm:p-3 lg:p-0 cursor-pointer bg-purple-400  flex items-center  justify-center rounded-md"
+              className="lg:h-[5vh] lg:w-[10vw] xsm:p-3 lg:p-0 cursor-pointer bg-purple-400  gap-1 flex items-center  justify-center rounded-md"
               onClick={handleShipped}
             >
-              Shipped
-              <span className="pl-2">
+              <span>Shipped</span>
+              <span className="bg-white rounded-full px-1 text-sm text-black">
                 {
                   order.filter((data) => {
                     return data.status === "Shipped";
@@ -223,11 +223,11 @@ function Order() {
               </span>
             </p>
             <p
-              className="lg:h-[5vh] lg:w-[10vw] xsm:p-3 lg:p-0 cursor-pointer bg-yellow-500 flex items-center  justify-center rounded-md"
+              className="lg:h-[5vh] lg:w-[10vw] xsm:p-3 lg:p-0 cursor-pointer bg-yellow-500 gap-1 flex items-center  justify-center rounded-md"
               onClick={handleOutForDelivery}
             >
-              Out_For_Delivery
-              <span className="pl-2">
+              <span>Out_For_Delivery</span>
+              <span className="bg-white rounded-full px-1 text-sm text-black">
                 {
                   order.filter((data) => {
                     return data.status === "Out_For_Delivery";
@@ -236,11 +236,11 @@ function Order() {
               </span>
             </p>
             <p
-              className="lg:h-[5vh] lg:w-[10vw] xsm:p-3 lg:p-0  cursor-pointer bg-green-500 flex items-center  justify-center rounded-md"
+              className="lg:h-[5vh] lg:w-[10vw] xsm:p-3 lg:p-0  cursor-pointer bg-green-500 gap-1 flex items-center  justify-center rounded-md"
               onClick={handleDelivered}
             >
-              Delivered
-              <span className="pl-2">
+              <span>Delivered</span>
+              <span className="bg-white rounded-full px-1 text-sm text-black">
                 {
                   order.filter((data) => {
                     return data.status === "Delivered";
@@ -249,11 +249,11 @@ function Order() {
               </span>
             </p>
             <p
-              className="lg:h-[5vh] lg:w-[10vw] xsm:p-3 lg:p-0 cursor-pointer bg-red-500 flex items-center  justify-center rounded-md"
+              className="lg:h-[5vh] lg:w-[10vw] xsm:p-3 lg:p-0 cursor-pointer bg-red-500 flex gap-1 items-center  justify-center rounded-md"
               onClick={handleCancelled}
             >
-              Cancelled
-              <span className="pl-2">
+              <span>Cancelled</span>{" "}
+              <span className="bg-white rounded-full px-1 text-sm text-black">
                 {
                   order.filter((data) => {
                     return data.status === "Cancelled";

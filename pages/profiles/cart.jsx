@@ -328,12 +328,12 @@ function Cart() {
                     </>
                   );
                 })}
-              <div className="flex flex-row-reverse shadow-sm bg-[#E5E9EA] justify-between  text-[--text-secondary]">
-                <div className="flex  p-[10px] xsm:text-lg sm:text-xl">
+              <div className="flex flex-row-reverse shadow-sm py-4 px-2 bg-[#E5E9EA] justify-between items-center  text-[--text-secondary]">
+                <div className="flex   xsm:text-lg sm:text-xl">
                   <p>Total Price:</p>
                   <p>{prices}</p>
                 </div>
-                <div className="flex  p-[10px] xsm:text-lg sm:text-xl">
+                <div className="flex   xsm:text-lg sm:text-xl">
                   <p>Total Products:</p>
                   <p className="pr-[12px]">{products && products.length}</p>
                 </div>

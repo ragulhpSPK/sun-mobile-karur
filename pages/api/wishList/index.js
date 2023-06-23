@@ -8,7 +8,8 @@ export default async function wishListController(req, res) {
     case "GET":
       {
         try {
-          const result = await wishList.find();
+          await middleware(req, res);
+          const result = await wishList.find({ userId: req.query.uid.id });
           res.status(200).send({ data: result });
         } catch (err) {
           console.log(err);

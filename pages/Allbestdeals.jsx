@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import { BestDeals } from "@/helper/bestDeals";
 import Image from "next/image";
 import {
   getAllproducts,
@@ -23,7 +22,6 @@ import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCh
 import Link from "next/link";
 import Cookies from "js-cookie";
 import Login from "@/pages/Authentication/Register";
-
 import { isEmpty } from "lodash";
 import { showLoader, hideLoader } from "@/redux/loadingSlice";
 

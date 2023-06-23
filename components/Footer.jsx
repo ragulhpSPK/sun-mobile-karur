@@ -41,7 +41,7 @@ function Footer() {
 
   return (
     <div
-      className="  w-[100vw] mt-40  pt-2"
+      className="  w-[100vw] mt-20  pt-2"
       style={{
         backgroundColor: get(data, "[0].footercolor", ""),
         color: "white",
