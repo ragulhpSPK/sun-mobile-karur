@@ -21,6 +21,7 @@ export default async function cartController(req, res) {
       {
         try {
           await middleware(req, res);
+          console.log(req.body.uid.id, "jjnjnj");
           req.body.data.userId = req.body.uid.id;
           const cart = await new Cart({ ...req.body.data });
           const result = await cart.save();

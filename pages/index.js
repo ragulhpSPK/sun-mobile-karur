@@ -21,6 +21,7 @@ import AllCat from "./allCat";
 
 export default function Home() {
   const isLoading = useSelector((state) => state.loader.isLoading);
+  const [goCart, setGoGart] = useState([]);
   const [colors, setColor] = useState([]);
   const dispatch = useDispatch();
   const result = useSelector((data) => {

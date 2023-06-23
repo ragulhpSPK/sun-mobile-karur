@@ -193,3 +193,22 @@ export const getDashBoardUsers = () => {
 export const createDashboardUsers = (formData) => {
   return axios.post("/api/dashboardusers", formData);
 };
+
+// add or remove wishlist
+
+export const addWishList = (formData) => {
+  return axios.post("/api/wishList", formData);
+};
+
+export const getWishList = () => {
+  return axios.get("/api/wishList");
+};
+
+export const updateWishList = () => {
+  return axios.put("/api/wishList");
+};
+
+export const deleteWishList = (formData) => {
+  console.log(formData, "helper");
+  return axios.delete(`/api/wishList/${formData}`);
+};

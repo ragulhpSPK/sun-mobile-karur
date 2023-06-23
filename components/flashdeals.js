@@ -10,6 +10,9 @@ import {
   createCart,
   getAllCart,
   getOneUerforNav,
+  getWishList,
+  addWishList,
+  deleteWishList,
 } from "@/helper/utilities/apiHelper";
 import { get, isEmpty } from "lodash";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,15 +32,20 @@ const TopRated = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [goCart, setGoGart] = useState([]);
+  const [wishList, setWishlist] = useState([]);
 
   const fetchData = async () => {
     try {
-      const result = [await getAllproducts(), await getAllCart()];
+      const result = [
+        await getAllproducts(),
+        await getAllCart(),
+        await getWishList(),
+      ];
       const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
       setGetUser(get(getUser, "data.message[0]", []));
-
       setProducts(get(result, "[0].data.data"));
       setCart(get(result, "[1].data.message"));
+      setWishlist(get(result, "[2].data.data"));
     } catch (err) {
       console.log(err);
     }
@@ -80,6 +88,36 @@ const TopRated = () => {
     });
     window.innerWidth < 640 ? setGoGart(true) : setGoGart(false);
   }, [goCart]);
+
+  const handleWishList = async (data, product) => {
+    if (data === 1) {
+      try {
+        const formData = {
+          image: product.image[0],
+          title: product.title,
+          productId: product._id,
+        };
+
+        await addWishList(formData);
+        notification.success({ message: "added to wishlist successfully" });
+        fetchData();
+      } catch (err) {
+        notification.error({ message: "Something went wrong" });
+      }
+    } else {
+      try {
+        await deleteWishList(
+          wishList.filter((data) => {
+            return data.productId === product._id;
+          })[0]._id
+        );
+        notification.success({ message: "cart deleted successfully" });
+        fetchData();
+      } catch (err) {
+        notification.error({ message: "Something went wrong" });
+      }
+    }
+  };
 
   return (
     <div className="flex flex-col mt-[5vh] !w-[90vw] xl:!w-[80vw]  m-auto justify-center">
@@ -133,6 +171,18 @@ const TopRated = () => {
                         count={1}
                         character={<HeartOutlined />}
                         className="text-[--third-color]"
+                        defaultValue={
+                          _.find(wishList, function (obj) {
+                            if (obj.productId === res._id) {
+                              return true;
+                            }
+                          })?.productId === res._id
+                            ? 1
+                            : ""
+                        }
+                        onChange={(e) => {
+                          handleWishList(e, res);
+                        }}
                       />
                     </div>
                     <figure className="xl:px-10   cursor-pointer">

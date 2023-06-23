@@ -25,9 +25,6 @@ const cartSchema = new mongoose.Schema(
     price: {
       type: Number,
     },
-    wishList: {
-      type: Boolean,
-    },
   },
   { timestamps: true }
 );

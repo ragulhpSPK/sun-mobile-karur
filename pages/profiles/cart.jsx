@@ -202,7 +202,7 @@ function Cart() {
       <div
         className={`${
           isLoading === true ? "invisible" : "visible"
-        } bg-[#ecf0f1] overflow-y-scroll xsm:!w-[100vw] min-h-screen xsm:p-[1vh] xsm:pt-[10vh]  sm:pt-0 sm:p-0 sm:w-[80vw] `}
+        } bg-[#ecf0f1]  xsm:!w-[100vw] h-[100vh] xsm:p-[1vh] xsm:pt-[10vh] !overflow-y-scroll sm:pt-0 sm:p-0 sm:w-[80vw] `}
       >
         {products && products.length === 0 ? (
           <div className="flex items-center justify-center">
@@ -216,7 +216,7 @@ function Cart() {
           </div>
         ) : (
           <div className="flex gap-[4vw]">
-            <div className=" m-auto flex flex-col  !gap-6   h-fit xsm:mt-[6vh] lg:mt-[20vh] ">
+            <div className=" m-auto flex flex-col  !gap-6   h-fit xsm:mt-[6vh] lg:mt-[10vh] ">
               <div className="flex justify-between  p-[1vh]">
                 <h1 className="sm:!text-xl xl:text-3xl text-[--text-secondary] ">
                   Shopping cart
@@ -254,9 +254,23 @@ function Cart() {
                             alt="Image"
                             height={100}
                             width={100}
-                            className="xsm:h-[4vh] xsm:w-fit lg:h-[6vh] xl:h-[6vh] rounded-full ml-[10px]"
+                            className="xsm:h-[4vh] xsm:w-fit lg:h-[6vh] xl:h-[6vh] rounded-full ml-[10px] cursor-pointer hover:scale-95 duration-1000"
+                            onClick={() =>
+                              router.push({
+                                pathname: `/product/${data.productId}`,
+                                query: { id: data.productId },
+                              })
+                            }
                           />
-                          <p className="xsm:text-[10px] text-[--text-secondary] sm:text-[12px] lg:text-[16px] w-[25vw] font-semibold pl-[8px]">
+                          <p
+                            className="xsm:text-[10px] cursor-pointer text-[--text-secondary] sm:text-[12px] lg:text-[16px] w-[25vw] font-semibold pl-[8px]"
+                            onClick={() =>
+                              router.push({
+                                pathname: `/product/${data.productId}`,
+                                query: { id: data.productId },
+                              })
+                            }
+                          >
                             {data.name}
                           </p>
                           <div

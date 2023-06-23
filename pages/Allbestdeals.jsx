@@ -8,6 +8,9 @@ import {
   getAllBanner,
   getAllCart,
   getOneUerforNav,
+  addWishList,
+  getWishList,
+  deleteWishList,
 } from "@/helper/utilities/apiHelper";
 import { useEffect, useState } from "react";
 import { get } from "lodash";
@@ -36,6 +39,7 @@ function Allbestdeals() {
   const [getUser, setGetUser] = useState([]);
   const [login, setLogin] = useState(false);
   const router = useRouter();
+  const [wishList, setWishList] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -44,13 +48,14 @@ function Allbestdeals() {
         await getAllproducts(),
         await getAllCart(),
         await getAllBanner(),
+        await getWishList(),
       ];
       const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
       setGetUser(get(getUser, "data.message[0]", []));
-
       setProducts(get(result, "[0].data.data"));
       setCart(get(result, "[1].data.message"));
       setBanner(get(result, "[2].data.data", []));
+      setWishList(get(result, "[3].data.data", []));
     } catch (err) {
       console.log(err);
     } finally {
@@ -101,6 +106,36 @@ function Allbestdeals() {
     window.innerWidth < 640 ? setGoGart(true) : setGoGart(false);
   }, [goCart]);
 
+  const handleWishList = async (data, product) => {
+    if (data === 1) {
+      try {
+        const formData = {
+          image: product.image[0],
+          title: product.title,
+          productId: product._id,
+        };
+
+        await addWishList(formData);
+        notification.success({ message: "added to wishlist successfully" });
+        fetchData();
+      } catch (err) {
+        notification.error({ message: "Something went wrong" });
+      }
+    } else {
+      try {
+        await deleteWishList(
+          wishList.filter((data) => {
+            return data.productId === product._id;
+          })[0]._id
+        );
+        notification.success({ message: "cart deleted successfully" });
+        fetchData();
+      } catch (err) {
+        notification.error({ message: "Something went wrong" });
+      }
+    }
+  };
+
   return (
     <Spin
       spinning={isLoading}
@@ -111,7 +146,7 @@ function Allbestdeals() {
       <div
         className={`${
           isLoading === true ? "invisible" : "visible"
-        } xsm:w-[90vw] xl:w-[80vw] m-auto mt-[16vh]`}
+        } xsm:w-[90vw] xl:w-[80vw] m-auto mt-[16vh] h-[100vh] overflow-y-scroll`}
       >
         <div className="!w-[85vw]">
           {banner
@@ -127,7 +162,7 @@ function Allbestdeals() {
                       alt="bestDeas"
                       width={100}
                       height={100}
-                      className="xsm:w-[90vw] xsm:h-[15vh] sm:h-[24vh] md:h-[26vh] xl:w-[80vw] xl:!h-[35vh] cursor-pointer"
+                      className="xsm:w-[90vw] xsm:h-[15vh] sm:h-[24vh] md:h-[26vh] xl:w-[80vw] xl:!h-[45vh] cursor-pointer"
                     />
                   </div>
                 </>
@@ -147,6 +182,18 @@ function Allbestdeals() {
                     count={1}
                     character={<HeartOutlined />}
                     className="text-[--third-color]"
+                    defaultValue={
+                      _.find(wishList, function (obj) {
+                        if (obj.productId === data._id) {
+                          return true;
+                        }
+                      })?.productId === data._id
+                        ? 1
+                        : ""
+                    }
+                    onChange={(e) => {
+                      handleWishList(e, data);
+                    }}
                   />
                 </div>
                 <figure className="px-10 pt-10  cursor-pointer">
@@ -175,7 +222,6 @@ function Allbestdeals() {
                     }
                   >
                     <span className="text-ellipsis overflow-hidden line-clamp-2">
-                      {" "}
                       {data.title}
                     </span>
                   </h2>

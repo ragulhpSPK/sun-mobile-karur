@@ -7,13 +7,15 @@ import {
   getAllCart,
   createCart,
   getOneUerforNav,
+  getWishList,
+  addWishList,
+  deleteWishList,
 } from "@/helper/utilities/apiHelper";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { get } from "lodash";
 import { Spin, Pagination, Drawer, Modal, notification } from "antd";
 import { HeartOutlined, LoadingOutlined } from "@ant-design/icons";
-import Buy from "../components/buy";
 import { Rate } from "antd";
 import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,17 +38,22 @@ function FlashDeals() {
   const router = useRouter();
   const [getUser, setGetUser] = useState([]);
   const [login, setLogin] = useState(false);
+  const [wishList, setWishList] = useState([]);
 
   const fetchData = async () => {
     try {
       dispatch(showLoader());
-      const result = [await getAllproducts(), await getAllCart()];
+      const result = [
+        await getAllproducts(),
+        await getAllCart(),
+        await getWishList(),
+      ];
 
       const getUser = Cookies.get("x-o-t-p") && (await getOneUerforNav());
       setGetUser(get(getUser, "data.message[0]", []));
-
       setProducts(get(result, "[0].data.data"));
       setCart(get(result, "[1].data.message"));
+      setWishList(get(result, "[2].data.data"));
     } catch (err) {
       console.log(err);
     } finally {
@@ -97,6 +104,36 @@ function FlashDeals() {
     window.innerWidth < 640 ? setGoGart(true) : setGoGart(false);
   }, [goCart]);
 
+  const handleWishList = async (data, product) => {
+    if (data === 1) {
+      try {
+        const formData = {
+          image: product.image[0],
+          title: product.title,
+          productId: product._id,
+        };
+
+        await addWishList(formData);
+        notification.success({ message: "added to wishlist successfully" });
+        fetchData();
+      } catch (err) {
+        notification.error({ message: "Something went wrong" });
+      }
+    } else {
+      try {
+        await deleteWishList(
+          wishList.filter((data) => {
+            return data.productId === product._id;
+          })[0]._id
+        );
+        notification.success({ message: "cart deleted successfully" });
+        fetchData();
+      } catch (err) {
+        notification.error({ message: "Something went wrong" });
+      }
+    }
+  };
+
   return (
     <Spin
       spinning={isLoading}
@@ -107,7 +144,7 @@ function FlashDeals() {
       <div
         className={`${
           isLoading === true ? "invisible" : "visible"
-        } xsm:w-[90vw] xl:w-[80vw] flex !flex-col m-auto mt-[10vh]`}
+        } xsm:w-[90vw] xl:w-[80vw] flex !flex-col m-auto mt-[10vh] h-[100vh] overflow-y-scroll`}
       >
         <div className="bg-[--third-color] xsm:w-[90vw] xl:w-[80vw] m-auto ">
           <div className="text-[6vw] text-white text-center xsm:p-[4vh] xl:p-[7vh]  ">
@@ -134,6 +171,18 @@ function FlashDeals() {
                       count={1}
                       character={<HeartOutlined />}
                       className="text-[--third-color]"
+                      defaultValue={
+                        _.find(wishList, function (obj) {
+                          if (obj.productId === data._id) {
+                            return true;
+                          }
+                        })?.productId === data._id
+                          ? 1
+                          : ""
+                      }
+                      onChange={(e) => {
+                        handleWishList(e, data);
+                      }}
                     />
                   </div>
                   <figure className="px-10 pt-10  cursor-pointer">

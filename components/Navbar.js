@@ -143,7 +143,9 @@ function Navbar() {
                 My Account
               </Link>
               <Divider type="vertical" />
-              <div className="hover:text-[--second-color]">Wishlist</div>
+              <Link href="/wishlist" className="hover:text-[--second-color]">
+                Wishlist
+              </Link>
               <Divider type="vertical" />
               <Link
                 href="/profiles/SideNavbar#3"
