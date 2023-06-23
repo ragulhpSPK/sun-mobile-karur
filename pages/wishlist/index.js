@@ -9,8 +9,6 @@ import {
 } from "@/helper/utilities/apiHelper";
 import { DeleteOutline } from "@mui/icons-material";
 import { get } from "lodash";
-import AddIcon from "@mui/icons-material/Add";
-import CallMissedOutgoingIcon from "@mui/icons-material/CallMissedOutgoing";
 import { addproduct } from "@/redux/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
