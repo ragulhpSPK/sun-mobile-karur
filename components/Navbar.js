@@ -117,10 +117,22 @@ function Navbar() {
               <Skeleton loading={loading}>
                 <Image
                   src={dashsettings[0]?.image}
-                  width={100}
-                  height={100}
+                  width={60}
+                  height={60}
                   alt="logo"
-                  className="!pointer-none !ml-[4vw]"
+                  className="!pointer-none !ml-[-2vw] md:hidden"
+                />
+              </Skeleton>
+            </Link>
+
+            <Link href="/">
+              <Skeleton loading={loading}>
+                <Image
+                  src={dashsettings[0]?.image}
+                  width={80}
+                  height={80}
+                  alt="logo"
+                  className="!pointer-none !ml-[4vw] hidden md:block"
                 />
               </Skeleton>
             </Link>
@@ -217,7 +229,7 @@ function Navbar() {
               {isEmpty(activeUser) ? "" : <Divider type="vertical" />}
 
               {isEmpty(activeUser) ? (
-                <div className="bg-white shadow shadow-slate-300  rounded xsm:mt-1 md:mt-0 p-2 xl:h-[30px] xsm:!mr-[2vw] xl:w-[5vw] xsm:w-[18vw] xsm:h-[3.5vh] sm:w-[8vw] flex items-center  justify-center">
+                <div className="bg-white shadow shadow-slate-300 xsm:ml-2 rounded xsm:mt-1 md:mt-0 p-2 xl:h-[30px] xsm:!mr-[2vw] xl:w-[5vw] xsm:w-[18vw] xsm:h-[3vh] sm:w-[8vw] flex items-center  justify-center">
                   <button
                     className="pl-1 xsm:text-[10px]  sm:text-md flex gap-x-1 items-center font-medium text-[--second-color] border-none lg:text-lg"
                     onClick={() => {
@@ -230,7 +242,7 @@ function Navbar() {
                       height={10}
                       alt="logo"
                     />
-                    <h1 className="font-bold xsm:text-[10px] xl:text-[12px] tracking-wider">
+                    <h1 className="font-bold xsm:text-[10px] text-center xl:text-[12px] pr-2 tracking-wider">
                       Login
                     </h1>
                   </button>

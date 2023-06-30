@@ -57,10 +57,10 @@ function About() {
               </p>
             </div>
           </div>
-          <div className="pt-[2vh]">
+          <div className="pt-[2vh] pl-[10vw]">
             <Image
-              width={600}
-              height={600}
+              width={500}
+              height={500}
               alt="logo"
               src="/assets/about2.jpg"
               className="rounded-full"
@@ -68,8 +68,8 @@ function About() {
           </div>
           <div>
             <Image
-              width={600}
-              height={600}
+              width={500}
+              height={500}
               alt="logo"
               src="/assets/about4.avif"
               className="rounded-full"

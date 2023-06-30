@@ -107,7 +107,14 @@ function Orders() {
                       })}
                     </div>
                     <h1 className="font-bold md:font-medium text-[10px] sm:text-[16px]  xl:text-lg pr-2 md:p-2 xl:pr-5">
-                      <span>
+                      <span className="flex gap-1">
+                        <span>
+                          <Badge
+                            status={`${
+                              data.status === "Cancelled" ? "error" : "success"
+                            }`}
+                          />
+                        </span>
                         {data.status} on {moment(data.updatedAt).format("LLLL")}
                       </span>
                     </h1>
