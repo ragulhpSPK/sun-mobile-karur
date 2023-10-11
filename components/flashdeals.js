@@ -198,7 +198,7 @@ const TopRated = () => {
                             isEmpty(getUser)
                               ? setLogin(true)
                               : handleClick(res._id, res);
-                            dispatch();
+                            dispatch(addproduct(!get(cartSlice, "products", false)));
                           }}
                         >
                           <ShoppingCartCheckoutOutlinedIcon />
