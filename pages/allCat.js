@@ -216,6 +216,7 @@ function AllCat() {
         query: { cat_id: router.query.cat_id, subcat_id: id },
       });
       activateDummy(id);
+      setFilDrawer(false)
     } catch (e) {
       console.log(e);
     }
@@ -243,6 +244,7 @@ function AllCat() {
           },
         });
       }
+      setFilDrawer(false)
     } catch (err) {
       console.log(err);
     }
@@ -515,7 +517,7 @@ function AllCat() {
       <div className="mt-[20vh] xxl:hidden">
         <div className=" flex h-[4vh] w-[90vw] m-auto p-[10px] items-center  text-black justify-between">
           <p
-            className="text-[14px] flex items-end justify-center"
+            className="text-[14px] cursor-pointer flex items-end justify-center"
             onClick={() => {
               setCatDrawer(!catDrawer);
             }}
@@ -534,7 +536,7 @@ function AllCat() {
           </p>
 
           <p
-            className={`text-[14px]  flex items-end justify-center ${
+            className={`text-[14px] cursor-pointer flex items-end justify-center ${
               router.query.price || router.query.subcat_id
                 ? "text-[--third-color] font-bold"
                 : "text-black"
@@ -731,10 +733,10 @@ function AllCat() {
                       <Image
                         alt="example"
                         src={data.image[0]}
-                        width={50}
-                        height={50}
+                        width={100}
+                        height={100}
                         preview={false}
-                        className="xsm:!h-[10vh] md:!h-[10vh] pt-[1vh]  xl:!h-[10vh] w-fit hover:scale-110 duration-1000"
+                        className=" pt-[1vh]   hover:scale-110 duration-1000"
                       />
                       <h1 className="xsm:text-[14px] md:text-[14px] md:leading-tight md:tracking-tight xsm:!pt-[5vh] md:!pt-[5vh] lg:pt-[1vh] xl:pt-[2vh]">
                         {data.title}
