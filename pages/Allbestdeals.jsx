@@ -26,6 +26,7 @@ import { showLoader, hideLoader } from "@/redux/loadingSlice";
 
 function Allbestdeals() {
   const [product, setProducts] = useState([]);
+  const user = useSelector((state) => state.user.user);
   const cartSlice = useSelector((state) => state.cart);
   const [banner, setBanner] = useState([]);
   const [bestProducts, setbestProducts] = useState([]);
@@ -209,7 +210,7 @@ function Allbestdeals() {
                         className="absolute top-2 xsm:left-[7vw] cursor-pointer sm:left-[1vw] md:left-[58%] lg:left-[50%] xl:left-[50%] xxl:left-[48%]   xsm:w-[60vw] sm:w-[30vw] md:w-[22vw] lg:w-[20vw] xl:w-[15vw] xxl:w-[12vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                         onClick={() => {
-                          isEmpty(getUser)
+                          isEmpty(getUser&&user)
                             ? setLogin(true)
                             : handleClick(data._id, data);
 

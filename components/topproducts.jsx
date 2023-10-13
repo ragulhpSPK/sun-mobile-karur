@@ -23,6 +23,7 @@ import Login from "@/pages/Authentication/Register";
 
 function Topproducts() {
   const cartSlice = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.user.user);
   const [products, setProducts] = useState([]);
   // const [topProducts,setTopProducts] = useState([])
   const [cart, setCart] = useState([]);
@@ -156,7 +157,7 @@ function Topproducts() {
                       className="absolute bottom-5 cursor-pointer xsm:left-[10%] xsm:!w-[80%] xl:w-[15vw] flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                       onClick={() => {
-                        isEmpty(getUser)
+                        isEmpty(getUser&&user)
                           ? setLogin(true)
                           : handleClick(res._id, res);
 

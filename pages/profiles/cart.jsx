@@ -64,6 +64,7 @@ function Cart() {
 
     const res = uuidv1(v1options);
     setUID(res);
+    setDrawOpen(false)
   };
 
   const fetchData = async () => {
@@ -341,7 +342,7 @@ function Cart() {
               onClose={() => setDrawOpen(false)}
               width={size}
             >
-              <div className=" shadow mt-[8vh] py-[5vh] pt-[2vh] mr-[3vw] rounded-md">
+              <div className="mt-[8vh] py-[5vh] pt-[2vh] mr-[3vw] rounded-md">
                 <Form
                   size="small"
                   width={400}
@@ -388,10 +389,10 @@ function Cart() {
                   <Form.Item
                     name="alternateNumber"
                     label={
-                      <span>
-                        Alternate Mobile number
+                      <pre>
+                        Alternate Mobile number<br/>
                         <span className="text-slate-400">(optional)</span>
-                      </span>
+                      </pre>
                     }
                   >
                     <Input
@@ -404,7 +405,6 @@ function Cart() {
                     label={
                       <span>
                         Email Address
-                        <span className="text-slate-400">(optional)</span>
                       </span>
                     }
                     rules={[

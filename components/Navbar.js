@@ -158,11 +158,11 @@ function Navbar() {
             <div className="flex items-center justify-between  border border-slate-100  p-2 rounded">
               <input
                 placeholder="I'm looking for...."
-                className="outline-none border-none xsm:!w-[40vw] p-2 lg:w-[30vw] placeholder:text-slate-200"
+                className="outline-none border-none xsm:!w-[40vw] xsm:h-[2vh] md:h-[4vh] p-2 lg:w-[30vw] placeholder:text-slate-200"
                 onChange={(e) => dispatch(addSearch(e.target.value))}
                 onKeyUp={handleKeyDown}
               />
-              <div className="flex items-center w-[2vw]">
+              <div className="flex items-center lg:w-[2vw]">
                 <Divider type="vertical" />
                 <SearchOutlined className="text-slate-200" />
               </div>

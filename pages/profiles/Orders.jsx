@@ -19,7 +19,11 @@ function Orders() {
     try {
       showLoader();
       const result = await getAllOrder();
-      setOrders(get(result, "data.data"));
+      const sortedOrders = get(result, "data.data").sort((a, b) => {
+        // Sort orders in descending order of creation timestamp
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+      setOrders(sortedOrders);
     } catch (err) {
       console.log(err);
     } finally {
@@ -42,7 +46,7 @@ function Orders() {
       size="large"
       indicator={antIcon}
     >
-      <div className="bg-[#ecf0f1] xsm:h-[90vh] sm:!h-[88vh] overflow-y-scroll w-screen xsm:p-[3vw] xsm:mt-[10vh]  xl:mt-0 xl:pt-[10vh]">
+      <div className="bg-[#ecf0f1] xsm:h-[90vh] sm:!h-[88vh] overflow-y-scroll w-screen  xsm:mt-[10vh]  xl:mt-0 xl:pt-[10vh]">
         {orders && orders.length === 0 ? (
           <div
             className={`${

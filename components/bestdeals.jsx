@@ -25,16 +25,17 @@ import Login from "@/pages/Authentication/Register";
 import { addproduct } from "@/redux/cartSlice";
 
 function Bestdeals() {
-  const isLoading = useSelector((state) => state.loader.isLoading);
+  const user = useSelector((state) => state.user.user);
   const cartSlice = useSelector((state) => state.cart);
   const [product, setProducts] = useState([]);
-  const [getUser, setGetUser] = useState([]);
+  const [getUser, setGetUser] = useState(user);
   const [bestProducts, setbestProducts] = useState([]);
   const [login, setLogin] = useState(false);
   const [cart, setCart] = useState([]);
   const router = useRouter();
   const dispatch = useDispatch();
   const [goCart, setGoGart] = useState([]);
+  console.log(user)
 
   const fetchData = async () => {
     try {
@@ -48,6 +49,7 @@ function Bestdeals() {
     }
   };
 
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -58,9 +60,9 @@ function Bestdeals() {
         return data.bestStatus === true;
       })
     );
-  }, [product]);
+  }, [product,getUser]);
 
-  const handleClick = async (data) => {
+  const handleClick = async (id,data) => {
     try {
       const formData = {
         data: {
@@ -72,6 +74,7 @@ function Bestdeals() {
           quantity: 1,
         },
       };
+     
       await createCart(formData);
       fetchData();
       notification.success({ message: "added to cart successfully" });
@@ -94,7 +97,7 @@ function Bestdeals() {
     >
       <div className=" flex items-center justify-center">
         <div className="flex flex-row w-[90vw] justify-between  ">
-          <div className="xl:text-2xl  font-bold text-[--first-color] ">
+          <div className="xl:text-2xl  font-bold text-[--second-color] ">
             Best Deals Today
           </div>
           <Link href="/Allbestdeals">
@@ -199,8 +202,7 @@ function Bestdeals() {
                           }`}
                         >
                           <div
-                            className="absolute bottom-5 xsm:left-[15%] lg:left-[12%] xsm:w-[80%] xl:left-[28%] cursor-pointer xxl:left-[17%] bg-[--fifth-color]  xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2  text-white p-2 rounded
-                  "
+                            className="absolute bottom-5 xsm:left-[15%] lg:left-[12%] xsm:w-[80%] xl:left-[28%] cursor-pointer xxl:left-[17%] bg-[--fifth-color]  xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2  text-white p-2 rounded"
                           >
                             <ShoppingCartCheckoutOutlinedIcon />
                             <div>Go to Cart</div>
@@ -210,7 +212,7 @@ function Bestdeals() {
                         <div
                           className="absolute bottom-5 xsm:left-[15%] cursor-pointer lg:left-[12%] xsm:w-[80%] xl:left-[28%] xxl:left-[17%]   xl:!w-[12vw] m-auto flex items-center justify-center gap-x-2 bg-[--third-color] text-white p-2 rounded"
                           onClick={() => {
-                            isEmpty(getUser)
+                            isEmpty(getUser&&user)
                               ? setLogin(true)
                               : handleClick(res._id, res);
 

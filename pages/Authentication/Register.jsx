@@ -95,6 +95,7 @@ function Register({ setLogin }) {
           Cookies.set("x-o-t-p", result.data.data, { expires: 20 });
           form.resetFields();
           dispatch(changeUserValues({ user: result.data.data }));
+          // window.location.reload()
           notification.success({ message: "Continue to shop" });
         }
       }

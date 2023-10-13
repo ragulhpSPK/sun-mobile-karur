@@ -32,6 +32,7 @@ import { showLoader, hideLoader } from "@/redux/loadingSlice";
 function AllCat() {
   const isLoading = useSelector((state) => state.loader.isLoading);
   const cartSlice = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.user.user);
   const [active, setActive] = useState(false);
   const [id, setId] = useState();
   const [more, setMore] = useState(false);
@@ -182,6 +183,7 @@ function AllCat() {
       console.log(e);
     }
     setPriceDummy(false);
+    setCatDrawer(false)
   };
 
   const handleClick = async (id, data) => {
@@ -253,6 +255,7 @@ function AllCat() {
   const allProductsHandler = () => {
     router.push({ pathname: "/allCat", query: { _id: 123 } });
     setActive(true);
+   setCatDrawer(false)
   };
 
   useEffect(() => {
@@ -553,7 +556,7 @@ function AllCat() {
               setCatDrawer(false);
             }}
             open={catDrawer}
-            width={200}
+            width={300}
           >
             <div>
               <div className="flex items-center pt-[4vh]">
@@ -775,7 +778,7 @@ function AllCat() {
                               className="absolute xsm:left-0 xsm:w-[180px] sm:w-[30vw] md:w-[160px] lg:w-[190px]  flex items-center justify-center gap-x-2 bg-[--second-color] text-white p-2 rounded
                   "
                               onClick={() => {
-                                isEmpty(getUser)
+                                isEmpty(getUser&&user)
                                   ? setLogin(true)
                                   : handleClick(data._id, data);
 
@@ -806,7 +809,7 @@ function AllCat() {
           setLogin(false);
         }}
       >
-        <Login setLogin={setLogin} />;
+        <Login setLogin={setLogin} />
       </Modal>
     </Spin>
   );

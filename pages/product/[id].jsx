@@ -33,6 +33,7 @@ import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCh
 
 export default function App() {
   const isLoading = useSelector((state) => state.loader.isLoading);
+  const user = useSelector((state) => state.user.user);
   const cartSlice = useSelector((state) => state.cart);
   const [current, setCurrentImage] = useState();
   const router = useRouter();
@@ -276,7 +277,7 @@ export default function App() {
                         <button
                           className="bg-[var(--second-color)] text-[#fff] hover:bg-[--first-color] hover:scale-105 hover:font-medium hover:text-black duration-1000 xl:text-xl rounded-md w-[140px] !h-[40px] px-2"
                           onClick={() => {
-                            isEmpty(getUser)
+                            isEmpty(getUser&&user)
                               ? setLogin(true)
                               : handleClick(data._id, data);
 
@@ -332,7 +333,7 @@ export default function App() {
           setLogin(false);
         }}
       >
-        <Login setLogin={setLogin} />;
+        <Login setLogin={setLogin} />
       </Modal>
       <div>
         <TopProducts />
